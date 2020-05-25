@@ -1,36 +1,25 @@
 <template>
-  <v-app>
-    <v-app-bar app color="primary" dark>
-      <div class="d-flex align-center">
-        <v-img
-          alt="Vuetify Logo"
-          class="shrink mr-2"
-          contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
-          transition="scale-transition"
-          width="40"
-        />
+  <v-app id="inspire">
+    <v-app-bar app clipped-left color="primary" dense>
+      <v-icon class="mx-4" large>mdi-pot-mix</v-icon>
+      <v-toolbar-title class="mr-12 align-center">
+        <span class="title">Soupify</span>
+      </v-toolbar-title>
 
-        <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-          width="100"
-        />
-      </div>
-
+      <v-tabs color="accent" dark style="max-width: 650px" fixed-tabs>
+        <v-tab to="/">Home</v-tab>
+        <v-tab to="/search">Search</v-tab>
+        <v-tab to="/about">About</v-tab>
+      </v-tabs>
       <v-spacer></v-spacer>
 
-      <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-        text
-      >
-        <span class="mr-2">Latest Release</span>
-        <v-icon>mdi-open-in-new</v-icon>
-      </v-btn>
+      <router-link to="/login">
+        <v-btn depressed color="accent" class="primary--text mx-2">Login</v-btn>
+      </router-link>
+      <router-link to="/register">
+        <v-btn outlined class="mx-2">Register</v-btn>
+      </router-link>
+      <span class="mx-4">Hello Guest</span>
     </v-app-bar>
 
     <v-content>
@@ -48,9 +37,28 @@ export default {
   components: {
     HelloWorld
   },
-
+  props: {
+    source: String
+  },
   data: () => ({
-    //
-  })
+    drawer: null,
+    items: [
+      { icon: "mdi-trending-up", text: "Most Popular" },
+      { icon: "mdi-youtube-subscription", text: "Subscriptions" },
+      { icon: "mdi-history", text: "History" },
+      { icon: "mdi-playlist-play", text: "Playlists" },
+      { icon: "mdi-clock", text: "Watch Later" }
+    ],
+    items2: [
+      { picture: 28, text: "Joseph" },
+      { picture: 38, text: "Apple" },
+      { picture: 48, text: "Xbox Ahoy" },
+      { picture: 58, text: "Nokia" },
+      { picture: 78, text: "MKBHD" }
+    ]
+  }),
+  created() {
+    this.$vuetify.theme.dark = true;
+  }
 };
 </script>
