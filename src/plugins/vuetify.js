@@ -11,7 +11,8 @@ export default new Vuetify({
         themes: {
             dark: {
                 primary: colors.deepPurple.darken3,
-                accent: colors.shades.white
+                accent: colors.shades.white,
+                modalColor: colors.shades.white
             },
         },
     },
