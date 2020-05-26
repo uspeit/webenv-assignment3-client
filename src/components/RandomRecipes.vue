@@ -4,7 +4,13 @@
       <v-toolbar-title class="d-block text-center text-uppercase">Explore these recipes</v-toolbar-title>
     </v-toolbar>
     <v-card-text class="flex-grow-1 d-flex flex-column card">
-      <RecipeSummary class="flex-grow-1" v-for="recipe in randomRecipes" v-bind:key="recipe.id" v-bind:recipeData="recipe" />
+      <router-link
+        v-for="recipe in randomRecipes"
+        v-bind:key="recipe.id"
+        v-bind:to="'/recipe/'+recipe.id"
+      >
+        <RecipeSummary class="flex-grow-1" v-bind:recipeData="recipe" />
+      </router-link>
     </v-card-text>
     <v-card-actions class="d-flex flex-column card">
       <v-btn color="primary" class="mb-4 align-self-stretch" @click="reloadRecipes">Refresh recipes</v-btn>

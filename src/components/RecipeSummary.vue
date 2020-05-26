@@ -43,7 +43,6 @@ export default {
 </script>
 <style scoped>
 .recipe-item {
-  cursor: pointer;
   transition: all 100ms ease-in-out;
 }
 .recipe-item:hover {
