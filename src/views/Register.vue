@@ -1,7 +1,7 @@
 <template>
   <v-container class="fill-height">
     <v-row justify="center" align="center">
-      <v-col cols="12">
+      <v-col cols="8">
         <v-card class="elevation-12">
           <v-toolbar color="primary" dark flat>
             <v-toolbar-title class="d-block text-center text-uppercase">Register</v-toolbar-title>
@@ -10,7 +10,13 @@
             <v-form ref="registerForm" v-model="valid" lazy-validation class="d-flex flex-column">
               <v-row>
                 <v-col>
-                  <v-text-field v-model="userName" :rules="userNameRules" label="Username" required light></v-text-field>
+                  <v-text-field
+                    v-model="userName"
+                    :rules="userNameRules"
+                    label="Username"
+                    required
+                    light
+                  ></v-text-field>
                   <v-text-field v-model="firstName" label="First Name" required light></v-text-field>
                   <v-text-field v-model="lastName" label="Last Name" required light></v-text-field>
                   <v-select
@@ -62,7 +68,11 @@
 </template>
 
 <script>
-import { userNameRules, passwordRules, confirmPasswordRules } from "../core/validationRules";
+import {
+  userNameRules,
+  passwordRules,
+  confirmPasswordRules
+} from "../core/validationRules";
 export default {
   data: () => ({
     valid: true,
@@ -82,7 +92,22 @@ export default {
 
   methods: {
     validateCredentials() {
-      this.$refs.registerForm.validate();
+      if (!this.$refs.registerForm.validate()) return;
+
+      let data = {
+        userName: this.userName,
+        password: this.password,
+        firstName: this.firstName,
+        lastName: this.lastName,
+        country: this.country,
+        email: this.email,
+        imgUrl: this.imgUrl
+      };
+
+      this.$store
+        .dispatch("register", data)
+        .then(() => this.$router.push("/"))
+        .catch(err => console.log(err));
     }
   }
 };

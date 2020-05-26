@@ -1,35 +1,34 @@
 <template>
-    <v-card class="elevation-12">
-          <v-toolbar color="primary" dark flat>
-            <v-toolbar-title class="d-block text-center text-uppercase">Login</v-toolbar-title>
-          </v-toolbar>
-          <v-card-text class="card">
-            <v-form ref="loginForm" v-model="valid" lazy-validation class="d-flex flex-column">
-              <v-text-field v-model="userName" label="Username"
-                :rules="userNameRules" required light></v-text-field>
+  <v-card class="elevation-12">
+    <v-toolbar color="primary" dark flat>
+      <v-toolbar-title class="d-block text-center text-uppercase">Login</v-toolbar-title>
+    </v-toolbar>
+    <v-card-text class="card">
+      <v-form ref="loginForm" v-model="valid" lazy-validation class="d-flex flex-column">
+        <v-text-field v-model="userName" label="Username" :rules="userNameRules" required light></v-text-field>
 
-              <v-text-field
-                v-model="password"
-                :rules="passwordRules"
-                label="Password"
-                type="password"
-                required
-                light
-              ></v-text-field>
-            </v-form>
-          </v-card-text>
-          <v-card-actions class="d-flex flex-column card">
-            <v-btn
-              :disabled="!valid"
-              color="success"
-              class="mb-4 align-self-stretch"
-              @click="validateCredentials"
-              light
-            >Login</v-btn>
+        <v-text-field
+          v-model="password"
+          :rules="passwordRules"
+          label="Password"
+          type="password"
+          required
+          light
+        ></v-text-field>
+      </v-form>
+    </v-card-text>
+    <v-card-actions class="d-flex flex-column card">
+      <v-btn
+        :disabled="!valid"
+        color="success"
+        class="mb-4 align-self-stretch"
+        @click="validateCredentials"
+        light
+      >Login</v-btn>
 
-            <router-link to="/register" class="text-center">Don't have an account? Register now.</router-link>
-          </v-card-actions>
-        </v-card>
+      <router-link to="/register" class="text-center">Don't have an account? Register now.</router-link>
+    </v-card-actions>
+  </v-card>
 </template>
 
 <script>
@@ -47,7 +46,14 @@ export default {
 
   methods: {
     validateCredentials() {
-      this.$refs.loginForm.validate();
+      if (!this.$refs.loginForm.validate()) return;
+
+      let userName = this.userName;
+      let password = this.password;
+      this.$store
+        .dispatch("login", { userName, password })
+        .then(() => this.$router.push("/"))
+        .catch(err => console.log(err));
     }
   }
 };
