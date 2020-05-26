@@ -6,7 +6,7 @@
           <v-toolbar color="primary" dark flat>
             <v-toolbar-title class="d-block text-center text-uppercase">Register</v-toolbar-title>
           </v-toolbar>
-          <v-card-text class="modalColor">
+          <v-card-text class="card">
             <v-form ref="registerForm" v-model="valid" lazy-validation class="d-flex flex-column">
               <v-row>
                 <v-col>
@@ -46,7 +46,7 @@
               </v-row>
             </v-form>
           </v-card-text>
-          <v-card-actions class="d-flex flex-column modalColor">
+          <v-card-actions class="d-flex flex-column card">
             <v-btn
               :disabled="!valid"
               color="success"

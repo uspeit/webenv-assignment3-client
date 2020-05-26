@@ -2,7 +2,7 @@
   <v-container class="fill-height">
     <v-row class="fill-height">
       <v-col cols="8">
-        <RandomRecipes msg="Welcome to Soupify!" />
+        <RandomRecipes />
       </v-col>
       <v-col cols="4">
         <!-- <v-container fill-height fluid>

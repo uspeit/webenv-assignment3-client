@@ -1,1 +1,11 @@
-a {  text-decoration: none;}
+a {  
+    text-decoration: none;
+}
+
+.disable-events { 
+    pointer-events: none 
+}
+
+.position-relative {
+    position: relative;
+}

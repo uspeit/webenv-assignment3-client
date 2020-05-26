@@ -1,9 +1,9 @@
 // This file contains common rules for validation throughout the app
 
 export const userNameRules = [
-    v => !!v || 'userName is required',
-    v => (v && v.length >= 3 && v.length <= 8) || 'userName must be between 3 and 8 characters',
-    v => (/^[a-zA-Z]+$/.test(v)) || 'userName can only contain english letters',
+    v => !!v || 'Username is required',
+    v => (v && v.length >= 3 && v.length <= 8) || 'Username must be between 3 and 8 characters',
+    v => (/^[a-zA-Z]+$/.test(v)) || 'Username can only contain english letters',
 ];
 
 export const passwordRules = [

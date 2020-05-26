@@ -13,15 +13,16 @@
         <v-tab to="/search">Search</v-tab>
         <v-tab to="/about">About</v-tab>
       </v-tabs>
+      
       <v-spacer></v-spacer>
 
+      <span class="mx-4">Hello Guest</span>
       <router-link to="/login">
         <v-btn depressed color="accent" class="primary--text mx-2">Login</v-btn>
       </router-link>
       <router-link to="/register">
         <v-btn outlined class="mx-2">Register</v-btn>
       </router-link>
-      <span class="mx-4">Hello Guest</span>
     </v-app-bar>
 
     <v-content>
