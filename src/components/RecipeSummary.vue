@@ -1,9 +1,9 @@
 <template>
   <v-row class="recipe-item">
-    <v-col cols="4">
-      <v-img class="elevation-2" aspect-ratio="1" v-bind:src="recipeData.imgUrl" />
+    <v-col cols="2">
+      <v-img class="elevation-2" aspect-ratio="1.1" v-bind:src="recipeData.imgUrl" />
     </v-col>
-    <v-col cols="8" class="position-relative">
+    <v-col cols="10" class="position-relative">
       <div class="float-left">
         <!-- Details -->
         <h3>{{recipeData.title}}</h3>

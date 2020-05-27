@@ -1,7 +1,7 @@
 <template>
   <v-container class="fill-height">
     <v-row justify="center" align="center">
-      <v-col class="shrink" style="min-width: 350px">
+      <v-col class="shrink" cols="4" xl="3">
         <LoginForm />
       </v-col>
     </v-row>

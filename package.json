@@ -6,6 +6,7 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
+    "loadCountries": "python ./country_scraper.py https://restcountries.eu/rest/v2/all ./src/assets/countryList.json",
     "deploy": "./delpoy.sh"
   },
   "dependencies": {

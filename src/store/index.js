@@ -2,8 +2,8 @@ import Vue from "vue";
 import Vuex from "vuex";
 import axios from 'axios'
 
-import AuthModule from '../core/auth';
-const auth = new AuthModule();
+import AuthService from '../core/auth.service';
+const auth = new AuthService();
 
 Vue.use(Vuex);
 

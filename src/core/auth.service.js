@@ -1,4 +1,4 @@
-// export default class AuthModule {
+// export default class AuthService {
 //     login(user) {
 //         return axios({ url: 'http://localhost:3000/login', data: user, method: 'POST' })
 //     }
@@ -8,7 +8,7 @@
 //     }
 // }
 
-export default class AuthModule {
+export default class AuthService {
     login(user) {
         user.firstName = "FIRST_NAME";
         return new Promise((resolve) => {

@@ -1,7 +1,7 @@
 <template>
   <v-container class="fill-height">
     <v-row justify="center" align="center">
-      <v-col cols="8">
+      <v-col cols="6" xl="5">
         <v-card class="elevation-12">
           <v-toolbar color="primary" dark flat>
             <v-toolbar-title class="d-block text-center text-uppercase">Register</v-toolbar-title>
@@ -22,11 +22,23 @@
                   <v-select
                     v-model="country"
                     :items="countries"
+                    item-value="code"
                     :rules="[v => !!v || 'Please select country']"
                     label="Country"
                     required
                     light
-                  ></v-select>
+                  >
+                    <template slot="selection" slot-scope="{ item }">
+                      <img height="16" width="24" class="country-icon" v-bind:src="item.flag" />
+                      <span class="mx-2"></span>
+                      {{ item.name }}
+                    </template>
+                    <template slot="item" slot-scope="{ item }">
+                      <img height="16" width="24" class="country-icon" v-bind:src="item.flag" />
+                      <span class="mx-2"></span>
+                      {{ item.name }}
+                    </template>
+                  </v-select>
                 </v-col>
                 <v-col>
                   <v-text-field
@@ -68,11 +80,14 @@
 </template>
 
 <script>
+import countryData from "../assets/countryList.json";
+
 import {
   userNameRules,
   passwordRules,
   confirmPasswordRules
 } from "../core/validationRules";
+
 export default {
   data: () => ({
     valid: true,
@@ -84,7 +99,7 @@ export default {
     confirmPasswordRules: confirmPasswordRules,
     firstName: "",
     lastName: "",
-    countries: ["Israel", "USA"],
+    countries: countryData,
     country: "",
     email: "",
     imgUrl: ""
