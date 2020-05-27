@@ -19,14 +19,14 @@
                   ></v-text-field>
                   <v-text-field v-model="firstName" label="First Name" required light></v-text-field>
                   <v-text-field v-model="lastName" label="Last Name" required light></v-text-field>
-                  <v-select
+                  <v-combobox
                     v-model="country"
                     :items="countries"
-                    item-value="code"
+                    item-text="name"
                     :rules="[v => !!v || 'Please select country']"
                     label="Country"
                     required
-                    light
+                    light=""
                   >
                     <template slot="selection" slot-scope="{ item }">
                       <img height="16" width="24" class="country-icon" v-bind:src="item.flag" />
@@ -38,7 +38,7 @@
                       <span class="mx-2"></span>
                       {{ item.name }}
                     </template>
-                  </v-select>
+                  </v-combobox>
                 </v-col>
                 <v-col>
                   <v-text-field
@@ -59,7 +59,7 @@
                     light
                   ></v-text-field>
                   <v-text-field v-model="email" label="Email" required light></v-text-field>
-                  <v-text-field v-model="imageUrl" label="Image URL" required light></v-text-field>
+                  <v-text-field v-model="imgUrl" label="Image URL" required light></v-text-field>
                 </v-col>
               </v-row>
             </v-form>
@@ -114,7 +114,7 @@ export default {
         password: this.password,
         firstName: this.firstName,
         lastName: this.lastName,
-        country: this.country,
+        country: this.country.code,
         email: this.email,
         imgUrl: this.imgUrl
       };

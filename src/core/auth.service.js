@@ -22,7 +22,6 @@ export default class AuthService {
     }
 
     register(user) {
-        user.firstName = "FIRST_NAME";
         return new Promise((resolve) => {
             resolve({
                 data: {
