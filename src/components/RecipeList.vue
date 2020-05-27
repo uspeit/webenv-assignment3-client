@@ -9,7 +9,7 @@
         v-bind:key="recipe.id"
         v-bind:to="'/recipe/'+recipe.id"
       >
-        <RecipeSummary v-bind:size="size" class="flex-grow-1" v-bind:recipeData="recipe" />
+        <RecipeSummary v-bind:size="size" class="flex-grow-1" v-bind:recipe="recipe" />
       </router-link>
     </v-card-text>
     <v-card-actions v-if="refreshButton" class="d-flex flex-column card">
