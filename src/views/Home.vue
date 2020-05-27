@@ -8,6 +8,7 @@
           v-bind:data="randomRecipes"
           v-on:requestRefresh="loadRandomRecipes"
           refreshButton="true"
+          size="lg" 
         />
       </v-col>
       <v-col cols="4" xl="3">

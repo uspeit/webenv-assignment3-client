@@ -52,7 +52,6 @@ export default new Vuex.Store({
       })
     },
     register({ commit }, user) {
-      debugger
       return new Promise((resolve, reject) => {
         commit('auth_request')
 

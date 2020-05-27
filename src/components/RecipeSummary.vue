@@ -6,9 +6,10 @@
     <v-col v-bind:cols="12 - thumbSize">
       <div class="position-relative fill-height">
         <!-- Details -->
-        <h3>{{recipe.title}}</h3>
+        <h2 v-if="size == 'md'">{{recipe.title}}</h2>
+        <h1 class="mb-2" v-else>{{recipe.title}}</h1>
 
-        <RecipeInfo v-bind:recipe="recipe" />
+        <RecipeInfo v-bind:size="size" v-bind:recipe="recipe" />
 
         <RecipeRating class="rating-container" v-bind:rating="recipe.likes" />
       </div>
@@ -56,7 +57,8 @@ export default {
   transform: scale(1.01);
 }
 
-.v-card__text h3,
+.v-card__text h1,
+.v-card__text h2,
 .v-card__text span {
   color: var(--v-text-base) !important;
 }

@@ -80,13 +80,13 @@
 </template>
 
 <script>
-import countryData from "../assets/countryList.json";
+import countryData from "@/assets/countryList.json";
 
 import {
   userNameRules,
   passwordRules,
   confirmPasswordRules
-} from "../core/validationRules";
+} from "@/core/validationRules";
 
 export default {
   data: () => ({
