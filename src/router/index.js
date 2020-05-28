@@ -3,7 +3,6 @@ import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
 import Login from "../views/Login.vue";
 import Register from "../views/Register.vue";
-import RecipePage from "../views/RecipePage.vue";
 
 Vue.use(VueRouter);
 
@@ -19,6 +18,11 @@ const routes = [
     component: () => import("../views/About.vue")
   },
   {
+    path: "/search",
+    name: "Search",
+    component: () => import("../views/Search.vue")
+  },
+  {
     path: "/login",
     name: "Login",
     component: Login
@@ -31,7 +35,7 @@ const routes = [
   {
     path: "/recipe/:id",
     name: "Recipe Details",
-    component: RecipePage
+    component: () => import("../views/RecipePage.vue")
   }
 ];
 

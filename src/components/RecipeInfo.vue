@@ -20,7 +20,7 @@
         v-bind:size="iconSize"
         v-bind:color="recipe.watched ? 'primary' : 'inactive'"
         class="mr-1"
-        v-if="isLoggedIn"
+        v-if="isLoggedIn && !hideWatched"
       >mdi-eye</v-icon>
       <v-icon
         v-bind:size="iconSize"
@@ -39,7 +39,7 @@ import RecipeService from "@/core/recipe.service";
 export default {
   name: "RecipeInfo",
 
-  props: ["recipe", "size"],
+  props: ["recipe", "size", "hideWatched"],
 
   methods: {
     toggleSave() {
@@ -70,7 +70,7 @@ export default {
 <style scoped>
 span {
   color: var(--v-text-base) !important;
-  font-size: 1.4em;
+  font-size: 1.2em;
 }
 
 span.lg {

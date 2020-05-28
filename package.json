@@ -6,12 +6,13 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "loadCountries": "python ./country_scraper.py https://restcountries.eu/rest/v2/all ./src/assets/countryList.json",
-    "deploy": "./delpoy.sh"
+    "loadData": "sh scrape_data.sh",
+    "deploy": "sh delpoy.sh"
   },
   "dependencies": {
     "axios": "^0.19.2",
     "core-js": "^3.6.4",
+    "jwt-decode": "^2.2.0",
     "register-service-worker": "^1.7.1",
     "vue": "^2.6.11",
     "vue-router": "^3.1.6",

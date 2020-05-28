@@ -102,4 +102,14 @@ export default class RecipeService {
             err("Recipe ID not found");
         });
     }
+
+    static searchRecipes() {
+        return new Promise((resolve) => {
+            resolve(JSON.parse(JSON.stringify({
+                data: mockRecipes
+            })));
+
+            mockRecipes.push(mockRecipes.shift());
+        });
+    }
 }

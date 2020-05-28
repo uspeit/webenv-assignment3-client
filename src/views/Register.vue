@@ -80,7 +80,7 @@
 </template>
 
 <script>
-import countryData from "@/assets/countryList.json";
+import countryData from "@/assets/countryData.json";
 
 import {
   userNameRules,

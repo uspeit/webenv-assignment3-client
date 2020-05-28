@@ -61,9 +61,6 @@ export default {
     isLoggedIn: function() {
       return this.$store.getters.isLoggedIn;
     },
-    currentUser: function() {
-      return this.$store.getters.currentUser;
-    }
   }
 };
 </script>

@@ -1,8 +1,9 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import axios from 'axios'
-
 import AuthService from '../core/auth.service';
+import jwt_decode from 'jwt-decode';
+
 const auth = new AuthService();
 
 Vue.use(Vuex);
@@ -11,16 +12,16 @@ export default new Vuex.Store({
   state: {
     status: '',
     token: localStorage.getItem('token') || '',
-    user: {}
+    claims: localStorage.getItem('token') ? jwt_decode(localStorage.getItem('token')) : '',    
   },
   mutations: {
     auth_request(state) {
       state.status = 'loading'
     },
-    auth_success(state, { token, user }) {
+    auth_success(state, { token }) {
       state.status = 'success'
       state.token = token
-      state.user = user
+      state.claims = jwt_decode(token)
     },
     auth_error(state) {
       state.status = 'error'
@@ -28,6 +29,7 @@ export default new Vuex.Store({
     logout(state) {
       state.status = ''
       state.token = ''
+      state.claims = {}
     },
   },
   actions: {
@@ -38,10 +40,10 @@ export default new Vuex.Store({
         auth.login(user)
           .then(resp => {
             const token = resp.data.token
-            const user = resp.data.user
             localStorage.setItem('token', token)
+            
             axios.defaults.headers.common['Authorization'] = token
-            commit('auth_success', { token, user })
+            commit('auth_success', { token })
             resolve(resp)
           })
           .catch(err => {
@@ -58,10 +60,9 @@ export default new Vuex.Store({
         auth.register(user)
           .then(resp => {
             const token = resp.data.token
-            const user = resp.data.user
             localStorage.setItem('token', token)
             axios.defaults.headers.common['Authorization'] = token
-            commit('auth_success', { token, user })
+            commit('auth_success', { token })
             resolve(resp)
           })
           .catch(err => {
@@ -83,7 +84,7 @@ export default new Vuex.Store({
   modules: {},
   getters: {
     isLoggedIn: state => !!state.token,
-    currentUser: state => state.user,
+    userClaims: state => state.claims,
     authStatus: state => state.status,
   }
 });
