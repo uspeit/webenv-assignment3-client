@@ -35,8 +35,6 @@
                   :label="'Filter ' + filter.name"
                   :items="filter.values"
                   :menu-props="{ light: true }"
-                  multiple
-                  chips
                   persistent-hint
                   light
                   clearable
