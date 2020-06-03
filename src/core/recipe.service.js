@@ -1,3 +1,4 @@
+var DELETE_THIS = false;
 var mockRecipes = [
     {
         id: 1,
@@ -104,12 +105,15 @@ export default class RecipeService {
     }
 
     static searchRecipes() {
-        return new Promise((resolve) => {
-            resolve(JSON.parse(JSON.stringify({
-                data: mockRecipes
-            })));
+        return new Promise((resolve) =>
+            setTimeout(() => {
+                DELETE_THIS = !DELETE_THIS;
 
-            mockRecipes.push(mockRecipes.shift());
-        });
+                resolve(JSON.parse(JSON.stringify({
+                    data: DELETE_THIS ? mockRecipes : []
+                })));
+
+                mockRecipes.push(mockRecipes.shift());
+            }, 1000));
     }
 }

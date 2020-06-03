@@ -5,7 +5,7 @@ import json
 import requests
 from bs4 import BeautifulSoup
 
-# This script processes country data from an API 
+# This script processes food categories data from an web page 
 # and creates a local reduced json file
 
 
@@ -14,14 +14,14 @@ def main():
         print("Please provide a URL, an output path, and list of category names")
         exit(0)
 
-    apiUrl = sys.argv[1]
+    pageUrl = sys.argv[1]
     outPath = sys.argv[2]
     categoryNames = sys.argv[3:]
 
     categoryData = []
 
     for category in categoryNames:
-        response = requests.get(apiUrl + "#" + category)
+        response = requests.get(pageUrl + "#" + category)
 
         soup = BeautifulSoup(response.text, "html.parser")
         section = soup.find("section", {"jss-title": category})

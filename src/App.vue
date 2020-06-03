@@ -8,12 +8,25 @@
         </v-toolbar-title>
       </router-link>
 
-      <v-tabs color="accent" dark style="max-width: 600px" fixed-tabs>
-        <v-tab to="/">Home</v-tab>
-        <v-tab to="/search">Search</v-tab>
-        <v-tab to="/about">About</v-tab>
-      </v-tabs>
+      <MenuLink route="/">Home</MenuLink>
+      <MenuLink route="/search">Search</MenuLink>
+      <MenuLink route="/about">About</MenuLink>
 
+      <v-menu eager bottom offset-y>
+        <template v-slot:activator="{ on }">
+          <MenuLink :activator="on" route="/personal" disableNav="true">Personal</MenuLink>
+        </template>
+
+        <v-list>
+          <v-list-item
+            v-for="(item, index) in personalLinks"
+            :key="index"
+            @click="navigate(item.route)"
+          >
+            <v-list-item-title>{{ item.text }}</v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
       <v-spacer></v-spacer>
 
       <div v-if="isLoggedIn">
@@ -40,8 +53,29 @@
 </template>
 
 <script>
+import MenuLink from "@/components/MenuLink.vue";
+
 export default {
   name: "App",
+
+  components: { MenuLink },
+
+  data: () => ({
+    personalLinks: [
+      {
+        text: "Favorite Recipes",
+        route: "/personal/favorite"
+      },
+      {
+        text: "My Recipes",
+        route: "/personal/recipes"
+      },
+      {
+        text: "Family Recipes",
+        route: "/personal/family"
+      }
+    ]
+  }),
 
   computed: {
     isLoggedIn: function() {
@@ -53,6 +87,9 @@ export default {
   },
 
   methods: {
+    navigate: function(route) {
+      this.$router.push(route);
+    },
     logout: function() {
       this.$store.dispatch("logout").then(() => {
         this.$router.push("/login");
