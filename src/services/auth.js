@@ -3,29 +3,24 @@ import httpClient from '@/services/httpClient'
 
 export default {
 
-    // Begins authentication process
+    // Perform login
     login(userCredentials) {
         return store.dispatch("authenticate", userCredentials);
     },
 
-    // Updates current user in our store
-    updateCurrentUser(userInfo) {
-        return store.dispatch("updateUser", userInfo);
-    },
-
-    // Server login request
+    // Server authentication request
     authenticate(userCredentials) {
         return new Promise((resolve, reject) => {
             httpClient.post('/authenticate', userCredentials).then(
                 response => {
-                    this.updateCurrentUser(response.data);
+                    store.dispatch("updateUser", response.data);
                     resolve(response);
                 }
             ).catch(reason => reject(reason));
         });
     },
 
-    // Registers user and authenticates
+    // Perform registration
     register(userCredentials, userInfo) {
         return new Promise((resolve, reject) => {
             httpClient.post('/users', userCredentials)
@@ -42,7 +37,7 @@ export default {
                                         headers: { 'Authorization': `Bearer ${token}` }
                                     })
                                         .then(response => {
-                                            this.updateCurrentUser(response.data);
+                                            store.dispatch("updateUser", response.data);
                                             resolve(response);
                                         })
                                         .catch(reason => reject(reason))
