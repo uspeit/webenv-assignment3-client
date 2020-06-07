@@ -5,10 +5,18 @@ import AuthService from '../services/auth';
 
 Vue.use(Vuex);
 
+function loadSavedUser() {
+  try {
+    return JSON.parse(localStorage.getItem('currentUser'));
+  } catch (e) {
+    return undefined;
+  }
+}
+
 export default new Vuex.Store({
   state: {
     token: localStorage.getItem('token') || '',
-    currentUser: localStorage.getItem('currentUser') || undefined,
+    currentUser: loadSavedUser(),
   },
   mutations: {
     authenticated(state, { token }) {
@@ -25,7 +33,7 @@ export default new Vuex.Store({
   actions: {
     authenticate({ commit }, userCredentials) {
       return new Promise((resolve, reject) => {
-        AuthService.login(userCredentials)
+        AuthService.authenticate(userCredentials)
           .then(resp => {
             const token = resp.data.token;
             localStorage.setItem('token', token);
@@ -42,8 +50,8 @@ export default new Vuex.Store({
     },
     updateUser({ commit }, userInfo) {
       return new Promise((resolve) => {
-        commit('logged_in', userInfo);
-
+        commit('logged_in', { user: userInfo });
+        localStorage.setItem('currentUser', JSON.stringify(userInfo));
         resolve();
       })
     },
@@ -51,6 +59,7 @@ export default new Vuex.Store({
       return new Promise((resolve) => {
         commit('logout');
         localStorage.removeItem('token');
+        localStorage.removeItem('currentUser');
         delete axios.defaults.headers.common['Authorization'];
         resolve();
       })

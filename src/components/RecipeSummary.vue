@@ -4,7 +4,7 @@
       <v-img class="elevation-2" aspect-ratio="1.1" v-bind:src="recipe.image" />
     </v-col>
     <v-col v-bind:cols="12 - thumbSize">
-      <div class="position-relative fill-height">
+      <div class="position-relative fill-height pad-score">
         <!-- Details -->
         <h3 v-if="size == 'md'">{{recipe.title}}</h3>
         <h2 class="mb-2" v-else>{{recipe.title}}</h2>
@@ -55,6 +55,10 @@ export default {
 .recipe-item:hover {
   background-color: rgba(0, 0, 0, 0.03);
   transform: scale(1.01);
+}
+
+.pad-score {
+  padding-right: 4em;
 }
 
 .v-card__text h1,

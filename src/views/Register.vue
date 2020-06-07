@@ -120,9 +120,10 @@ export default {
         password: this.password,
         role: "Client",
         avatar: this.imgUrl,
-        fullName: this.firstName + " " + this.lastName,
+        fullname: this.firstName + " " + this.lastName,
         country: this.country.name,
         email: this.email,
+        is_blocked: false,
         question: "Place of Birth?",
         answer: "Dimona"
       };

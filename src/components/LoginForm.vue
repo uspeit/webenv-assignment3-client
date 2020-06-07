@@ -54,7 +54,7 @@ export default {
         password: this.password
       };
 
-      AuthService.register(userCredentials)
+      AuthService.login(userCredentials)
         .then(() => this.$router.push("/"))
         .catch(err => console.log(err));
     }

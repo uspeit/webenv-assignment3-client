@@ -4,21 +4,21 @@ import httpClient from '@/services/httpClient'
 export default {
 
     // Begins authentication process
-    authenticate(userCredentials) {
+    login(userCredentials) {
         return store.dispatch("authenticate", userCredentials);
     },
 
     // Updates current user in our store
-    setCurrentUser(userInfo) {
+    updateCurrentUser(userInfo) {
         return store.dispatch("updateUser", userInfo);
     },
 
     // Server login request
-    login(userCredentials) {
+    authenticate(userCredentials) {
         return new Promise((resolve, reject) => {
             httpClient.post('/authenticate', userCredentials).then(
                 response => {
-                    this.setCurrentUser(response.data);
+                    this.updateCurrentUser(response.data);
                     resolve(response);
                 }
             ).catch(reason => reject(reason));
@@ -32,7 +32,7 @@ export default {
                 .then(
                     response => {
                         // Authenticate so we can PUT user info
-                        this.authenticate(userCredentials)
+                        this.login(userCredentials)
                             .then(token => {
                                 if (response.data)
                                     var userId = response.data.id;
@@ -42,7 +42,7 @@ export default {
                                         headers: { 'Authorization': `Bearer ${token}` }
                                     })
                                         .then(response => {
-                                            this.setCurrentUser(response.data);
+                                            this.updateCurrentUser(response.data);
                                             resolve(response);
                                         })
                                         .catch(reason => reject(reason))

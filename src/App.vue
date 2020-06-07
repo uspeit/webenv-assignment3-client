@@ -31,7 +31,7 @@
 
       <div v-if="isLoggedIn">
         <!-- Logged in -->
-        <span class="mx-4">Hello {{currentUser.fullName}}</span>
+        <span class="mx-4">Hello {{currentUser.fullname}}</span>
         <v-btn @click="logout" outlined color="accent" class="primary--text mx-2">Logout</v-btn>
       </div>
       <div v-else>
@@ -82,6 +82,7 @@ export default {
       return this.$store.getters.isLoggedIn;
     },
     currentUser: function() {
+      console.log(this.$store.getters.currentUser)
       return this.$store.getters.currentUser;
     }
   },
