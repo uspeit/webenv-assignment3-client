@@ -26,7 +26,7 @@
                     :rules="[v => !!v || 'Please select country']"
                     label="Country"
                     required
-                    light=""
+                    light
                   >
                     <template slot="selection" slot-scope="{ item }">
                       <img height="16" width="24" class="country-icon" v-bind:src="item.flag" />
@@ -80,6 +80,7 @@
 </template>
 
 <script>
+import AuthService from "@/services/auth";
 import countryData from "@/assets/countryData.json";
 
 import {
@@ -109,18 +110,24 @@ export default {
     validateCredentials() {
       if (!this.$refs.registerForm.validate()) return;
 
-      let data = {
-        userName: this.userName,
-        password: this.password,
-        firstName: this.firstName,
-        lastName: this.lastName,
-        country: this.country.code,
-        email: this.email,
-        imgUrl: this.imgUrl
+      let userCredentials = {
+        login: this.userName,
+        password: this.password
       };
 
-      this.$store
-        .dispatch("register", data)
+      let userInfo = {
+        login: this.userName,
+        password: this.password,
+        role: "Client",
+        avatar: this.imgUrl,
+        fullName: this.firstName + " " + this.lastName,
+        country: this.country.name,
+        email: this.email,
+        question: "Place of Birth?",
+        answer: "Dimona"
+      };
+
+      AuthService.register(userCredentials, userInfo)
         .then(() => this.$router.push("/"))
         .catch(err => console.log(err));
     }

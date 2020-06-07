@@ -32,6 +32,7 @@
 </template>
 
 <script>
+import AuthService from "@/services/auth";
 import { userNameRules, passwordRules } from "../core/validationRules";
 export default {
   name: "LoginForm",
@@ -48,10 +49,12 @@ export default {
     validateCredentials() {
       if (!this.$refs.loginForm.validate()) return;
 
-      let userName = this.userName;
-      let password = this.password;
-      this.$store
-        .dispatch("login", { userName, password })
+      let userCredentials = {
+        login: this.userName,
+        password: this.password
+      };
+
+      AuthService.register(userCredentials)
         .then(() => this.$router.push("/"))
         .catch(err => console.log(err));
     }

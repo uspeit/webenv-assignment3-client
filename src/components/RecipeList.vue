@@ -4,6 +4,7 @@
       <v-toolbar-title class="d-block text-center text-uppercase">{{title}}</v-toolbar-title>
     </v-toolbar>
     <v-card-text class="d-flex flex-column card">
+      {{loadingData}}
       <router-link
         v-for="recipe in data"
         v-bind:key="recipe.id"
@@ -13,7 +14,7 @@
       </router-link>
     </v-card-text>
     <v-card-actions v-if="refreshButton" class="d-flex flex-column card">
-      <v-btn color="primary" class="mb-4 align-self-stretch" @click="emitRefreshEvent">Refresh recipes</v-btn>
+      <v-btn :text="loadingData" color="primary" :loading="loadingData" class="mb-4 align-self-stretch" @click="emitRefreshEvent">Refresh recipes</v-btn>
     </v-card-actions>
   </v-card>
 </template>
@@ -23,7 +24,7 @@ import RecipeSummary from "@/components/RecipeSummary.vue";
 
 export default {
   name: "RecipeList",
-  props: ["data", "title", "size", "refreshButton"],
+  props: ["data", "title", "size", "refreshButton", "loadingData"],
 
   components: {
     RecipeSummary

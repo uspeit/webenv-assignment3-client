@@ -1,19 +1,19 @@
 <template>
   <div class="mt-1">
     <v-icon v-bind:size="iconSize" color="text" class="mr-1" style="top: -1.5px">mdi-alarm</v-icon>
-    <span v-bind:class="size">{{recipe.prepTime | timeString}}</span>
+    <span v-bind:class="size">{{recipe['ready_in_minutes'] | timeString}}</span>
     <br />
 
     <!-- Icons -->
     <div class="mt-1" style="left: -3px; position: relative;">
       <v-icon
         v-bind:size="iconSize"
-        v-bind:color="recipe.restrictions.glutenFree ? 'noRestriction' : 'hasRestriction'"
+        v-bind:color="recipe['gluten_free'] ? 'noRestriction' : 'hasRestriction'"
         class="mr-1"
       >mdi-barley</v-icon>
       <v-icon
         v-bind:size="iconSize"
-        v-bind:color="recipe.restrictions.vegan ? 'noRestriction' : recipe.restrictions.vegetarian ? 'partialRestriction' : 'hasRestriction'"
+        v-bind:color="recipe.vegan ? 'noRestriction' : recipe.vegetarian ? 'partialRestriction' : 'hasRestriction'"
         class="mr-1"
       >mdi-leaf</v-icon>
       <v-icon
@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import RecipeService from "@/core/recipe.service";
+import RecipeService from "@/services/recipes";
 
 export default {
   name: "RecipeInfo",

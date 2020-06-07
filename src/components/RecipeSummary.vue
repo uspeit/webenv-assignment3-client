@@ -1,7 +1,7 @@
 <template>
   <v-row v-bind:class="'recipe-item ' + size">
     <v-col v-bind:cols="thumbSize">
-      <v-img class="elevation-2" aspect-ratio="1.1" v-bind:src="recipe.imgUrl" />
+      <v-img class="elevation-2" aspect-ratio="1.1" v-bind:src="recipe.image" />
     </v-col>
     <v-col v-bind:cols="12 - thumbSize">
       <div class="position-relative fill-height">
@@ -11,7 +11,7 @@
 
         <RecipeInfo v-bind:size="size" v-bind:recipe="recipe" />
 
-        <RecipeRating class="rating-container" v-bind:rating="recipe.likes" />
+        <RecipeRating class="rating-container" v-bind:rating="recipe.aggregate_likes" />
       </div>
     </v-col>
   </v-row>

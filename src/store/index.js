@@ -1,90 +1,65 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import axios from 'axios'
-import AuthService from '../core/auth.service';
-import jwt_decode from 'jwt-decode';
-
-const auth = new AuthService();
+import AuthService from '../services/auth';
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    status: '',
     token: localStorage.getItem('token') || '',
-    claims: localStorage.getItem('token') ? jwt_decode(localStorage.getItem('token')) : '',    
+    currentUser: localStorage.getItem('currentUser') || undefined,
   },
   mutations: {
-    auth_request(state) {
-      state.status = 'loading'
+    authenticated(state, { token }) {
+      state.token = token;
     },
-    auth_success(state, { token }) {
-      state.status = 'success'
-      state.token = token
-      state.claims = jwt_decode(token)
-    },
-    auth_error(state) {
-      state.status = 'error'
+    logged_in(state, { user }) {
+      state.currentUser = user;
     },
     logout(state) {
-      state.status = ''
-      state.token = ''
-      state.claims = {}
+      state.token = '';
+      state.currentUser = undefined;
     },
   },
   actions: {
-    login({ commit }, user) {
+    authenticate({ commit }, userCredentials) {
       return new Promise((resolve, reject) => {
-        commit('auth_request')
-
-        auth.login(user)
+        AuthService.login(userCredentials)
           .then(resp => {
-            const token = resp.data.token
-            localStorage.setItem('token', token)
-            
-            axios.defaults.headers.common['Authorization'] = token
-            commit('auth_success', { token })
-            resolve(resp)
+            const token = resp.data.token;
+            localStorage.setItem('token', token);
+
+            axios.defaults.headers.common['Authorization'] = token;
+            commit('authenticated', { token });
+            resolve(token)
           })
           .catch(err => {
-            commit('auth_error')
-            localStorage.removeItem('token')
-            reject(err)
+            localStorage.removeItem('token');
+            reject(err);
           })
       })
     },
-    register({ commit }, user) {
-      return new Promise((resolve, reject) => {
-        commit('auth_request')
+    updateUser({ commit }, userInfo) {
+      return new Promise((resolve) => {
+        commit('logged_in', userInfo);
 
-        auth.register(user)
-          .then(resp => {
-            const token = resp.data.token
-            localStorage.setItem('token', token)
-            axios.defaults.headers.common['Authorization'] = token
-            commit('auth_success', { token })
-            resolve(resp)
-          })
-          .catch(err => {
-            commit('auth_error', err)
-            localStorage.removeItem('token')
-            reject(err)
-          })
+        resolve();
       })
     },
     logout({ commit }) {
       return new Promise((resolve) => {
-        commit('logout')
-        localStorage.removeItem('token')
-        delete axios.defaults.headers.common['Authorization']
-        resolve()
+        commit('logout');
+        localStorage.removeItem('token');
+        delete axios.defaults.headers.common['Authorization'];
+        resolve();
       })
     }
   },
   modules: {},
   getters: {
-    isLoggedIn: state => !!state.token,
-    userClaims: state => state.claims,
-    authStatus: state => state.status,
+    isLoggedIn: state => !!state.token && !!state.currentUser,
+    token: state => state.token,
+    currentUser: state => state.currentUser
   }
 });

@@ -8,7 +8,8 @@
           v-bind:data="randomRecipes"
           v-on:requestRefresh="loadRandomRecipes"
           refreshButton="true"
-          size="lg" 
+          v-bind:loadingData="loading.random"
+          size="lg"
         />
       </v-col>
       <v-col cols="4" xl="3">
@@ -21,7 +22,7 @@
 </template>
 
 <script>
-import RecipeService from "@/core/recipe.service";
+import RecipeService from "@/services/recipes";
 import RecipeList from "@/components/RecipeList.vue";
 import LoginForm from "@/components/LoginForm.vue";
 
@@ -35,24 +36,27 @@ export default {
 
   mounted() {
     this.loadRandomRecipes();
-    this.loadRecentRecipes();
+    if (this.isLoggedIn) this.loadRecentRecipes();
   },
 
   data: () => ({
+    loading: { random: true },
     recentRecipes: [],
     randomRecipes: []
   }),
 
   methods: {
     loadRandomRecipes() {
-      RecipeService.getRandomRecipes().then(
-        response => (this.randomRecipes = response.data)
-      );
+      this.loading.random = true;
+      RecipeService.getRandomRecipes().then(response => {
+        this.randomRecipes = response.data.results;
+        this.loading.random = false;
+      });
     },
 
     loadRecentRecipes() {
       RecipeService.getRecentRecipes().then(
-        response => (this.recentRecipes = response.data)
+        response => (this.recentRecipes = response.data.results)
       );
     }
   },
@@ -60,7 +64,7 @@ export default {
   computed: {
     isLoggedIn: function() {
       return this.$store.getters.isLoggedIn;
-    },
+    }
   }
 };
 </script>

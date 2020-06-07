@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import RecipeService from "@/core/recipe.service";
+import RecipeService from "@/services/recipes";
 import RecipeInfo from "@/components/RecipeInfo.vue";
 import RecipeRating from "@/components/RecipeRating.vue";
 

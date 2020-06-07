@@ -65,7 +65,7 @@
 
 <script>
 import RecipeList from "@/components/RecipeList.vue";
-import RecipeService from "@/core/recipe.service";
+import RecipeService from "@/services/recipes";
 import filterData from "@/assets/filterData.json";
 
 export default {
