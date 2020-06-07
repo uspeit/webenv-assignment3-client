@@ -61,13 +61,6 @@ export default {
   padding-right: 4em;
 }
 
-.v-card__text h1,
-.v-card__text h2,
-.v-card__text h3,
-.v-card__text span {
-  color: var(--v-text-base) !important;
-}
-
 .rating-container {
   position: absolute;
   top: 0;

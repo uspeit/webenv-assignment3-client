@@ -20,11 +20,11 @@
               <v-col cols="4">
                 <v-btn
                   color="success"
-                  class="search-button"
+                  class="search-button text--card"
                   uppercase
                   large
                   depressed
-                  @click="searchRecipes"
+                  @click="performSearch"
                 >Search</v-btn>
               </v-col>
             </v-row>
@@ -45,13 +45,20 @@
         </v-card>
       </v-col>
     </v-row>
-    <v-row justify="center" v-if="!searching && results && results.length > 0">
+    <v-row justify="center" v-show="!searching && resultsCount > 0">
       <v-col cols="8">
-        <RecipeList title="Results" v-bind:data="results" size="lg" />
+        <RecipeList
+          title="Results"
+          v-on:loadFinish="searchComplete"
+          v-bind:dataSource="searchRecipes"
+          manual="true"
+          size="lg"
+          ref="searchResults"
+        />
       </v-col>
     </v-row>
 
-    <v-row justify="center" v-else-if="!searching && results">
+    <v-row justify="center" v-if="!searching && resultsCount === 0">
       <v-col cols="8">
         <v-card class="elevation-12 d-flex flex-column">
           <v-card-text align="center" class="d-flex flex-column card">
@@ -77,21 +84,25 @@ export default {
 
   data: () => ({
     searching: false,
+    resultsCount: -1,
     query: "",
     selectedFilters: {},
-    filters: filterData,
-    results: undefined
+    filters: filterData
   }),
 
   methods: {
     searchRecipes() {
+      return RecipeService.searchRecipes(this.query, this.selectedFilters);
+    },
+
+    performSearch() {
       this.searching = true;
-      RecipeService.searchRecipes(this.query, this.selectedFilters).then(
-        response => {
-          this.results = response.data;
-          this.searching = false;
-        }
-      );
+      this.$refs.searchResults.triggerLoad();
+    },
+
+    searchComplete(resultsCount) {
+      this.searching = false;
+      this.resultsCount = resultsCount;
     }
   }
 };

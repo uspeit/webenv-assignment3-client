@@ -9,3 +9,10 @@ a {
 .position-relative {
     position: relative;
 }
+
+.v-card__text h1,
+.v-card__text h2,
+.v-card__text h3,
+.v-card__text span:not(.v-btn__content){
+  color: var(--v-text-base) !important;
+}
