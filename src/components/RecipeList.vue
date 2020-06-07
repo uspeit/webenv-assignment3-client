@@ -4,17 +4,18 @@
       <v-toolbar-title class="d-block text-center text-uppercase">{{title}}</v-toolbar-title>
     </v-toolbar>
     <v-card-text class="d-flex flex-column card">
-      {{loadingData}}
-      <router-link
-        v-for="recipe in data"
-        v-bind:key="recipe.id"
-        v-bind:to="'/recipe/'+recipe.id"
-      >
+      <router-link v-for="recipe in recipeList" v-bind:key="recipe.id" v-bind:to="'/recipe/'+recipe.id">
         <RecipeSummary v-bind:size="size" class="flex-grow-1" v-bind:recipe="recipe" />
       </router-link>
     </v-card-text>
     <v-card-actions v-if="refreshButton" class="d-flex flex-column card">
-      <v-btn :text="loadingData" color="primary" :loading="loadingData" class="mb-4 align-self-stretch" @click="emitRefreshEvent">Refresh recipes</v-btn>
+      <v-btn
+        :text="loading"
+        color="primary"
+        :loading="loading"
+        class="mb-4 align-self-stretch"
+        @click="loadData"
+      >Refresh recipes</v-btn>
     </v-card-actions>
   </v-card>
 </template>
@@ -24,15 +25,28 @@ import RecipeSummary from "@/components/RecipeSummary.vue";
 
 export default {
   name: "RecipeList",
-  props: ["data", "title", "size", "refreshButton", "loadingData"],
+  props: ["dataSource", "title", "size", "refreshButton"],
 
   components: {
     RecipeSummary
   },
 
+  data: () => ({
+    loading: true,
+    recipeList: []
+  }),
+
+  mounted() {
+    this.loadData();
+  },
+
   methods: {
-    emitRefreshEvent() {
-      this.$emit('requestRefresh')
+    loadData() {
+      this.loading = true;
+      this.dataSource().then(response => {
+        this.recipeList = response.data.results;
+        this.loading = false;
+      });
     }
   }
 };

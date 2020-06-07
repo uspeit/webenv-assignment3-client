@@ -5,16 +5,14 @@
       <v-col cols="8" xl="6">
         <RecipeList
           title="Explore these recipes"
-          v-bind:data="randomRecipes"
-          v-on:requestRefresh="loadRandomRecipes"
+          v-bind:dataSource="loadRandomRecipes"
           refreshButton="true"
-          v-bind:loadingData="loading.random"
           size="lg"
         />
       </v-col>
       <v-col cols="4" xl="3">
         <LoginForm v-if="!isLoggedIn" />
-        <RecipeList v-else title="Recently viewed" v-bind:data="recentRecipes" size="md" />
+        <RecipeList v-else title="Recently viewed" v-bind:dataSource="loadRecentRecipes" size="md" />
       </v-col>
       <v-col v-if="$vuetify.breakpoint.xlOnly" xl="1"></v-col>
     </v-row>
@@ -34,30 +32,18 @@ export default {
     LoginForm
   },
 
-  mounted() {
-    this.loadRandomRecipes();
-    if (this.isLoggedIn) this.loadRecentRecipes();
-  },
-
   data: () => ({
-    loading: { random: true },
     recentRecipes: [],
     randomRecipes: []
   }),
 
   methods: {
     loadRandomRecipes() {
-      this.loading.random = true;
-      RecipeService.getRandomRecipes().then(response => {
-        this.randomRecipes = response.data.results;
-        this.loading.random = false;
-      });
+      return RecipeService.getRandomRecipes();
     },
 
     loadRecentRecipes() {
-      RecipeService.getRecentRecipes().then(
-        response => (this.recentRecipes = response.data.results)
-      );
+      return RecipeService.getRecentRecipes();
     }
   },
 
