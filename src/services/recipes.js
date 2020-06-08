@@ -10,7 +10,7 @@ export default {
     getRecentRecipes() {
         return new Promise((resolve, reject) => {
             httpClient.get('/metadata/last-seen').then(response => {
-                let results = response.data.results;
+                let results = response.data.results.filter(x => x !== null);
                 // Adapt items
                 results.forEach(res => {
                     res.saved = res.favs;
