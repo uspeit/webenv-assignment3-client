@@ -53,9 +53,9 @@ export default {
     let recipeId = this.$route.params.id;
 
     RecipeService.getRecipe(recipeId).then(response => {
-      this.recipe = response.data;
+      this.recipe = response;
 
-      if (!response.data.watched) {
+      if (!response.watched) {
         this.recipe.watched = true;
         RecipeService.setWatched(recipeId).then();
       }

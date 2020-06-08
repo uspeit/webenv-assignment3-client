@@ -42,9 +42,17 @@ export default {
 
   methods: {
     toggleSave() {
-      RecipeService.toggleSave(this.$props.recipe.id)
-        .then(res => (this.$props.recipe.saved = res.data))
-        .catch(err => console.log(err));
+      const recipe = this.$props.recipe;
+      // Change value
+      const original = recipe.saved;
+      recipe.saved = !original;
+      // Update server
+      RecipeService.setSaved(recipe.id, recipe.saved)
+        .then(res => (recipe.saved = res.data.favs.includes(recipe.id))) // Validate with result
+        .catch(err => {
+          console.log(err);
+          recipe.saved = original;
+        });
     }
   },
 
