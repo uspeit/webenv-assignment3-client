@@ -48,12 +48,12 @@
     <v-row justify="center" v-show="!searching && resultsCount > 0">
       <v-col cols="8">
         <RecipeList
+          ref="searchResults"
+          size="lg"
           title="Results"
           v-on:loadFinish="searchComplete"
           v-bind:dataSource="searchRecipes"
           manual="true"
-          size="lg"
-          ref="searchResults"
         />
       </v-col>
     </v-row>

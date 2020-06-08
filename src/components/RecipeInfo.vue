@@ -3,7 +3,6 @@
     <v-icon v-bind:size="iconSize" color="text" class="mr-1" style="top: -1.5px">mdi-alarm</v-icon>
     <span v-bind:class="size">{{recipe['ready_in_minutes'] | timeString}}</span>
     <br />
-
     <!-- Icons -->
     <div class="mt-1" style="left: -3px; position: relative;">
       <v-icon

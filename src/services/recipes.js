@@ -1,30 +1,44 @@
 import httpClient from '@/services/httpClient'
 
 export default {
+    // GET /recipes/rand
     getRandomRecipes() {
-        return this.getRecipesByRoute('rand'); // GET /recipes/rand
+        return this.getRecipesByRoute('/recipes/rand');
     },
 
+    // GET /metadata/last-seen
     getRecentRecipes() {
-        return this.getRecipesByRoute('rand'); 
-        // return this.getRecipesByRoute('last-seen'); // GET /recipes/last-seen
+        return new Promise((resolve, reject) => {
+            httpClient.get('/metadata/last-seen').then(response => {
+                let results = response.data.results;
+                // Adapt structure
+                results.saved = results.favs;
+                delete results.favs;
+                // 
+                resolve(results);
+            })
+                .catch(reason => reject(reason));
+        });
     },
 
+    // GET /recipes/{id}
     getRecipe(id) {
-        return httpClient.get('/recipes/' + id) // GET /recipes/{id}
+        return httpClient.get('/recipes/' + id)
     },
 
+    // POST /metadata/saved/{id}
     toggleSave(id) {
-        return httpClient.post('/metadata/saved/' + id) // POST /metadata/saved/{id}
+        return httpClient.post('/metadata/saved/' + id)
     },
 
+    // POST /metadata/watched/{id}
     setWatched(id) {
-        return httpClient.post('/metadata/watched/' + id) // POST /metadata/watched/{id}
+        return httpClient.post('/metadata/watched/' + id)
     },
 
-
+    // GET /recipes/search
     searchRecipes(query, selectedFilters) {
-        return this.getRecipesByRoute('search', { // GET /recipes/search
+        return this.getRecipesByRoute('/recipes/search', {
             query: query,
             cuisine: selectedFilters.Cuisines,
             diet: selectedFilters.Diets,
@@ -37,15 +51,16 @@ export default {
         });
     },
 
+    // Method for fetching recipes from a route and processing them
     getRecipesByRoute(route, extraParams) {
         return new Promise((resolve, reject) => {
-            httpClient.get(`/recipes/${route}`, {
+            httpClient.get(route, {
                 params: extraParams
             }).then(response => {
                 let recipes = response.data.results;
 
                 // Fix for search results structure
-                if(route === 'search')
+                if (route.includes('search'))
                     recipes = recipes.data;
 
                 this.attachMetadata(recipes).then(recipesWithMetadata => {
@@ -55,6 +70,8 @@ export default {
         })
     },
 
+    // Fetches metadata for a list of recipes
+    // Promises a list of recipes with filled data
     attachMetadata(recipes) {
         return new Promise((resolve, reject) => {
             httpClient.get('/metadata').then(response => {

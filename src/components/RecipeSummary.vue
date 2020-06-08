@@ -9,7 +9,7 @@
         <h3 v-if="size == 'md'">{{recipe.title}}</h3>
         <h2 class="mb-2" v-else>{{recipe.title}}</h2>
 
-        <RecipeInfo v-bind:size="size" v-bind:recipe="recipe" />
+        <RecipeInfo v-bind:size="size" v-bind:recipe="recipe" v-bind:hideWatched="hideWatchedIndicator"/>
 
         <RecipeRating class="rating-container" v-bind:rating="recipe.aggregate_likes" />
       </div>
@@ -23,7 +23,11 @@ import RecipeRating from "@/components/RecipeRating.vue";
 export default {
   name: "RecipeSummary",
 
-  props: ["recipe", "size"],
+  props: [
+    "recipe",
+    "size",
+    "hideWatchedIndicator" // In case all recipes already been seen and we want to hide the indicator
+  ],
 
   components: {
     RecipeInfo,

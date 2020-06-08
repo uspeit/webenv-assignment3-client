@@ -4,15 +4,21 @@
       <v-col v-if="$vuetify.breakpoint.xlOnly" xl="2"></v-col>
       <v-col cols="8" xl="6">
         <RecipeList
+          size="lg"
           title="Explore these recipes"
           v-bind:dataSource="loadRandomRecipes"
-          refreshButton="true"
-          size="lg"
+          refreshButton
         />
       </v-col>
       <v-col cols="4" xl="3">
         <LoginForm v-if="!isLoggedIn" />
-        <RecipeList v-else title="Recently viewed" v-bind:dataSource="loadRecentRecipes" size="md" />
+        <RecipeList
+          v-else
+          size="md"
+          title="Recently viewed"
+          v-bind:dataSource="loadRecentRecipes"
+          hideWatchedIndicator="true"
+        />
       </v-col>
       <v-col v-if="$vuetify.breakpoint.xlOnly" xl="1"></v-col>
     </v-row>

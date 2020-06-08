@@ -11,7 +11,7 @@
               <v-col cols="4">
                 <v-img class="elevation-2 mb-2" v-bind:src="recipe.imgUrl" />
 
-                <RecipeInfo v-bind:recipe="recipe" class="float-left" />
+                <RecipeInfo v-bind:recipe="recipe" class="float-left" hideWatched="true" />
 
                 <RecipeRating class="rating-container float-right" v-bind:rating="recipe.likes" />
               </v-col>

@@ -10,7 +10,7 @@
         v-bind:key="recipe.id"
         v-bind:to="'/recipe/'+recipe.id"
       >
-        <RecipeSummary v-bind:size="size" class="flex-grow-1" v-bind:recipe="recipe" />
+        <RecipeSummary v-bind:size="size" class="flex-grow-1" v-bind:recipe="recipe" v-bind:hideWatchedIndicator="hideWatchedIndicator" />
       </router-link>
     </v-card-text>
     <v-card-actions v-if="refreshButton || loading" class="d-flex flex-column card">
@@ -35,7 +35,8 @@ export default {
     "title", //
     "size",
     "refreshButton",
-    "manual" // Disables automatic data loading from data source
+    "manual", // Disables automatic data loading from data source
+    "hideWatchedIndicator" // In case all recipes already been seen and we want to hide the indicator
   ],
 
   components: {

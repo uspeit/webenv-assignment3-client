@@ -3,7 +3,7 @@ import httpClient from '@/services/httpClient'
 
 export default {
 
-    // Perform login
+    // Begin login process
     login(userCredentials) {
         return store.dispatch("authenticate", userCredentials);
     },
