@@ -7,7 +7,7 @@
           size="lg"
           title="Explore these recipes"
           v-bind:dataSource="loadRandomRecipes"
-          refreshButton
+          refreshButton="true"
         />
       </v-col>
       <v-col cols="4" xl="3">
@@ -55,7 +55,7 @@ export default {
 
   computed: {
     isLoggedIn: function() {
-      return this.$store.getters.isLoggedIn;
+      return this.$store.getters.tokenPresent;
     }
   }
 };

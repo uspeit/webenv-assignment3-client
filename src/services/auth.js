@@ -48,5 +48,21 @@ export default {
                 )
                 .catch(reason => reject(reason))
         })
+    },
+
+    fetchUserData() {
+        return new Promise((resolve, reject) => {
+            if (store.getters.tokenPresent) {
+                httpClient.get('/account').then(
+                    response => {
+                        store.dispatch("updateUser", response.data);
+                        resolve(response);
+                    }
+                ).catch(reason => reject(reason));
+            }
+            else {
+                resolve(undefined);
+            }
+        });
     }
 }

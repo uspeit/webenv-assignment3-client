@@ -5,18 +5,10 @@ import AuthService from '../services/auth';
 
 Vue.use(Vuex);
 
-function loadSavedUser() {
-  try {
-    return JSON.parse(localStorage.getItem('currentUser'));
-  } catch (e) {
-    return undefined;
-  }
-}
-
 export default new Vuex.Store({
   state: {
     token: localStorage.getItem('token') || '',
-    currentUser: loadSavedUser(),
+    currentUser: null,
   },
   mutations: {
     authenticated(state, { token }) {
@@ -67,7 +59,8 @@ export default new Vuex.Store({
   },
   modules: {},
   getters: {
-    isLoggedIn: state => !!state.token && !!state.currentUser,
+    tokenPresent: state => !!state.token,
+    userDataPresent: state => !!state.currentUser,
     token: state => state.token,
     currentUser: state => state.currentUser
   }

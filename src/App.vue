@@ -1,5 +1,18 @@
 <template>
   <v-app id="inspire">
+    <transition name="fadeout">
+      <div class="loading-overlay v-application theme--dark" v-if="appLoading">
+        <v-container class="fill-height">
+          <v-row justify="center" align="center">
+            <v-col class="shrink">
+              <v-icon primary align="center" justify="center" size="300">mdi-pot-mix</v-icon>
+              <br />
+              <h1 accent class="text-center">Loading Soupify</h1>
+            </v-col>
+          </v-row>
+        </v-container>
+      </div>
+    </transition>
     <v-app-bar app clipped-left color="primary" dense>
       <router-link to="/" class="d-flex white--text">
         <v-icon class="mx-4" large>mdi-pot-mix</v-icon>
@@ -53,6 +66,7 @@
 </template>
 
 <script>
+import AuthService from "@/services/auth";
 import MenuLink from "@/components/MenuLink.vue";
 
 export default {
@@ -61,6 +75,7 @@ export default {
   components: { MenuLink },
 
   data: () => ({
+    appLoading: true,
     personalLinks: [
       {
         text: "Favorite Recipes",
@@ -77,12 +92,20 @@ export default {
     ]
   }),
 
+  mounted() {
+    // Loads user data when app starts
+    AuthService.fetchUserData().then(() => {
+      this.appLoading = false;
+    });
+  },
+
   computed: {
     isLoggedIn: function() {
-      return this.$store.getters.isLoggedIn;
+      return (
+        this.$store.getters.tokenPresent && this.$store.getters.userDataPresent
+      );
     },
     currentUser: function() {
-      console.log(this.$store.getters.currentUser)
       return this.$store.getters.currentUser;
     }
   },

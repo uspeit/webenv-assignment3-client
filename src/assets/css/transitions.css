@@ -1,0 +1,6 @@
+.fadeout-leave-active {
+    transition: opacity .5s
+}
+.fadeout-leave-to {
+    opacity: 0
+}
