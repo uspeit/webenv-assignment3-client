@@ -1,10 +1,20 @@
 <template>
-  <v-row v-bind:class="'recipe-item px-4 ' + size">
-    <v-col v-bind:cols="thumbSize">
-      <v-img class="elevation-2" aspect-ratio="1.1" v-bind:src="recipe.image" />
-    </v-col>
-    <v-col v-bind:cols="12 - thumbSize">
-      <div class="position-relative fill-height pad-score">
+  <v-row v-bind:class="'recipe-item position-relative pa-4 ' + size">
+    <v-col class="d-flex">
+      <div class="d-flex flex-column align-center">
+        <v-img
+          aspect-ratio="1.2"
+          v-bind:src="recipe.image"
+          v-bind:width="imageWidth"
+          v-bind:max-width="imageWidth"
+          v-bind:class="imageClasses"
+        />
+
+        <RecipeRating class="rating-container" v-bind:rating="recipe.aggregate_likes" />
+      </div>
+      <div
+        v-bind:class="'fill-height flex-grow-1 ml-4 overflow-hidden ' + (size !=='md' ? ' pad-score' : '')"
+      >
         <!-- Details -->
         <h3 class="single-line" v-if="size == 'md'">{{recipe.title}}</h3>
         <h2 class="single-line mb-2" v-else>{{recipe.title}}</h2>
@@ -14,8 +24,6 @@
           v-bind:recipe="recipe"
           v-bind:hideWatched="hideWatchedIndicator"
         />
-
-        <RecipeRating class="rating-container" v-bind:rating="recipe.aggregate_likes" />
       </div>
     </v-col>
   </v-row>
@@ -30,6 +38,7 @@ export default {
   props: [
     "recipe",
     "size",
+    "height",
     "hideWatchedIndicator" // In case all recipes already been seen and we want to hide the indicator
   ],
 
@@ -52,6 +61,20 @@ export default {
         this.thumbSize = 4;
         break;
     }
+  },
+
+  computed: {
+    imageClasses() {
+      let className = "";
+      if (this.$props.size === "md") className += " mb-2";
+      return className;
+    },
+
+    imageWidth() {
+      let width = 120;
+      if (this.$props.size === "lg") width = 200;
+      return width;
+    }
   }
 };
 </script>
@@ -61,17 +84,21 @@ export default {
   transition: all 100ms ease-in-out;
 }
 .recipe-item:hover {
-  background-color: rgba(0, 0, 0, 0.03);
+  background-color: rgba(185, 180, 180, 0.03);
   transform: scale(1.01);
 }
 
 .pad-score {
-  padding-right: 4em;
+  padding-right: 5.5em;
 }
 
-.rating-container {
+.lg .rating-container {
   position: absolute;
-  top: 0;
-  right: 0;
+  top: 25px;
+  right: 25px;
+}
+
+a:not(:first-child) .recipe-item {
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
 }
 </style>

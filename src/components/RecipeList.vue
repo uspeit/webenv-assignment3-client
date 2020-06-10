@@ -23,6 +23,7 @@
         >
           <RecipeSummary
             v-bind:size="size"
+            v-bind:height="itemHeight"
             class="flex-grow-1"
             v-bind:recipe="recipe"
             v-bind:hideWatchedIndicator="hideWatchedIndicator"
@@ -88,13 +89,8 @@ export default {
     },
     enter: function(el, done) {
       var delay = el.dataset.index * 150;
-      let itemHeight = "8em";
-      switch (this.$props.size) {
-        case "lg":
-          itemHeight = "16em";
-      }
       setTimeout(function() {
-        Velocity(el, { opacity: 1, height: itemHeight }, { complete: done });
+        Velocity(el, { opacity: 1, height: el.getElementsByClassName('recipe-item')[0].offsetHeight }, { complete: done });
       }, delay);
     },
     leave: function(el, done) {
@@ -102,6 +98,17 @@ export default {
       setTimeout(function() {
         Velocity(el, { opacity: 0, height: 0 }, { complete: done });
       }, delay);
+    }
+  },
+
+  computed: {
+    itemHeight() {
+      let itemHeight = "8em";
+      switch (this.$props.size) {
+        case "lg":
+          itemHeight = "16em";
+      }
+      return itemHeight;
     }
   }
 };

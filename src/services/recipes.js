@@ -1,4 +1,5 @@
 import httpClient from '@/services/httpClient'
+import store from '@/store/index'
 
 const ID_SOURCE_THRESHOLD = 200; // Threshold for determining if ID is local or belongs to the external API
 
@@ -87,29 +88,37 @@ export default {
     },
 
     // Processes either a single recipe or a list
-    // Fetches metadata and formats instructions
+    // Formats instructions and fetches metadata
     // Returns filled object
     processRecipes(singleOrArray) {
-        return new Promise((resolve, reject) => {
-            httpClient.get('/metadata').then(response => {
-                let result;
-                if (Array.isArray(singleOrArray)) {
-                    // Update each recipe
-                    result = singleOrArray.map(recipe => this.processRecipe(recipe, response.data));
-                } else {
-                    // Update single recipe
-                    result = this.processRecipe(singleOrArray, response.data)
-                }
-                resolve(result);
-            }).catch(reason => reject(reason))
-        })
+        // Adapt object(s)
+        singleOrArray = this.applyToRecipes(singleOrArray, this.formatInstructions);
+        // Load metadata if logged in
+        if (store.getters.tokenPresent) {
+            return new Promise((resolve, reject) => {
+                httpClient.get('/metadata').then(response => {
+                    let result = this.applyToRecipes(singleOrArray, this.attachMetadata, response.data);
+                    resolve(result);
+                }).catch(reason => reject(reason))
+            });
+        } else {
+            return new Promise((resolve) => {
+                resolve(singleOrArray);
+            });
+        }
     },
 
-    processRecipe(recipe, metadataResponse) {
-        recipe = this.attachMetadata(recipe, metadataResponse);
-        recipe = this.formatInstructions(recipe);
-
-        return recipe;
+    // Template for applying a function to an object or array accordingly
+    applyToRecipes(singleOrArray, applyFunction, extraData) {
+        let result;
+        if (Array.isArray(singleOrArray)) {
+            // Update each recipe
+            result = singleOrArray.map(recipe => applyFunction(recipe, extraData));
+        } else {
+            // Update single recipe
+            result = applyFunction(singleOrArray, extraData)
+        }
+        return result;
     },
 
     // Updates recipe data based on the response of a metadata request
@@ -125,6 +134,8 @@ export default {
     formatInstructions(recipe) {
         recipe.instructions = recipe.instructions
             .replace(/^Instructions\s*/, '')
+            .replace(/<.*?>/g, '.')
+            .replace(/[.!]+/g, '.')
             .split(/\.\s*/)
             .filter(line => line.length > 0)
             .map(line => line + '.');

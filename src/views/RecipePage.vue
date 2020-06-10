@@ -26,7 +26,7 @@
                 </v-col>
                 <v-col cols="8">
                   <div class="position-relative fill-height">
-                    <h3 class="mt-2">Ingredients</h3>
+                    <h3 class="my-2">Ingredients</h3>
                     <ul id="ingredientList">
                       <li
                         v-for="ingredient in recipe.extended_ingredients"
@@ -34,11 +34,11 @@
                         class="text--text"
                       >
                         <span class="ingredient-name">{{ingredient.name}}</span>
-                        (<span v-html="$options.filters.fraction(ingredient.amount)"></span>&nbsp;
-                        <span v-if="ingredient.unit">{{ingredient.unit}}</span>)
+                        (<span v-html="$options.filters.fraction(ingredient.amount)"></span>
+                        <span v-if="ingredient.unit">&nbsp;{{ingredient.unit}}</span>)
                       </li>
                     </ul>
-                    <h3 class="mt-2">Instructions</h3>
+                    <h3 class="my-2">Instructions</h3>
                     <ol id="instructions">
                       <li
                         v-for="instruction in recipe.instructions"
@@ -94,5 +94,9 @@ export default {
 <style scoped>
 .ingredient-name {
   text-transform: capitalize;
+}
+
+#instructions li {
+    margin-bottom: 1em;
 }
 </style>
