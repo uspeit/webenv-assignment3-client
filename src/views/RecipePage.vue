@@ -26,7 +26,7 @@
                 </v-col>
                 <v-col cols="8">
                   <div class="position-relative fill-height">
-                    <h3 class="my-2">Ingredients</h3>
+                    <h3 class="mb-2">Ingredients</h3>
                     <ul id="ingredientList">
                       <li
                         v-for="ingredient in recipe.extended_ingredients"

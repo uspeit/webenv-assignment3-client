@@ -55,7 +55,11 @@ export default {
       };
 
       AuthService.login(userCredentials)
-        .then(() => this.$router.push("/"))
+        .then(() =>
+          this.$router.push("/").catch(reason => {
+            if (reason.name === "NavigationDuplicated") this.$emit("loggedIn");
+          })
+        )
         .catch(err => console.log(err));
     }
   }

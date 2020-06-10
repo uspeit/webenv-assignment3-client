@@ -31,7 +31,7 @@
 
       <div v-if="isLoggedIn">
         <!-- Logged in -->
-        <transition name="fade">
+        <transition name="fade-in">
           <span class="mx-4" v-if="currentUser">Hello {{currentUser.fullname}}</span>
         </transition>
         <v-btn @click="logout" outlined color="accent" class="primary--text mx-2">Logout</v-btn>
@@ -87,9 +87,7 @@ export default {
 
   computed: {
     isLoggedIn: function() {
-      return (
-        this.$store.getters.tokenPresent
-      );
+      return this.$store.getters.tokenPresent;
     },
     currentUser: function() {
       return this.$store.getters.currentUser;

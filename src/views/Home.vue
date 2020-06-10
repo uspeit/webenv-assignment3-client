@@ -11,7 +11,7 @@
         />
       </v-col>
       <v-col cols="4" xl="3">
-        <LoginForm v-if="!isLoggedIn" />
+        <LoginForm v-if="!isLoggedIn" v-on:loggedIn="refreshComponent" />
         <RecipeList
           v-else
           size="md"
@@ -50,6 +50,10 @@ export default {
 
     loadRecentRecipes() {
       return RecipeService.getRecentRecipes();
+    },
+
+    refreshComponent() {
+      this.$forceUpdate();
     }
   },
 
