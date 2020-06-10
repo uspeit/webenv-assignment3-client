@@ -121,9 +121,13 @@ export default {
         return recipe;
     },
 
-    // Updates recipe data based on the response of a metadata request
+    // Parses recipe instructions into an array
     formatInstructions(recipe) {
-        recipe.instructions = recipe.instructions.replace(/^Instructions\n*/, '').replace(/\n+/g, '<br/>')
+        recipe.instructions = recipe.instructions
+            .replace(/^Instructions\s*/, '')
+            .split(/\.\s*/)
+            .filter(line => line.length > 0)
+            .map(line => line + '.');
         return recipe;
     }
 }

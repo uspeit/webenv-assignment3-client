@@ -4,7 +4,7 @@
       <v-col cols="8">
         <v-card class="elevation-12 d-flex flex-column">
           <v-toolbar class color="primary" dark flat>
-            <v-toolbar-title class="d-block text-center text-uppercase">Instructions</v-toolbar-title>
+            <v-toolbar-title class="d-block text-center text-uppercase">{{recipe.title}}</v-toolbar-title>
           </v-toolbar>
           <v-card-text class="d-flex flex-column card">
             <transition name="fade" mode="out-in">
@@ -26,8 +26,6 @@
                 </v-col>
                 <v-col cols="8">
                   <div class="position-relative fill-height">
-                    <!-- Details -->
-                    <h2 class="text--text">{{recipe.title}}</h2>
                     <h3 class="mt-2">Ingredients</h3>
                     <ul id="ingredientList">
                       <li
@@ -36,11 +34,18 @@
                         class="text--text"
                       >
                         <span class="ingredient-name">{{ingredient.name}}</span>
-                        {{ingredientAmountString(ingredient)}}
+                        (<span v-html="$options.filters.fraction(ingredient.amount)"></span>&nbsp;
+                        <span v-if="ingredient.unit">{{ingredient.unit}}</span>)
                       </li>
                     </ul>
                     <h3 class="mt-2">Instructions</h3>
-                    <p class="text--text" v-html="recipe.instructions"></p>
+                    <ol id="instructions">
+                      <li
+                        v-for="instruction in recipe.instructions"
+                        :key="instruction"
+                        class="text--text"
+                      >{{instruction}}</li>
+                    </ol>
                   </div>
                 </v-col>
               </v-row>
@@ -82,14 +87,6 @@ export default {
         RecipeService.setWatched(recipeId).then();
       }
     });
-  },
-
-  methods: {
-    ingredientAmountString(ingredient) {
-      let unit = ingredient.unit;
-      if (ingredient.amount > 1) unit += "s";
-      return `(${ingredient.amount} ${unit})`;
-    }
   }
 };
 </script>
