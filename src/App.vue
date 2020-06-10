@@ -1,18 +1,5 @@
 <template>
   <v-app id="inspire">
-    <transition name="fadeout">
-      <div class="loading-overlay v-application theme--dark" v-if="appLoading">
-        <v-container class="fill-height">
-          <v-row justify="center" align="center">
-            <v-col class="shrink">
-              <v-icon primary align="center" justify="center" size="300">mdi-pot-mix</v-icon>
-              <br />
-              <h1 accent class="text-center">Loading Soupify</h1>
-            </v-col>
-          </v-row>
-        </v-container>
-      </div>
-    </transition>
     <v-app-bar app clipped-left color="primary" dense>
       <router-link to="/" class="d-flex white--text">
         <v-icon class="mx-4" large>mdi-pot-mix</v-icon>
@@ -44,7 +31,9 @@
 
       <div v-if="isLoggedIn">
         <!-- Logged in -->
-        <span class="mx-4">Hello {{currentUser.fullname}}</span>
+        <transition name="fade">
+          <span class="mx-4" v-if="currentUser">Hello {{currentUser.fullname}}</span>
+        </transition>
         <v-btn @click="logout" outlined color="accent" class="primary--text mx-2">Logout</v-btn>
       </div>
       <div v-else>
@@ -75,7 +64,6 @@ export default {
   components: { MenuLink },
 
   data: () => ({
-    appLoading: true,
     personalLinks: [
       {
         text: "Favorite Recipes",
@@ -94,15 +82,13 @@ export default {
 
   mounted() {
     // Loads user data when app starts
-    AuthService.fetchUserData().then(() => {
-      this.appLoading = false;
-    });
+    AuthService.fetchUserData().then();
   },
 
   computed: {
     isLoggedIn: function() {
       return (
-        this.$store.getters.tokenPresent && this.$store.getters.userDataPresent
+        this.$store.getters.tokenPresent
       );
     },
     currentUser: function() {

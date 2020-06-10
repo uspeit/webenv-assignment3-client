@@ -1,5 +1,7 @@
 import httpClient from '@/services/httpClient'
-const ID_SOURCE_THRESHOLD = 200;
+
+const ID_SOURCE_THRESHOLD = 200; // Threshold for determining if ID is local or belongs to the external API
+
 export default {
     // GET /recipes/rand
     getRandomRecipes() {
@@ -77,36 +79,51 @@ export default {
                         data = data.data;
                 }
 
-                this.fetchMetadata(data).then(fullData => {
+                this.processRecipes(data).then(fullData => {
                     resolve(fullData);
                 }).catch(reason => reject(reason));
             }).catch(reason => reject(reason));
         })
     },
 
-    // Fetches metadata for either a single recipe or a list
+    // Processes either a single recipe or a list
+    // Fetches metadata and formats instructions
     // Returns filled object
-    fetchMetadata(singleOrArray) {
+    processRecipes(singleOrArray) {
         return new Promise((resolve, reject) => {
             httpClient.get('/metadata').then(response => {
                 let result;
                 if (Array.isArray(singleOrArray)) {
                     // Update each recipe
-                    result = singleOrArray.map(recipe => this.attachMetadata(recipe, response.data));
+                    result = singleOrArray.map(recipe => this.processRecipe(recipe, response.data));
                 } else {
                     // Update single recipe
-                    result = this.attachMetadata(singleOrArray, response.data)
+                    result = this.processRecipe(singleOrArray, response.data)
                 }
                 resolve(result);
             }).catch(reason => reject(reason))
         })
     },
 
-    attachMetadata(recipe, data) {
-        recipe.watched = data.watched.includes(recipe.id);
-        recipe.saved = data.favs.includes(recipe.id);
-        recipe.addedToMeal = data.meal.includes(recipe.id);
+    processRecipe(recipe, metadataResponse) {
+        recipe = this.attachMetadata(recipe, metadataResponse);
+        recipe = this.formatInstructions(recipe);
 
+        return recipe;
+    },
+
+    // Updates recipe data based on the response of a metadata request
+    attachMetadata(recipe, metadataResponse) {
+        recipe.watched = metadataResponse.watched.includes(recipe.id);
+        recipe.saved = metadataResponse.favs.includes(recipe.id);
+        recipe.addedToMeal = metadataResponse.meal.includes(recipe.id);
+
+        return recipe;
+    },
+
+    // Updates recipe data based on the response of a metadata request
+    formatInstructions(recipe) {
+        recipe.instructions = recipe.instructions.replace(/^Instructions\n*/, '').replace(/\n+/g, '<br/>')
         return recipe;
     }
 }

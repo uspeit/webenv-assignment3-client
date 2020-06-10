@@ -1,6 +1,6 @@
 <template>
   <!-- Rating -->
-  <div class="rating-container d-flex align-center">
+  <div>
     <span>{{rating}}</span>
     <v-icon class="ml-1" style="top: -1.5px">mdi-star</v-icon>
   </div>

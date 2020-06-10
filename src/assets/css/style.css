@@ -10,6 +10,12 @@ a {
     position: relative;
 }
 
+.single-line {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 .v-card__text h1,
 .v-card__text h2,
 .v-card__text h3,

@@ -15,6 +15,7 @@
                   placeholder="Type here to search"
                   light
                   v-bind:loading="searching"
+                  v-on:keyup.enter="performSearch"
                 ></v-text-field>
               </v-col>
               <v-col cols="4">

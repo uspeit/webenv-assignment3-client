@@ -1,15 +1,19 @@
 <template>
-  <v-row v-bind:class="'recipe-item ' + size">
+  <v-row v-bind:class="'recipe-item px-4 ' + size">
     <v-col v-bind:cols="thumbSize">
       <v-img class="elevation-2" aspect-ratio="1.1" v-bind:src="recipe.image" />
     </v-col>
     <v-col v-bind:cols="12 - thumbSize">
       <div class="position-relative fill-height pad-score">
         <!-- Details -->
-        <h3 v-if="size == 'md'">{{recipe.title}}</h3>
-        <h2 class="mb-2" v-else>{{recipe.title}}</h2>
+        <h3 class="single-line" v-if="size == 'md'">{{recipe.title}}</h3>
+        <h2 class="single-line mb-2" v-else>{{recipe.title}}</h2>
 
-        <RecipeInfo v-bind:size="size" v-bind:recipe="recipe" v-bind:hideWatched="hideWatchedIndicator"/>
+        <RecipeInfo
+          v-bind:size="size"
+          v-bind:recipe="recipe"
+          v-bind:hideWatched="hideWatchedIndicator"
+        />
 
         <RecipeRating class="rating-container" v-bind:rating="recipe.aggregate_likes" />
       </div>
@@ -69,10 +73,5 @@ export default {
   position: absolute;
   top: 0;
   right: 0;
-}
-
-.recipe-item.md .rating-container {
-  top: unset;
-  bottom: 0;
 }
 </style>
