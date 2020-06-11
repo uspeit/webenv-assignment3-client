@@ -7,6 +7,7 @@
       <h2 v-if="recipeList.length === 0 && !loading" class="text-center my-2">None</h2>
       <transition-group
         tag="div"
+        class="overflow-hidden"
         ref="itemsContainer"
         name="staggered-fade"
         v-bind:css="false"
