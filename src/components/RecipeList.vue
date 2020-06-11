@@ -4,10 +4,11 @@
       <v-toolbar-title class="d-block text-center text-uppercase">{{title}}</v-toolbar-title>
     </v-toolbar>
     <v-card-text class="d-flex flex-column card px-0">
-      <h1 v-if="recipeList.length === 0 && !loading">None</h1>
+      <h2 v-if="recipeList.length === 0 && !loading" class="text-center my-2">None</h2>
       <transition-group
-        name="staggered-fade"
         tag="div"
+        ref="itemsContainer"
+        name="staggered-fade"
         v-bind:css="false"
         v-on:before-enter="beforeEnter"
         v-on:enter="enter"
@@ -54,6 +55,7 @@ export default {
     "title", //
     "size",
     "refreshButton",
+    "lockHeight", // Lock height after initial load, disables height changing on data reload
     "manual", // Disables automatic data loading from data source
     "hideWatchedIndicator" // In case all recipes already been seen and we want to hide the indicator
   ],
@@ -75,6 +77,13 @@ export default {
     // Used to load data from data source
     triggerLoad() {
       this.loading = true;
+
+      if (this.$props.lockHeight) {
+        const el = this.$refs.itemsContainer.$el;
+        if (el.offsetHeight > 100) // 100 is an arbitrary threshold for determining a populated list
+          el.setAttribute("style", `height: ${el.offsetHeight}px`);
+      }
+
       this.dataSource().then(response => {
         this.recipeList = response;
         this.loading = false;
@@ -90,7 +99,14 @@ export default {
     enter: function(el, done) {
       var delay = el.dataset.index * 150;
       setTimeout(function() {
-        Velocity(el, { opacity: 1, height: el.getElementsByClassName('recipe-item')[0].offsetHeight }, { complete: done });
+        Velocity(
+          el,
+          {
+            opacity: 1,
+            height: el.getElementsByClassName("recipe-item")[0].offsetHeight
+          },
+          { complete: done }
+        );
       }, delay);
     },
     leave: function(el, done) {

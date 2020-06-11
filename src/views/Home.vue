@@ -9,6 +9,7 @@
           title="Explore these recipes"
           v-bind:dataSource="loadRandomRecipes"
           refreshButton="true"
+          lockHeight="true"
         />
       </v-col>
       <v-col cols="4" xl="3">

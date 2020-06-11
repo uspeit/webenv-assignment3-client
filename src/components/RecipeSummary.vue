@@ -1,5 +1,5 @@
 <template>
-  <v-row v-bind:class="'recipe-item position-relative pa-4 ' + size">
+  <v-row v-bind:class="'recipe-item position-relative px-4 ' + size">
     <v-col class="d-flex">
       <div class="d-flex flex-column align-center">
         <v-img
