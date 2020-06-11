@@ -4,6 +4,7 @@
       <v-col v-if="$vuetify.breakpoint.xlOnly" xl="2"></v-col>
       <v-col cols="8" xl="6">
         <RecipeList
+          ref="randRecipes"
           size="lg"
           title="Explore these recipes"
           v-bind:dataSource="loadRandomRecipes"
@@ -11,7 +12,7 @@
         />
       </v-col>
       <v-col cols="4" xl="3">
-        <LoginForm v-if="!isLoggedIn" v-on:loggedIn="refreshComponent" />
+        <LoginForm v-if="!isLoggedIn" />
         <RecipeList
           v-else
           size="md"
@@ -45,21 +46,22 @@ export default {
 
   methods: {
     loadRandomRecipes() {
+      this.loadedWithToken = this.$store.getters.tokenPresent;
       return RecipeService.getRandomRecipes();
     },
 
     loadRecentRecipes() {
       return RecipeService.getRecentRecipes();
-    },
-
-    refreshComponent() {
-      this.$forceUpdate();
     }
   },
 
   computed: {
     isLoggedIn: function() {
-      return this.$store.getters.tokenPresent;
+      const currentVal = this.$store.getters.tokenPresent;
+      if (this.loadedWithToken === false && currentVal) {
+        this.$refs.randRecipes.triggerLoad();
+      }
+      return currentVal;
     }
   }
 };

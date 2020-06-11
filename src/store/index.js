@@ -43,7 +43,6 @@ export default new Vuex.Store({
     updateUser({ commit }, userInfo) {
       return new Promise((resolve) => {
         commit('logged_in', { user: userInfo });
-        localStorage.setItem('currentUser', JSON.stringify(userInfo));
         resolve();
       })
     },
@@ -51,7 +50,6 @@ export default new Vuex.Store({
       return new Promise((resolve) => {
         commit('logout');
         localStorage.removeItem('token');
-        localStorage.removeItem('currentUser');
         delete axios.defaults.headers.common['Authorization'];
         resolve();
       })

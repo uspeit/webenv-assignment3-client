@@ -51,14 +51,14 @@ export default {
     },
 
     fetchUserData() {
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve) => {
             if (store.getters.tokenPresent) {
                 httpClient.get('/account').then(
                     response => {
                         store.dispatch("updateUser", response.data);
                         resolve(response);
                     }
-                ).catch(reason => reject(reason));
+                ).catch(() => resolve(undefined));
             }
             else {
                 resolve(undefined);

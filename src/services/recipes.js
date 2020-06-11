@@ -95,11 +95,11 @@ export default {
         singleOrArray = this.applyToRecipes(singleOrArray, this.formatInstructions);
         // Load metadata if logged in
         if (store.getters.tokenPresent) {
-            return new Promise((resolve, reject) => {
+            return new Promise((resolve) => {
                 httpClient.get('/metadata').then(response => {
                     let result = this.applyToRecipes(singleOrArray, this.attachMetadata, response.data);
                     resolve(result);
-                }).catch(reason => reject(reason))
+                }).catch(() => resolve(singleOrArray))
             });
         } else {
             return new Promise((resolve) => {
