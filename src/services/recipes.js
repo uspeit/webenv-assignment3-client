@@ -87,6 +87,18 @@ export default {
         })
     },
 
+    // POST /ingredients/
+    addIngredient() {
+        return new Promise((resolve, reject) => {
+            httpClient.post('/ingredients')
+                .then(response => {
+                    let data = response.data;
+                    resolve(data);
+                }).catch(reason => reject(reason));
+        })
+
+    },
+
     async uploadImg() {
         return await httpClient.post('/upload').data
     },
