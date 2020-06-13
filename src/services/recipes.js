@@ -35,6 +35,19 @@ export default {
         return this.getRecipesByRoute(route);
     },
 
+    // POST /metadata/personal/{id}
+    setPersonal(id) {
+        return httpClient.post('/metadata/personal/' + id)
+    },
+
+    // POST /recipes
+    async addRecipe(recipe) {
+        const recipeWithId = await httpClient.post('/recipes/', recipe)
+        console.log("recipe is:" + recipeWithId.data.id)
+        await this.setPersonal(recipeWithId.id)
+        return recipeWithId.data
+    },
+
     // POST /metadata/saved/{id}
     setSaved(id, value) {
         if (value)
@@ -61,6 +74,33 @@ export default {
             page: 0,
             limit: 5,
         });
+    },
+
+    // GET /ingredients/
+    ingredientsData() {
+        return new Promise((resolve, reject) => {
+            httpClient.get('/ingredients')
+                .then(response => {
+                    let data = response.data;
+                    resolve(data);
+                }).catch(reason => reject(reason));
+        })
+    },
+
+    // POST /ingredients/
+    addIngredient() {
+        return new Promise((resolve, reject) => {
+            httpClient.post('/ingredients')
+                .then(response => {
+                    let data = response.data;
+                    resolve(data);
+                }).catch(reason => reject(reason));
+        })
+
+    },
+
+    async uploadImg() {
+        return await httpClient.post('/upload').data
     },
 
     // Method for fetching recipes from a route and processing them
@@ -141,4 +181,8 @@ export default {
             .map(line => line + '.');
         return recipe;
     }
+
+}
+String.prototype.replaceAt = function (index, replacement) {
+    return this.substr(0, index) + replacement + this.substr(index + replacement.length);
 }

@@ -55,29 +55,33 @@
 </template>
 
 <script>
-import AuthService from "@/services/auth";
-import MenuLink from "@/components/MenuLink.vue";
+    import AuthService from "@/services/auth";
+    import MenuLink from "@/components/MenuLink.vue";
 
-export default {
-  name: "App",
+    export default {
+        name: "App",
 
-  components: { MenuLink },
+        components: {MenuLink},
 
-  data: () => ({
-    personalLinks: [
-      {
-        text: "Favorite Recipes",
-        route: "/personal/favorite"
-      },
-      {
-        text: "My Recipes",
-        route: "/personal/recipes"
-      },
-      {
-        text: "Family Recipes",
-        route: "/personal/family"
-      }
-    ]
+        data: () => ({
+            personalLinks: [
+                {
+                    text: "Favorite Recipes",
+                    route: "/personal/favorite"
+                },
+                {
+                    text: "My Recipes",
+                    route: "/personal/recipes"
+                },
+                {
+                    text: "Family Recipes",
+                    route: "/personal/family"
+                },
+                {
+                    text: "Add Recipe",
+                    route: "/personal/add"
+                }
+            ]
   }),
 
   mounted() {

@@ -1,9 +1,19 @@
-a {  
+@import url('https://fonts.googleapis.com/css?family=Montserrat');
+
+* {
+    font-family: 'Montserrat', sans-serif;
+}
+
+span {
+    font-family: 'Montserrat SemiBold', sans-serif;
+}
+
+a {
     text-decoration: none;
 }
 
-.disable-events { 
-    pointer-events: none 
+.disable-events {
+    pointer-events: none
 }
 
 .position-relative {
@@ -29,3 +39,4 @@ a {
     height: 100%;
     width: 100%;
 }
+
