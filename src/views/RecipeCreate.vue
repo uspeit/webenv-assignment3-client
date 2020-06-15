@@ -138,25 +138,35 @@
 
                                         <v-row :key="index"
                                                class="ma-1"
-                                               v-for="(item, index) in extended_ingredients" v-show="amounts">
-                                            <v-list-item-title class="mt-7 black--text font-italic font-weight-bold"> {{
-                                                item.name }}
-                                            </v-list-item-title>
-                                            <v-col>
-
+                                               v-for="(item, index) in extended_ingredients"
+                                               v-show="amounts">
+                                            <v-col cols="6">
+                                                <v-text-field
+                                                        :value="item.name"
+                                                        class="font-italic font-weight-bold"
+                                                        filled
+                                                        light
+                                                        readonly
+                                                        shaped
+                                                        solo
+                                                >
+                                                </v-text-field>
+                                            </v-col>
+                                            <v-col cols="2">
                                                 <v-text-field
                                                         label="Amount"
                                                         light
                                                         min="1"
                                                         type="number"
-                                                        v-model="amount"/>
+                                                        v-model="item.amount"
+                                                />
 
                                             </v-col>
-                                            <v-col>
+                                            <v-col cols="2">
                                                 <v-text-field
                                                         label="Unit"
                                                         light
-                                                        v-model="unit"
+                                                        v-model="item.unit"
                                                 />
                                             </v-col>
                                         </v-row>
@@ -169,6 +179,7 @@
                         <v-card-actions class="d-flex flex-column card">
                             <v-btn
                                     :disabled="!valid"
+
                                     @click="validateInformation"
                                     class="mb-4 align-self-stretch"
                                     color="success"
@@ -233,6 +244,7 @@
                     .then(() => this.$router.push("/personal/recipes"))
                     .catch(err => console.log(err));
             },
+
 
             async performUpload() {
                 this.loading = true

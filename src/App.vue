@@ -1,57 +1,63 @@
 <template>
-  <v-app id="inspire">
-    <v-app-bar app clipped-left color="primary" dense>
-      <router-link to="/" class="d-flex white--text">
-        <v-icon class="mx-4" large>mdi-pot-mix</v-icon>
-        <v-toolbar-title class="mr-12 align-center">
-          <span class="title">Soupify</span>
-        </v-toolbar-title>
-      </router-link>
+    <v-app id="inspire">
+        <v-app-bar app clipped-left color="primary" dense>
 
-      <MenuLink route="/">Home</MenuLink>
-      <MenuLink route="/search">Search</MenuLink>
-      <MenuLink route="/about">About</MenuLink>
+            <router-link class="d-flex white--text" to="/">
+                <v-avatar>
+                    <img src="https://res.cloudinary.com/serfati/image/upload/v1591970948/soupify_zrbnbo.png"
+                         style="height: 35px;width: 35px">
+                </v-avatar>
+                <v-toolbar-title class="ml-2 mt-3 mr-12 align-center">
+                    <span>Soupify™</span>
+                </v-toolbar-title>
+            </router-link>
 
-      <v-menu eager bottom offset-y>
-        <template v-slot:activator="{ on }">
-          <MenuLink :activator="on" route="/personal" disableNav="true">Personal</MenuLink>
-        </template>
+            <MenuLink route="/">Home</MenuLink>
+            <MenuLink route="/search">Search</MenuLink>
+            <MenuLink route="/about">About</MenuLink>
 
-        <v-list>
-          <v-list-item
-            v-for="(item, index) in personalLinks"
-            :key="index"
-            @click="navigate(item.route)"
-          >
-            <v-list-item-title>{{ item.text }}</v-list-item-title>
-          </v-list-item>
-        </v-list>
-      </v-menu>
-      <v-spacer></v-spacer>
+            <v-menu bottom eager offset-y>
+                <template v-slot:activator="{ on }">
+                    <MenuLink :activator="on" disableNav="true" route="/personal" v-show="currentUser">Personal
+                    </MenuLink>
+                </template>
 
-      <div v-if="isLoggedIn">
-        <!-- Logged in -->
-        <transition name="fade-in">
-          <span class="mx-4" v-if="currentUser">Hello {{currentUser.fullname}}</span>
-        </transition>
-        <v-btn @click="logout" outlined color="accent" class="primary--text mx-2">Logout</v-btn>
-      </div>
-      <div v-else>
-        <!-- Not logged in -->
-        <span class="mx-4">Hello Guest</span>
-        <router-link to="/login">
-          <v-btn depressed color="accent" class="primary--text mx-2">Login</v-btn>
-        </router-link>
-        <router-link to="/register">
-          <v-btn outlined class="mx-2">Register</v-btn>
-        </router-link>
-      </div>
-    </v-app-bar>
+                <v-list>
+                    <v-list-item
+                            :key="index"
+                            @click="navigate(item.route)"
+                            v-for="(item, index) in personalLinks"
+                    >
+                        <v-list-item-title> {{ item.text }}</v-list-item-title>
+                    </v-list-item>
+                </v-list>
+            </v-menu>
+            <MenuLink route="/personal/add" v-show="currentUser">Add</MenuLink>
+            <v-spacer></v-spacer>
 
-    <v-content>
-      <router-view></router-view>
-    </v-content>
-  </v-app>
+            <div v-if="isLoggedIn">
+                <!-- Logged in -->
+                <transition name="fade-in">
+                    <span class="mx-4" v-if="currentUser">Hello {{currentUser.fullname}}</span>
+                </transition>
+                <v-btn @click="logout" class="primary--text mx-2" color="accent" outlined>Logout</v-btn>
+            </div>
+            <div v-else>
+                <!-- Not logged in -->
+                <span class="mx-4">Hello Guest</span>
+                <router-link to="/login">
+                    <v-btn class="primary--text mx-2" color="accent" depressed>Login</v-btn>
+                </router-link>
+                <router-link to="/register">
+                    <v-btn class="mx-2" outlined>Register</v-btn>
+                </router-link>
+            </div>
+        </v-app-bar>
+
+        <v-content>
+            <router-view></router-view>
+        </v-content>
+    </v-app>
 </template>
 
 <script>
@@ -77,36 +83,32 @@
                     text: "Family Recipes",
                     route: "/personal/family"
                 },
-                {
-                    text: "Add Recipe",
-                    route: "/personal/add"
-                }
             ]
-  }),
+        }),
 
-  mounted() {
-    // Loads user data when app starts
-    AuthService.fetchUserData().then();
-  },
+        mounted() {
+            // Loads user data when app starts
+            AuthService.fetchUserData().then();
+        },
 
-  computed: {
-    isLoggedIn: function() {
-      return this.$store.getters.tokenPresent;
-    },
-    currentUser: function() {
-      return this.$store.getters.currentUser;
-    }
-  },
+        computed: {
+            isLoggedIn: function () {
+                return this.$store.getters.tokenPresent;
+            },
+            currentUser: function () {
+                return this.$store.getters.currentUser;
+            }
+        },
 
-  methods: {
-    navigate: function(route) {
-      this.$router.push(route);
-    },
-    logout: function() {
-      this.$store.dispatch("logout").then(() => {
-        this.$router.push("/login");
-      });
-    }
-  }
-};
+        methods: {
+            navigate: function (route) {
+                this.$router.push(route);
+            },
+            logout: function () {
+                this.$store.dispatch("logout").then(() => {
+                    this.$router.push("/login");
+                });
+            }
+        }
+    };
 </script>
