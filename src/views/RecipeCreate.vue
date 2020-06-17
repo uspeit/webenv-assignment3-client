@@ -41,11 +41,10 @@
                     </v-row>
                     <v-row>
                       <v-col>
-                        <div class="d-flex align-center">
+                        <form enctype="multipart/form-data" class="d-flex align-center">
                           <v-file-input
                             accept="image/*"
                             class="flex-grow-1"
-                            counter
                             label="Upload Image"
                             light
                             prepend-icon="mdi-camera"
@@ -63,12 +62,10 @@
                           >
                             <v-icon dark>mdi-cloud-upload</v-icon>
                           </v-btn>
-                        </div>
+                        </form>
                       </v-col>
-                        <v-col class="d-flex align-center justify-space-end">
-                        <label
-                          class="v-label theme--light mr-4"
-                        >Preview: </label>
+                      <v-col class="d-flex align-center justify-space-end">
+                        <label class="v-label theme--light mr-4">Preview:</label>
                         <v-avatar color="primary">
                           <v-img v-bind:src="imgUrl" v-if="imgUrl" />
                           <v-icon v-else>mdi-pot-mix</v-icon>
@@ -164,6 +161,7 @@ export default {
 
     async performUpload() {
       this.loading = true;
+      console.log(this.imgObj);
       this.imgUrl = await RecipeService.uploadImg(this.imgObj);
       this.loading = false;
     }
