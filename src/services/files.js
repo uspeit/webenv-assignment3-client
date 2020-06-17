@@ -3,7 +3,7 @@ import store from '@/store/index'
 
 
 export default {
-    async uploadImg(formData) {
+    uploadImg(formData) {
         return new Promise((resolve, reject) => {
             var request = new XMLHttpRequest();
             request.open("POST", BASE_URL + '/upload');
