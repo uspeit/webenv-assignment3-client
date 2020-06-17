@@ -8,7 +8,6 @@ export default {
             var request = new XMLHttpRequest();
             request.open("POST", BASE_URL + '/upload');
 
-            request.setRequestHeader('Authorization', 'Bearer ' + store.getters.token);
             request.onload = function () {
                 if (request.status >= 200 && request.status < 300) {
                     let response = JSON.parse(request.response);
