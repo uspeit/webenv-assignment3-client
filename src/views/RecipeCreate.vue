@@ -51,7 +51,6 @@
                             class="flex-grow-1"
                             label="Upload Image"
                             light
-                            prepend-icon="mdi-camera"
                             required
                             name="file"
                             v-model="imgObj"
