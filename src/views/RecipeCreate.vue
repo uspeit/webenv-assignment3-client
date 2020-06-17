@@ -30,15 +30,6 @@
                           type="number"
                           v-model="ready_in_minutes"
                         ></v-text-field>
-                        <v-file-input
-                          accept="image/*"
-                          counter
-                          label="Image URL"
-                          light
-                          prepend-icon="mdi-camera"
-                          required
-                          v-model="imgObj"
-                        ></v-file-input>
                       </v-col>
                       <v-col>
                         <v-checkbox label="Vegan?" light required v-model="vegan"></v-checkbox>
@@ -46,17 +37,42 @@
                         <v-checkbox label="Vegetarian?" light required v-model="vegetarian"></v-checkbox>
 
                         <v-checkbox label="Gluten Free?" light required v-model="gluten_free"></v-checkbox>
-                        <v-btn
-                          :loading="loading"
-                          @click="performUpload"
-                          class="mt-7 small white--text"
-                          color="blue-grey"
-                          fab
-                          outlined
-                          small
-                        >
-                          <v-icon dark>mdi-cloud-upload</v-icon>
-                        </v-btn>
+                      </v-col>
+                    </v-row>
+                    <v-row>
+                      <v-col>
+                        <div class="d-flex align-center">
+                          <v-file-input
+                            accept="image/*"
+                            class="flex-grow-1"
+                            counter
+                            label="Upload Image"
+                            light
+                            prepend-icon="mdi-camera"
+                            required
+                            v-model="imgObj"
+                          ></v-file-input>
+                          <v-btn
+                            :loading="loading"
+                            @click="performUpload"
+                            class="ml-4 small white--text"
+                            color="blue-grey"
+                            fab
+                            outlined
+                            small
+                          >
+                            <v-icon dark>mdi-cloud-upload</v-icon>
+                          </v-btn>
+                        </div>
+                      </v-col>
+                        <v-col class="d-flex align-center justify-space-end">
+                        <label
+                          class="v-label theme--light mr-4"
+                        >Preview: </label>
+                        <v-avatar color="primary">
+                          <v-img v-bind:src="imgUrl" v-if="imgUrl" />
+                          <v-icon v-else>mdi-pot-mix</v-icon>
+                        </v-avatar>
                       </v-col>
                     </v-row>
                     <v-row>
