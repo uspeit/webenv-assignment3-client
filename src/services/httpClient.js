@@ -2,9 +2,11 @@ import axios from 'axios'
 import store from '@/store/index'
 import router from '@/router/index';
 
+export const BASE_URL = `https://soupify.herokuapp.com/api`;
+
 // Create client
 const httpClient = axios.create({
-    baseURL: `https://soupify.herokuapp.com/api`,
+    baseURL: BASE_URL,
     withCredentials: false,
     // Try attaching token upon sending a request
     transformRequest: [function (data, headers) {

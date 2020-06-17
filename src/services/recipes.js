@@ -99,17 +99,6 @@ export default {
 
     },
 
-    async uploadImg(imgFile) {
-        let formData = new FormData();
-        formData.append("files", imgFile, imgFile.name);
-
-        return await httpClient.post('/upload', formData, {
-            headers: {
-                'Content-Type': "multipart/form-data"
-            }
-        });
-    },
-
     // Method for fetching recipes from a route and processing them
     getRecipesByRoute(route, queryParams) {
         return new Promise((resolve, reject) => {

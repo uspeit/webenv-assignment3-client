@@ -41,7 +41,11 @@
                     </v-row>
                     <v-row>
                       <v-col>
-                        <form enctype="multipart/form-data" class="d-flex align-center">
+                        <form
+                          ref="imageUpload"
+                          enctype="multipart/form-data"
+                          class="d-flex align-center"
+                        >
                           <v-file-input
                             accept="image/*"
                             class="flex-grow-1"
@@ -49,7 +53,9 @@
                             light
                             prepend-icon="mdi-camera"
                             required
+                            name="file"
                             v-model="imgObj"
+                            id="imageInput"
                           ></v-file-input>
                           <v-btn
                             :loading="loading"
@@ -109,6 +115,7 @@
 
 <script>
 import RecipeService from "@/services/recipes";
+import FileService from "@/services/files";
 import EditIngredients from "@/components/EditIngredients";
 
 export default {
@@ -161,8 +168,11 @@ export default {
 
     async performUpload() {
       this.loading = true;
-      console.log(this.imgObj);
-      this.imgUrl = await RecipeService.uploadImg(this.imgObj);
+      let formData = new FormData();
+      
+      formData.append("image", this.imgObj, this.imgObj.name);
+
+      this.imgUrl = await FileService.uploadImg(formData);
       this.loading = false;
     }
   }
