@@ -79,7 +79,7 @@ export default {
     let recipeId = this.$route.params.id;
 
     RecipeService.getRecipe(recipeId).then(response => {
-      this.recipe = response;
+      this.recipe = response.data;
       this.loading = false;
 
       if (!response.watched) {

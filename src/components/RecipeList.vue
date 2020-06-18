@@ -33,13 +33,8 @@
         </router-link>
       </transition-group>
 
-      <div class="text-center" v-if="pageData && pageData.total_pages > 1">
-        <v-pagination
-          v-model="currentPage"
-          @input="onPageChange"
-          :length="pageData.total_pages"
-          light
-        ></v-pagination>
+      <div class="text-center" v-if="totalPages > 1">
+        <v-pagination v-model="currentPage" @input="onPageChange" :length="totalPages" light></v-pagination>
       </div>
     </v-card-text>
     <v-card-actions v-if="refreshButton || loading" class="d-flex flex-column card">
@@ -77,8 +72,8 @@ export default {
   data: () => ({
     loading: true,
     recipeList: [],
-    pageData: undefined,
-    currentPage: 0
+    totalPages: 1,
+    currentPage: 1
   }),
 
   mounted() {
@@ -99,8 +94,10 @@ export default {
 
       this.dataSource(this.currentPage).then(response => {
         this.recipeList = response.data;
-        this.pageData = response.Pagination;
-        this.currentPage = response.Pagination.page;
+        if (Object.prototype.hasOwnProperty.call(response, "Pagination")) {
+          this.currentPage = response.Pagination.page;
+          this.totalPages = response.Pagination.total_pages;
+        }
         this.loading = false;
         this.$emit("loadFinish", response.data.length);
       });

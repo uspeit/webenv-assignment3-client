@@ -5,14 +5,17 @@
         <v-col cols="12">
           <v-card class="elevation-12">
             <v-toolbar color="primary" dark flat>
-              <v-toolbar-title class="d-block text-center text-uppercase">Add a New Recipe</v-toolbar-title>
+              <v-toolbar-title class="d-block text-center text-uppercase">Create a recipe</v-toolbar-title>
             </v-toolbar>
-            <v-card-text class="card">
+            <v-card-text class="card pt-0">
               <v-form class="d-flex flex-column" lazy-validation ref="recipeForm" v-model="valid">
                 <v-row>
                   <v-col cols="6">
+                    <v-toolbar flat light color="white">
+                      <v-toolbar-title>Description</v-toolbar-title>
+                    </v-toolbar>
                     <v-row>
-                      <v-col>
+                      <v-col class="pt-0">
                         <v-text-field label="Title" light required v-model="title"></v-text-field>
                         <v-text-field
                           label="Meal Count"
@@ -31,7 +34,7 @@
                           v-model="ready_in_minutes"
                         ></v-text-field>
                       </v-col>
-                      <v-col>
+                      <v-col class="pt-0">
                         <v-checkbox label="Vegan?" light required v-model="vegan"></v-checkbox>
 
                         <v-checkbox label="Vegetarian?" light required v-model="vegetarian"></v-checkbox>
@@ -168,7 +171,7 @@ export default {
     async performUpload() {
       this.loading = true;
       let formData = new FormData();
-      
+
       formData.append("image", this.imgObj, this.imgObj.name);
 
       this.imgUrl = await FileService.uploadImg(formData);

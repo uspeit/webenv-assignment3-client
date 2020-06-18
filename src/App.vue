@@ -32,7 +32,7 @@
           </v-list-item>
         </v-list>
       </v-menu>
-      <MenuLink route="/personal/add" v-show="currentUser">Add</MenuLink>
+      <MenuLink route="/personal/create" v-show="currentUser">Create</MenuLink>
       <v-spacer></v-spacer>
 
       <div v-if="isLoggedIn">

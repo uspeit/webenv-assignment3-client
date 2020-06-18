@@ -55,6 +55,7 @@
           v-on:loadFinish="searchComplete"
           v-bind:dataSource="searchRecipes"
           manual="true"
+          lockHeight="true"
         />
       </v-col>
     </v-row>

@@ -68,11 +68,10 @@ export default {
             cuisine: selectedFilters.Cuisines,
             diet: selectedFilters.Diets,
             intolerances: selectedFilters.Intolerances,
-            number: 15,
             instructionsRequired: true,
-            offset: 0,
+            number: 5, // TODO: Change
+            limit: 1, // TODO: Change to 5
             page: requestPage ? requestPage : 0,
-            limit: 5,
         });
     },
 
@@ -105,20 +104,32 @@ export default {
             httpClient.get(route, {
                 params: queryParams
             }).then(response => {
-                let data = response.data;
-
-                // We either get our data directly or it is under 'results'
-                if (Object.prototype.hasOwnProperty.call(data, 'results'))
-                    data = data.results;
-
-                if (Array.isArray(data)) // If we get an array, wrap it in an object
-                    data = { data: data };
+                let data = this.parseRecipeResponse(response);
 
                 this.processRecipes(data).then(fullData => {
                     resolve(fullData);
                 }).catch(reason => reject(reason));
             }).catch(reason => reject(reason));
         })
+    },
+
+    // Standardizes different recipe responses, i.e single, array, array with pagination
+    // Returns: {
+    //     data: {} / []
+    //     Pagination: {} / undefined
+    //}
+    parseRecipeResponse(response) {
+        let data = response.data;
+
+        // We either get our data directly or it is under 'results'
+        if (Object.prototype.hasOwnProperty.call(data, 'results'))
+            data = data.results;
+
+        // Wraps data if needed
+        if (Object.prototype.hasOwnProperty.call(data, 'data'))
+            return data;
+        else
+            return { data: data };
     },
 
     // Processes either a single recipe or a list

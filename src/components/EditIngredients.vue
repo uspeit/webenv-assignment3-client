@@ -1,13 +1,12 @@
 <template>
-  <v-data-table :headers="headers" :items="value" light sort-by="name" class="elevation-1">
+  <v-data-table :headers="headers" :items="value" light sort-by="name" disable-pagination>
     <template v-slot:top>
       <v-toolbar flat color="white">
         <v-toolbar-title>Ingredients</v-toolbar-title>
-        <v-divider class="mx-4" inset vertical></v-divider>
         <v-spacer></v-spacer>
         <v-dialog v-model="dialog" max-width="500px" light>
           <template v-slot:activator="{ on, attrs }">
-            <v-btn color="primary" dark class="mb-2" v-bind="attrs" v-on="on">Add Ingredient</v-btn>
+            <v-btn color="primary" dark class="mb-2" v-bind="attrs" v-on="on">Add</v-btn>
           </template>
           <v-card>
             <v-card-title>

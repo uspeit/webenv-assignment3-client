@@ -38,8 +38,8 @@ const routes = [
     component: () => import("../views/RecipePage.vue")
   },
   {
-    path: "/personal/add",
-    name: "Add New Recipe",
+    path: "/personal/create",
+    name: "Recipe Creation",
     component: () => import("../views/RecipeCreate.vue")
   },
   {
