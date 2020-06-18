@@ -1,6 +1,4 @@
 import { BASE_URL } from '@/services/httpClient'
-import store from '@/store/index'
-
 
 export default {
     uploadImg(formData) {

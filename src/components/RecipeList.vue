@@ -32,6 +32,15 @@
           />
         </router-link>
       </transition-group>
+
+      <div class="text-center" v-if="pageData && pageData.total_pages > 1">
+        <v-pagination
+          v-model="currentPage"
+          @input="onPageChange"
+          :length="pageData.total_pages"
+          light
+        ></v-pagination>
+      </div>
     </v-card-text>
     <v-card-actions v-if="refreshButton || loading" class="d-flex flex-column card">
       <v-btn
@@ -67,7 +76,9 @@ export default {
 
   data: () => ({
     loading: true,
-    recipeList: []
+    recipeList: [],
+    pageData: undefined,
+    currentPage: 0
   }),
 
   mounted() {
@@ -81,16 +92,24 @@ export default {
 
       if (this.$props.lockHeight) {
         const el = this.$refs.itemsContainer.$el;
-        if (el.offsetHeight > 100) // 100 is an arbitrary threshold for determining a populated list
+        if (el.offsetHeight > 100)
+          // 100 is an arbitrary threshold for determining a populated list
           el.setAttribute("style", `height: ${el.offsetHeight}px`);
       }
 
-      this.dataSource().then(response => {
-        this.recipeList = response;
+      this.dataSource(this.currentPage).then(response => {
+        this.recipeList = response.data;
+        this.pageData = response.Pagination;
+        this.currentPage = response.Pagination.page;
         this.loading = false;
-        this.$emit("loadFinish", response.length);
+        this.$emit("loadFinish", response.data.length);
       });
     },
+
+    onPageChange() {
+      this.triggerLoad(); // Reload data with updated page
+    },
+
     // These functions replace css animation for the list transition using Velocity.js
     // Seen here: https://vuejs.org/v2/guide/transitions.html#Staggering-List-Transitions
     beforeEnter: function(el) {

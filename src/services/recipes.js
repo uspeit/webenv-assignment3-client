@@ -20,7 +20,7 @@ export default {
                     delete res.favs;
                 });
                 // 
-                resolve(results);
+                resolve({ data: results });
             })
                 .catch(reason => reject(reason));
         });
@@ -62,16 +62,16 @@ export default {
     },
 
     // GET /recipes/search
-    searchRecipes(query, selectedFilters) {
+    searchRecipes(query, selectedFilters, requestPage) {
         return this.getRecipesByRoute('/recipes/search', {
             query: query,
             cuisine: selectedFilters.Cuisines,
             diet: selectedFilters.Diets,
             intolerances: selectedFilters.Intolerances,
-            number: 5,
+            number: 15,
             instructionsRequired: true,
             offset: 0,
-            page: 0,
+            page: requestPage ? requestPage : 0,
             limit: 5,
         });
     },
@@ -107,14 +107,12 @@ export default {
             }).then(response => {
                 let data = response.data;
 
-                // If we got a list it will be under 'results'
-                if (Object.prototype.hasOwnProperty.call(data, 'results')) {
+                // We either get our data directly or it is under 'results'
+                if (Object.prototype.hasOwnProperty.call(data, 'results'))
                     data = data.results;
 
-                    // Search results are under results.data
-                    if (route.includes('search'))
-                        data = data.data;
-                }
+                if (Array.isArray(data)) // If we get an array, wrap it in an object
+                    data = { data: data };
 
                 this.processRecipes(data).then(fullData => {
                     resolve(fullData);
@@ -126,35 +124,37 @@ export default {
     // Processes either a single recipe or a list
     // Formats instructions and fetches metadata
     // Returns filled object
-    processRecipes(singleOrArray) {
+    processRecipes(recipesObj) {
         // Adapt object(s)
-        singleOrArray = this.applyToRecipes(singleOrArray, this.formatInstructions);
+        recipesObj = this.applyToRecipesInObj(recipesObj, this.formatInstructions);
         // Load metadata if logged in
         if (store.getters.tokenPresent) {
             return new Promise((resolve) => {
                 httpClient.get('/metadata').then(response => {
-                    let result = this.applyToRecipes(singleOrArray, this.attachMetadata, response.data);
-                    resolve(result);
-                }).catch(() => resolve(singleOrArray))
+                    recipesObj = this.applyToRecipesInObj(recipesObj, this.attachMetadata, response.data);
+                    resolve(recipesObj);
+                }).catch(() => resolve(recipesObj))
             });
         } else {
             return new Promise((resolve) => {
-                resolve(singleOrArray);
+                resolve(recipesObj);
             });
         }
     },
 
     // Template for applying a function to an object or array accordingly
-    applyToRecipes(singleOrArray, applyFunction, extraData) {
+    applyToRecipesInObj(recipesObj, applyFunction, extraData) {
         let result;
-        if (Array.isArray(singleOrArray)) {
+        let data = recipesObj.data;
+        if (Array.isArray(data)) {
             // Update each recipe
-            result = singleOrArray.map(recipe => applyFunction(recipe, extraData));
+            result = data.map(recipe => applyFunction(recipe, extraData));
         } else {
             // Update single recipe
-            result = applyFunction(singleOrArray, extraData)
+            result = applyFunction(data, extraData)
         }
-        return result;
+        recipesObj.data = result;
+        return recipesObj;
     },
 
     // Updates recipe data based on the response of a metadata request

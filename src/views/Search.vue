@@ -92,8 +92,8 @@ export default {
   }),
 
   methods: {
-    searchRecipes() {
-      return RecipeService.searchRecipes(this.query, this.selectedFilters);
+    searchRecipes(searchPage) {
+      return RecipeService.searchRecipes(this.query, this.selectedFilters, searchPage);
     },
 
     performSearch() {
