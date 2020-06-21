@@ -23,24 +23,12 @@
             RecipeList,
         },
 
-        data: () => ({
-            recentRecipes: []
-        }),
+        data: () => ({}),
 
         methods: {
             loadFamilyRecipes() {
                 return RecipeService.getFamilyRecipes();
             }
         },
-
-        computed: {
-            isLoggedIn: function () {
-                const currentVal = this.$store.getters.tokenPresent;
-                if (this.loadedWithToken === false && currentVal) {
-                    this.$refs.randRecipes.triggerLoad();
-                }
-                return currentVal;
-            }
-        }
     };
 </script>

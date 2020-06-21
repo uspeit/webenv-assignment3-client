@@ -17,15 +17,13 @@
     import RecipeList from "@/components/RecipeList.vue";
 
     export default {
-        name: "FavsRecipes",
+        name: "FavoritesRecipes",
 
         components: {
             RecipeList,
         },
 
-        data: () => ({
-            recentRecipes: []
-        }),
+        data: () => ({}),
 
         methods: {
             loadFavoritesRecipes() {
