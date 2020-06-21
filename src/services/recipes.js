@@ -20,7 +20,67 @@ export default {
                     delete res.favs;
                 });
                 // 
-                resolve({ data: results });
+                resolve({data: results});
+            })
+                .catch(reason => reject(reason));
+        });
+    },
+
+    // GET /metadata/last-seen
+    getMyRecipes() {
+        return new Promise((resolve, reject) => {
+            httpClient.get('/metadata/personal').then((response) => {
+                let results = response.data.personal.filter(x => x !== null);
+                // Adapt items
+                let personal = []
+                results.forEach(id => {
+                    httpClient.get('/recipes/' + id).then(response => {
+                        let raw = response.data;
+                        personal.push(raw)
+                    })
+                });
+                resolve({data: personal});
+
+            })
+                .catch(reason => reject(reason));
+        });
+    },
+
+    // GET /metadata/last-seen
+    getFamilyRecipes() {
+        return new Promise((resolve, reject) => {
+            httpClient.get('/metadata/family').then((response) => {
+                let results = response.data.family.filter(x => x !== null);
+                // Adapt items
+                let family = []
+                results.forEach(id => {
+                    httpClient.get('/recipes/' + id).then(response => {
+                        let raw = response.data;
+                        family.push(raw)
+                    })
+                });
+                resolve({data: family});
+
+            })
+                .catch(reason => reject(reason));
+        });
+    },
+
+    // GET /metadata/last-seen
+    getFavoritesRecipes() {
+        return new Promise((resolve, reject) => {
+            httpClient.get('/metadata/favs').then((response) => {
+                let results = response.data.favs.filter(x => x !== null);
+                // Adapt items
+                let favorites = []
+                results.forEach(id => {
+                    httpClient.get('/recipes/' + id).then(response => {
+                        let raw = response.data;
+                        favorites.push(raw)
+                    })
+                });
+                resolve({data: favorites});
+
             })
                 .catch(reason => reject(reason));
         });
@@ -129,7 +189,7 @@ export default {
         if (Object.prototype.hasOwnProperty.call(data, 'data'))
             return data;
         else
-            return { data: data };
+            return {data: data};
     },
 
     // Processes either a single recipe or a list
