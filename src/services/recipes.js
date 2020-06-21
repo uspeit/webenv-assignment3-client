@@ -36,6 +36,8 @@ export default {
                 results.forEach(id => {
                     httpClient.get('/recipes/' + id).then(response => {
                         let raw = response.data;
+                        raw.saved = raw.favs;
+                        delete raw.favs;
                         personal.push(raw)
                     })
                 });
@@ -56,6 +58,8 @@ export default {
                 results.forEach(id => {
                     httpClient.get('/recipes/' + id).then(response => {
                         let raw = response.data;
+                        raw.saved = raw.favs;
+                        delete raw.favs;
                         family.push(raw)
                     })
                 });
@@ -76,6 +80,8 @@ export default {
                 results.forEach(id => {
                     httpClient.get('/recipes/' + id).then(response => {
                         let raw = response.data;
+                        raw.saved = true;
+                        delete raw.favs;
                         favorites.push(raw)
                     })
                 });
