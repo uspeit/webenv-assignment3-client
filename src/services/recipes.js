@@ -69,8 +69,8 @@ export default {
             diet: selectedFilters.Diets,
             intolerances: selectedFilters.Intolerances,
             instructionsRequired: true,
-            number: 5, // TODO: Change
-            limit: 1, // TODO: Change to 5
+            number: 12, // TODO: Change
+            limit: 3, // TODO: Change to 5
             page: requestPage ? requestPage : 0,
         });
     },

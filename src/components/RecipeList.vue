@@ -93,11 +93,15 @@ export default {
       }
 
       this.dataSource(this.currentPage).then(response => {
-        this.recipeList = response.data;
+        // Update page data from response
         if (Object.prototype.hasOwnProperty.call(response, "Pagination")) {
           this.currentPage = response.Pagination.page;
           this.totalPages = response.Pagination.total_pages;
         }
+        // Update recipe list
+        this.recipeList = response.data;
+
+        // Update state
         this.loading = false;
         this.$emit("loadFinish", response.data.length);
       });
