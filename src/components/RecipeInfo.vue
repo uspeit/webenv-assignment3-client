@@ -1,39 +1,57 @@
 <template>
   <div class="mt-1">
     <!-- Ready in -->
-    <v-icon v-bind:size="iconSize" color="text" class="mr-1" style="top: -1.5px">mdi-alarm</v-icon>
-    <span v-bind:class="size">{{recipe['ready_in_minutes'] | timeString}}</span>
+    <v-icon class="mr-1" color="text" style="top: -1.5px" v-bind:size="iconSize"
+      >mdi-alarm
+    </v-icon>
+    <span v-bind:class="size">{{
+      recipe["ready_in_minutes"] | timeString
+    }}</span>
     <br />
     <!-- Serves -->
-    <v-icon v-bind:size="iconSize" color="text" class="mr-1" style="top: -1.5px">mdi-bowl</v-icon>
-    <span v-bind:class="size">{{recipe['serving']}} servings</span>
+    <v-icon class="mr-1" color="text" style="top: -1.5px" v-bind:size="iconSize"
+      >mdi-bowl
+    </v-icon>
+    <span v-bind:class="size">{{ recipe["serving"] }} servings</span>
     <br />
 
     <!-- Icons -->
     <div class="mt-1" style="left: -3px; position: relative;">
       <v-icon
-        v-bind:size="iconSize"
-        v-bind:color="recipe['gluten_free'] ? 'noRestriction' : 'hasRestriction'"
         class="mr-1"
-      >mdi-barley</v-icon>
-      <v-icon
+        v-bind:color="
+          recipe['gluten_free'] ? 'noRestriction' : 'hasRestriction'
+        "
         v-bind:size="iconSize"
-        v-bind:color="recipe.vegan ? 'noRestriction' : recipe.vegetarian ? 'partialRestriction' : 'hasRestriction'"
+        >mdi-barley
+      </v-icon>
+      <v-icon
         class="mr-1"
-      >mdi-leaf</v-icon>
-      <v-icon
+        v-bind:color="
+          recipe.vegan
+            ? 'noRestriction'
+            : recipe.vegetarian
+            ? 'partialRestriction'
+            : 'hasRestriction'
+        "
         v-bind:size="iconSize"
+        >mdi-leaf
+      </v-icon>
+      <v-icon
+        class="mr-1"
         v-bind:color="recipe.watched ? 'primary' : 'inactive'"
-        class="mr-1"
-        v-if="isLoggedIn && !hideWatched"
-      >mdi-eye</v-icon>
-      <v-icon
         v-bind:size="iconSize"
-        v-bind:color="recipe.saved ? 'saved' : 'inactive'"
-        v-on:click.stop.prevent="toggleSave()"
+        v-if="isLoggedIn && !hideWatched"
+        >mdi-eye
+      </v-icon>
+      <v-icon
         class="save-icon mr-1"
+        v-bind:color="recipe.saved ? 'saved' : 'inactive'"
+        v-bind:size="iconSize"
         v-if="isLoggedIn"
-      >mdi-heart</v-icon>
+        v-on:click.stop.prevent="toggleSave()"
+        >mdi-heart
+      </v-icon>
     </div>
   </div>
 </template>

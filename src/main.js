@@ -5,9 +5,9 @@ import router from "./router";
 import store from "./store";
 import vuetify from "./plugins/vuetify";
 
-import './core/filters';
-import './assets/css/style.css';
-import './assets/css/transitions.css';
+import "./core/filters";
+import "./assets/css/style.css";
+import "./assets/css/transitions.css";
 
 // Create App
 Vue.config.productionTip = false;

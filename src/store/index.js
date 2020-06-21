@@ -1,13 +1,13 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import AuthService from '../services/auth';
+import AuthService from "../services/auth";
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    token: localStorage.getItem('token') || '',
-    currentUser: null,
+    token: localStorage.getItem("token") || "",
+    currentUser: null
   },
   mutations: {
     authenticated(state, { token }) {
@@ -17,9 +17,9 @@ export default new Vuex.Store({
       state.currentUser = user;
     },
     logout(state) {
-      state.token = '';
+      state.token = "";
       state.currentUser = undefined;
-    },
+    }
   },
   actions: {
     authenticate({ commit }, userCredentials) {
@@ -27,28 +27,28 @@ export default new Vuex.Store({
         AuthService.authenticate(userCredentials)
           .then(resp => {
             const token = resp.data.token;
-            localStorage.setItem('token', token);
-            commit('authenticated', { token });
-            resolve(token)
+            localStorage.setItem("token", token);
+            commit("authenticated", { token });
+            resolve(token);
           })
           .catch(err => {
-            localStorage.removeItem('token');
+            localStorage.removeItem("token");
             reject(err);
-          })
-      })
+          });
+      });
     },
     updateUser({ commit }, userInfo) {
-      return new Promise((resolve) => {
-        commit('logged_in', { user: userInfo });
+      return new Promise(resolve => {
+        commit("logged_in", { user: userInfo });
         resolve();
-      })
+      });
     },
     logout({ commit }) {
-      return new Promise((resolve) => {
-        commit('logout');
-        localStorage.removeItem('token');
+      return new Promise(resolve => {
+        commit("logout");
+        localStorage.removeItem("token");
         resolve();
-      })
+      });
     }
   },
   modules: {},

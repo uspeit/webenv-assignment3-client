@@ -4,20 +4,29 @@
       <v-col cols="8">
         <v-card class="elevation-12 d-flex flex-column">
           <v-toolbar class color="primary" dark flat>
-            <v-toolbar-title class="d-block text-center text-uppercase">{{recipe.title}}</v-toolbar-title>
+            <v-toolbar-title class="d-block text-center text-uppercase"
+              >{{ recipe.title }}
+            </v-toolbar-title>
           </v-toolbar>
           <v-card-text class="d-flex flex-column card">
             <transition name="fade" mode="out-in">
               <v-row v-if="loading">
                 <v-col class="text-center">
-                  <v-progress-circular indeterminate color="primary"></v-progress-circular>
+                  <v-progress-circular
+                    color="primary"
+                    indeterminate
+                  ></v-progress-circular>
                 </v-col>
               </v-row>
               <v-row v-else>
                 <v-col cols="4">
                   <v-img class="elevation-2 mb-2" v-bind:src="recipe.image" />
 
-                  <RecipeInfo v-bind:recipe="recipe" class="float-left" hideWatched="true" />
+                  <RecipeInfo
+                    class="float-left"
+                    hideWatched="true"
+                    v-bind:recipe="recipe"
+                  />
 
                   <RecipeRating
                     class="rating-container float-right"
@@ -29,22 +38,30 @@
                     <h3 class="mb-2">Ingredients</h3>
                     <ul id="ingredientList">
                       <li
-                        v-for="ingredient in recipe.extended_ingredients"
                         :key="ingredient.id"
                         class="text--text"
+                        v-for="ingredient in recipe.extended_ingredients"
                       >
-                        <span class="ingredient-name">{{ingredient.name}}</span>
-                        (<span v-html="$options.filters.fraction(ingredient.amount)"></span>
-                        <span v-if="ingredient.unit">&nbsp;{{ingredient.unit}}</span>)
+                        <span class="ingredient-name">{{
+                          ingredient.name
+                        }}</span>
+                        (<span
+                          v-html="$options.filters.fraction(ingredient.amount)"
+                        ></span>
+                        <span v-if="ingredient.unit"
+                          >&nbsp;{{ ingredient.unit }}</span
+                        >)
                       </li>
                     </ul>
                     <h3 class="my-2">Instructions</h3>
                     <ol id="instructions">
                       <li
-                        v-for="instruction in recipe.instructions"
                         :key="instruction"
                         class="text--text"
-                      >{{instruction}}</li>
+                        v-for="instruction in recipe.instructions"
+                      >
+                        {{ instruction }}
+                      </li>
                     </ol>
                   </div>
                 </v-col>
@@ -97,6 +114,6 @@ export default {
 }
 
 #instructions li {
-    margin-bottom: 1em;
+  margin-bottom: 1em;
 }
 </style>

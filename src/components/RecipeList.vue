@@ -1,50 +1,63 @@
 <template>
   <v-card class="elevation-12 d-flex flex-column">
     <v-toolbar class color="primary" dark flat>
-      <v-toolbar-title class="d-block text-center text-uppercase">{{title}}</v-toolbar-title>
+      <v-toolbar-title class="d-block text-center text-uppercase"
+        >{{ title }}
+      </v-toolbar-title>
     </v-toolbar>
     <v-card-text class="d-flex flex-column card px-0">
-      <h2 v-if="recipeList.length === 0 && !loading" class="text-center my-2">None</h2>
+      <h2 class="text-center my-2" v-if="recipeList.length === 0 && !loading">
+        None
+      </h2>
       <transition-group
-        tag="div"
         class="overflow-hidden"
-        ref="itemsContainer"
         name="staggered-fade"
+        ref="itemsContainer"
+        tag="div"
         v-bind:css="false"
         v-on:before-enter="beforeEnter"
         v-on:enter="enter"
         v-on:leave="leave"
       >
         <router-link
-          v-for="(recipe, index) in recipeList"
-          v-bind:key="recipe.id"
-          v-bind:to="'/recipe/'+recipe.id"
-          v-bind:data-index="index"
           class="d-block"
           style="overflow: hidden"
+          v-bind:data-index="index"
+          v-bind:key="recipe.id"
+          v-bind:to="'/recipe/' + recipe.id"
+          v-for="(recipe, index) in recipeList"
         >
           <RecipeSummary
-            v-bind:size="size"
-            v-bind:height="itemHeight"
             class="flex-grow-1"
-            v-bind:recipe="recipe"
+            v-bind:height="itemHeight"
             v-bind:hideWatchedIndicator="hideWatchedIndicator"
+            v-bind:recipe="recipe"
+            v-bind:size="size"
           />
         </router-link>
       </transition-group>
 
       <div class="text-center" v-if="totalPages > 1">
-        <v-pagination v-model="currentPage" @input="onPageChange" :length="totalPages" light></v-pagination>
+        <v-pagination
+          :length="totalPages"
+          @input="onPageChange"
+          light
+          v-model="currentPage"
+        ></v-pagination>
       </div>
     </v-card-text>
-    <v-card-actions v-if="refreshButton || loading" class="d-flex flex-column card">
+    <v-card-actions
+      class="d-flex flex-column card"
+      v-if="refreshButton || loading"
+    >
       <v-btn
-        :text="loading"
-        color="primary"
         :loading="loading"
-        class="mb-4 px-12"
+        :text="loading"
         @click="triggerLoad"
-      >Refresh recipes</v-btn>
+        class="mb-4 px-12"
+        color="primary"
+        >Refresh recipes
+      </v-btn>
     </v-card-actions>
   </v-card>
 </template>
@@ -118,7 +131,7 @@ export default {
       el.style.height = 0;
     },
     enter: function(el, done) {
-      var delay = el.dataset.index * 150;
+      let delay = el.dataset.index * 150;
       setTimeout(function() {
         Velocity(
           el,

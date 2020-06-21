@@ -6,25 +6,25 @@ import colors from "vuetify/lib/util/colors";
 Vue.use(Vuetify);
 
 export default new Vuetify({
-    theme: {
-        dark: true,
-        options: {
-            customProperties: true,
-        },
-        themes: {
-            dark: {
-                text: colors.grey.darken4,
-                primary: colors.deepPurple.darken3,
-                accent: colors.shades.white,
-                card: colors.shades.white,
-                // Icon colors
-                rating: colors.yellow.darken2,
-                hasRestriction: colors.red.lighten4,
-                partialRestriction: colors.yellow.accent4,
-                noRestriction: colors.lightGreen.darken1,
-                saved: colors.red.darken3,
-                inactive: colors.grey.lighten3
-            },
-        },
+  theme: {
+    dark: true,
+    options: {
+      customProperties: true
     },
+    themes: {
+      dark: {
+        text: colors.grey.darken4,
+        primary: colors.deepPurple.darken3,
+        accent: colors.shades.white,
+        card: colors.shades.white,
+        // Icon colors
+        rating: colors.yellow.darken2,
+        hasRestriction: colors.red.lighten4,
+        partialRestriction: colors.yellow.accent4,
+        noRestriction: colors.lightGreen.darken1,
+        saved: colors.red.darken3,
+        inactive: colors.grey.lighten3
+      }
+    }
+  }
 });

@@ -5,10 +5,17 @@
         <v-col cols="12">
           <v-card class="elevation-12">
             <v-toolbar color="primary" dark flat>
-              <v-toolbar-title class="d-block text-center text-uppercase">Create a recipe</v-toolbar-title>
+              <v-toolbar-title class="d-block text-center text-uppercase"
+                >Create a recipe
+              </v-toolbar-title>
             </v-toolbar>
             <v-card-text class="card pt-0">
-              <v-form class="d-flex flex-column" lazy-validation ref="recipeForm" v-model="valid">
+              <v-form
+                class="d-flex flex-column"
+                lazy-validation
+                ref="recipeForm"
+                v-model="valid"
+              >
                 <v-row>
                   <v-col cols="6">
                     <v-toolbar flat light color="white">
@@ -16,7 +23,12 @@
                     </v-toolbar>
                     <v-row>
                       <v-col class="pt-0">
-                        <v-text-field label="Title" light required v-model="title"></v-text-field>
+                        <v-text-field
+                          label="Title"
+                          light
+                          required
+                          v-model="title"
+                        ></v-text-field>
                         <v-text-field
                           label="Meal Count"
                           light
@@ -35,11 +47,26 @@
                         ></v-text-field>
                       </v-col>
                       <v-col class="pt-0">
-                        <v-checkbox label="Vegan?" light required v-model="vegan"></v-checkbox>
+                        <v-checkbox
+                          label="Vegan?"
+                          light
+                          required
+                          v-model="vegan"
+                        ></v-checkbox>
 
-                        <v-checkbox label="Vegetarian?" light required v-model="vegetarian"></v-checkbox>
+                        <v-checkbox
+                          label="Vegetarian?"
+                          light
+                          required
+                          v-model="vegetarian"
+                        ></v-checkbox>
 
-                        <v-checkbox label="Gluten Free?" light required v-model="gluten_free"></v-checkbox>
+                        <v-checkbox
+                          label="Gluten Free?"
+                          light
+                          required
+                          v-model="gluten_free"
+                        ></v-checkbox>
                       </v-col>
                     </v-row>
                     <v-row>
@@ -73,7 +100,9 @@
                         </form>
                       </v-col>
                       <v-col class="d-flex align-center justify-space-end">
-                        <label class="v-label theme--light mr-4">Preview:</label>
+                        <label class="v-label theme--light mr-4"
+                          >Preview:</label
+                        >
                         <v-avatar color="primary">
                           <v-img v-bind:src="imgUrl" v-if="imgUrl" />
                           <v-icon v-else>mdi-pot-mix</v-icon>
@@ -106,7 +135,8 @@
                 class="mb-4 align-self-stretch"
                 color="success"
                 light
-              >Create</v-btn>
+                >Create
+              </v-btn>
             </v-card-actions>
           </v-card>
         </v-col>
@@ -180,4 +210,3 @@ export default {
   }
 };
 </script>
-
