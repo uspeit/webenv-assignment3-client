@@ -3,26 +3,31 @@
     <v-col class="d-flex">
       <div class="d-flex flex-column align-center">
         <v-img
-          aspect-ratio="1.2"
-          v-bind:src="recipe.image"
-          v-bind:width="imageWidth"
-          v-bind:max-width="imageWidth"
-          v-bind:class="imageClasses"
+                aspect-ratio="1.2"
+                v-bind:src="recipe.image"
+                v-bind:width="imageWidth"
+                v-bind:max-width="imageWidth"
+                v-bind:class="imageClasses"
         />
-
-        <RecipeRating class="rating-container" v-bind:rating="recipe.aggregate_likes" />
+        <RecipeRating
+                class="rating-container"
+                v-bind:rating="recipe.aggregate_likes"
+        />
       </div>
       <div
-        v-bind:class="'fill-height flex-grow-1 ml-4 overflow-hidden ' + (size !=='md' ? ' pad-score' : '')"
+              v-bind:class="
+          'fill-height flex-grow-1 ml-4 overflow-hidden ' +
+            (size !== 'md' ? ' pad-score' : '')
+        "
       >
         <!-- Details -->
-        <h3 class="single-line" v-if="size == 'md'">{{recipe.title}}</h3>
-        <h2 class="single-line mb-2" v-else>{{recipe.title}}</h2>
+        <h3 class="single-line" v-if="size == 'md'">{{ recipe.title }}</h3>
+        <h2 class="single-line mb-2" v-else>{{ recipe.title }}</h2>
 
         <RecipeInfo
-          v-bind:size="size"
-          v-bind:recipe="recipe"
-          v-bind:hideWatched="hideWatchedIndicator"
+                v-bind:size="size"
+                v-bind:recipe="recipe"
+                v-bind:hideWatched="hideWatchedIndicator"
         />
       </div>
     </v-col>
@@ -30,19 +35,20 @@
 </template>
 
 <script>
-import RecipeInfo from "@/components/RecipeInfo.vue";
-import RecipeRating from "@/components/RecipeRating.vue";
-export default {
-  name: "RecipeSummary",
+  import RecipeInfo from "@/components/RecipeInfo.vue";
+  import RecipeRating from "@/components/RecipeRating.vue";
 
-  props: [
-    "recipe",
-    "size",
-    "height",
-    "hideWatchedIndicator" // In case all recipes already been seen and we want to hide the indicator
-  ],
+  export default {
+    name: "RecipeSummary",
 
-  components: {
+    props: [
+      "recipe",
+      "size",
+      "height",
+      "hideWatchedIndicator" // In case all recipes already been seen and we want to hide the indicator
+    ],
+
+    components: {
     RecipeInfo,
     RecipeRating
   },

@@ -1,36 +1,33 @@
 <template>
-    <v-container class="fill-height">
-        <v-col cols='6' offset="3" xl="2">
-            <RecipeList
-                    hideWatchedIndicator="true"
-                    size="lg"
-                    title="My Recipes"
-                    v-bind:dataSource="loadMyRecipes"
-            />
-        </v-col>
-    </v-container>
+  <v-container class="fill-height">
+    <v-col cols="6" offset="3" xl="2">
+      <RecipeList
+              hideWatchedIndicator="true"
+              size="lg"
+              title="My Recipes"
+              v-bind:dataSource="loadMyRecipes"
+      />
+    </v-col>
+  </v-container>
 </template>
-
 
 <script>
     import RecipeService from "@/services/recipes";
     import RecipeList from "@/components/RecipeList.vue";
 
     export default {
-        name: "MyRecipes",
+      name: "MyRecipes",
 
-        components: {
-            RecipeList,
-        },
+      components: {
+        RecipeList
+      },
 
-        data: () => ({
-        }),
+      data: () => ({}),
 
-        methods: {
-            loadMyRecipes() {
-                return RecipeService.getMyRecipes();
-            }
-        },
-
+      methods: {
+        loadMyRecipes() {
+          return RecipeService.getMyRecipes();
+        }
+      }
     };
 </script>

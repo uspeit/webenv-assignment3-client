@@ -1,7 +1,7 @@
 <template>
   <!-- Rating -->
   <div>
-    <span>{{rating}}</span>
+    <span>{{ rating }}</span>
     <v-icon class="ml-1" style="top: -1.5px">mdi-star</v-icon>
   </div>
 </template>

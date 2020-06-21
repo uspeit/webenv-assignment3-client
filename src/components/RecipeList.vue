@@ -1,27 +1,32 @@
 <template>
   <v-card class="elevation-12 d-flex flex-column">
     <v-toolbar class color="primary" dark flat>
-      <v-toolbar-title class="d-block text-center text-uppercase">{{title}}</v-toolbar-title>
+      <v-toolbar-title class="d-block text-center text-uppercase">{{
+        title
+        }}
+      </v-toolbar-title>
     </v-toolbar>
     <v-card-text class="d-flex flex-column card px-0">
-      <h2 v-if="recipeList.length === 0 && !loading" class="text-center my-2">None</h2>
+      <h2 class="text-center my-2" v-if="recipeList.length === 0 && !loading">
+        None
+      </h2>
       <transition-group
-        tag="div"
-        class="overflow-hidden"
-        ref="itemsContainer"
-        name="staggered-fade"
-        v-bind:css="false"
-        v-on:before-enter="beforeEnter"
-        v-on:enter="enter"
-        v-on:leave="leave"
+              tag="div"
+              class="overflow-hidden"
+              ref="itemsContainer"
+              name="staggered-fade"
+              v-bind:css="false"
+              v-on:before-enter="beforeEnter"
+              v-on:enter="enter"
+              v-on:leave="leave"
       >
         <router-link
-          v-for="(recipe, index) in recipeList"
-          v-bind:key="recipe.id"
-          v-bind:to="'/recipe/'+recipe.id"
-          v-bind:data-index="index"
-          class="d-block"
-          style="overflow: hidden"
+                v-for="(recipe, index) in recipeList"
+                v-bind:key="recipe.id"
+                v-bind:to="'/recipe/' + recipe.id"
+                v-bind:data-index="index"
+                class="d-block"
+                style="overflow: hidden"
         >
           <RecipeSummary
             v-bind:size="size"
@@ -34,36 +39,46 @@
       </transition-group>
 
       <div class="text-center" v-if="totalPages > 1">
-        <v-pagination v-model="currentPage" @input="onPageChange" :length="totalPages" light></v-pagination>
+        <v-pagination
+                :length="totalPages"
+                @input="onPageChange"
+                light
+                v-model="currentPage"
+        ></v-pagination>
       </div>
     </v-card-text>
-    <v-card-actions v-if="refreshButton || loading" class="d-flex flex-column card">
+    <v-card-actions
+            class="d-flex flex-column card"
+            v-if="refreshButton || loading"
+    >
       <v-btn
-        :text="loading"
-        color="primary"
-        :loading="loading"
-        class="mb-4 px-12"
-        @click="triggerLoad"
-      >Refresh recipes</v-btn>
+              :text="loading"
+              color="primary"
+              :loading="loading"
+              class="mb-4 px-12"
+              @click="triggerLoad"
+      >Refresh recipes
+      </v-btn
+      >
     </v-card-actions>
   </v-card>
 </template>
 
 <script>
-import RecipeSummary from "@/components/RecipeSummary.vue";
-import Velocity from "velocity-animate";
+  import RecipeSummary from "@/components/RecipeSummary.vue";
+  import Velocity from "velocity-animate";
 
-export default {
-  name: "RecipeList",
-  props: [
-    "dataSource", // Function returning a promise for an array
-    "title", //
-    "size",
-    "refreshButton",
-    "lockHeight", // Lock height after initial load, disables height changing on data reload
-    "manual", // Disables automatic data loading from data source
-    "hideWatchedIndicator" // In case all recipes already been seen and we want to hide the indicator
-  ],
+  export default {
+    name: "RecipeList",
+    props: [
+      "dataSource", // Function returning a promise for an array
+      "title", //
+      "size",
+      "refreshButton",
+      "lockHeight", // Lock height after initial load, disables height changing on data reload
+      "manual", // Disables automatic data loading from data source
+      "hideWatchedIndicator" // In case all recipes already been seen and we want to hide the indicator
+    ],
 
   components: {
     RecipeSummary
@@ -118,7 +133,7 @@ export default {
       el.style.height = 0;
     },
     enter: function(el, done) {
-      var delay = el.dataset.index * 150;
+      let delay = el.dataset.index * 150;
       setTimeout(function() {
         Velocity(
           el,

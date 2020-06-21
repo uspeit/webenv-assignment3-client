@@ -10,20 +10,22 @@ Vue.filter("timeString", function (value) {
 });
 
 // Returns fraction representation of a decimal
-var getFraction = (decimal) => {
-  for (var denominator = 1; (decimal * denominator) % 1 !== 0; denominator++);
+var getFraction = decimal => {
+  for (var denominator = 1; (decimal * denominator) % 1 !== 0; denominator++) ;
   return [decimal * denominator, denominator];
-}
+};
 
 Vue.filter("fraction", function (value) {
-  value = value.toString().replace(/^0\./, '.');
+  value = value.toString().replace(/^0\./, ".");
 
-  value = value.toString().replace(/\.33+/, ' 1&frasl;3');
-  value = value.toString().replace(/\.66+/, ' 1&frasl;6');
+  value = value.toString().replace(/\.33+/, " 1&frasl;3");
+  value = value.toString().replace(/\.66+/, " 1&frasl;6");
 
-  if (value.includes('.')) {
-    let [numerator, denominator] = getFraction('.' + value.split('.')[1]);
-    value = value.toString().replace(/\..*/, ` ${numerator}&frasl;${denominator}`);
+  if (value.includes(".")) {
+    let [numerator, denominator] = getFraction("." + value.split(".")[1]);
+    value = value
+        .toString()
+        .replace(/\..*/, ` ${numerator}&frasl;${denominator}`);
   }
 
   value = value.toString().trim();

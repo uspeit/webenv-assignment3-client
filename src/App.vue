@@ -1,11 +1,12 @@
 <template>
   <v-app id="inspire">
     <v-app-bar app clipped-left color="primary" dense>
-
       <router-link class="d-flex white--text" to="/">
         <v-avatar>
-          <img src="https://res.cloudinary.com/serfati/image/upload/v1591970948/soupify_zrbnbo.png"
-               style="height: 35px;width: 35px">
+          <img
+                  src="https://res.cloudinary.com/serfati/image/upload/v1591970948/soupify_zrbnbo.png"
+                  style="height: 35px;width: 35px"
+          />
         </v-avatar>
         <v-toolbar-title class="ml-2 mt-3 mr-12 align-center">
           <span>Soupify™</span>
@@ -18,7 +19,12 @@
 
       <v-menu bottom eager offset-y>
         <template v-slot:activator="{ on }">
-          <MenuLink :activator="on" disableNav="true" route="/personal" v-show="currentUser">Personal
+          <MenuLink
+                  :activator="on"
+                  disableNav="true"
+                  route="/personal"
+                  v-show="currentUser"
+          >Personal
           </MenuLink>
         </template>
 
@@ -38,15 +44,27 @@
       <div v-if="isLoggedIn">
         <!-- Logged in -->
         <transition name="fade-in">
-          <span class="mx-4" v-if="currentUser">Hello {{currentUser.fullname}}</span>
+          <span class="mx-4" v-if="currentUser"
+          >Hello {{ currentUser.fullname }}</span
+          >
         </transition>
-        <v-btn @click="logout" class="primary--text mx-2" color="accent" outlined>Logout</v-btn>
+        <v-btn
+                @click="logout"
+                class="primary--text mx-2"
+                color="accent"
+                outlined
+        >Logout
+        </v-btn
+        >
       </div>
       <div v-else>
         <!-- Not logged in -->
         <span class="mx-4">Hello Guest</span>
         <router-link to="/login">
-          <v-btn class="primary--text mx-2" color="accent" depressed>Login</v-btn>
+          <v-btn class="primary--text mx-2" color="accent" depressed
+          >Login
+          </v-btn
+          >
         </router-link>
         <router-link to="/register">
           <v-btn class="mx-2" outlined>Register</v-btn>
@@ -82,7 +100,7 @@
         {
           text: "Family Recipes",
           route: "/personal/family"
-        },
+        }
       ]
     }),
 
