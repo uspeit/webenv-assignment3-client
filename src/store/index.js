@@ -25,21 +25,21 @@ export default new Vuex.Store({
     authenticate({ commit }, userCredentials) {
       return new Promise((resolve, reject) => {
         AuthService.authenticate(userCredentials)
-            .then(resp => {
-              const token = resp.data.token;
-              localStorage.setItem("token", token);
-              commit("authenticated", {token});
-              resolve(token);
-            })
-            .catch(err => {
-              localStorage.removeItem("token");
-              reject(err);
-            });
+          .then(resp => {
+            const token = resp.data.token;
+            localStorage.setItem("token", token);
+            commit("authenticated", { token });
+            resolve(token);
+          })
+          .catch(err => {
+            localStorage.removeItem("token");
+            reject(err);
+          });
       });
     },
     updateUser({ commit }, userInfo) {
       return new Promise(resolve => {
-        commit("logged_in", {user: userInfo});
+        commit("logged_in", { user: userInfo });
         resolve();
       });
     },

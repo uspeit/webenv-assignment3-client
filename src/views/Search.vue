@@ -5,9 +5,8 @@
         <v-card class="elevation-12 d-flex flex-column">
           <v-toolbar class color="primary" dark flat>
             <v-toolbar-title class="d-block text-center text-uppercase"
-            >Search
-            </v-toolbar-title
-            >
+              >Search
+            </v-toolbar-title>
           </v-toolbar>
           <v-card-text class="d-flex flex-column card">
             <v-row>
@@ -23,15 +22,14 @@
               </v-col>
               <v-col cols="4">
                 <v-btn
-                        color="success"
-                        class="search-button text--card"
-                        uppercase
-                        large
-                        depressed
-                        @click="performSearch"
-                >Search
-                </v-btn
-                >
+                  @click="performSearch"
+                  class="search-button text--card"
+                  color="success"
+                  depressed
+                  large
+                  uppercase
+                  >Search
+                </v-btn>
               </v-col>
             </v-row>
             <v-row>
@@ -78,21 +76,21 @@
 </template>
 
 <script>
-  import RecipeList from "@/components/RecipeList.vue";
-  import RecipeService from "@/services/recipes";
-  import filterData from "@/assets/filterData.json";
+import RecipeList from "@/components/RecipeList.vue";
+import RecipeService from "@/services/recipes";
+import filterData from "@/assets/filterData.json";
 
-  export default {
-    name: "Search",
+export default {
+  name: "Search",
 
-    components: {
-      RecipeList
-    },
+  components: {
+    RecipeList
+  },
 
-    data: () => ({
-      searching: false,
-      resultsCount: -1,
-      query: "",
+  data: () => ({
+    searching: false,
+    resultsCount: -1,
+    query: "",
     selectedFilters: {},
     filters: filterData
   }),
@@ -100,9 +98,9 @@
   methods: {
     searchRecipes(searchPage) {
       return RecipeService.searchRecipes(
-              this.query,
-              this.selectedFilters,
-              searchPage
+        this.query,
+        this.selectedFilters,
+        searchPage
       );
     },
 

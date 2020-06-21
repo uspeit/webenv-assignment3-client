@@ -1,10 +1,10 @@
 <template>
   <v-data-table
-          :headers="headers"
-          :items="value"
-          disable-pagination
-          light
-          sort-by="name"
+    :headers="headers"
+    :items="value"
+    disable-pagination
+    light
+    sort-by="name"
   >
     <template v-slot:top>
       <v-toolbar color="white" flat>
@@ -13,9 +13,8 @@
         <v-dialog light max-width="500px" v-model="dialog">
           <template v-slot:activator="{ on, attrs }">
             <v-btn class="mb-2" color="primary" dark v-bind="attrs" v-on="on"
-            >Add
-            </v-btn
-            >
+              >Add
+            </v-btn>
           </template>
           <v-card>
             <v-card-title>
@@ -27,31 +26,31 @@
                 <v-row>
                   <v-col cols="12" md="4" sm="6">
                     <v-combobox
-                            :items="availableIngredients"
-                            :rules="[v => !!v || 'Please select ingredient']"
-                            class="flex-grow-1"
-                            clearable
-                            item-text="name"
-                            item-value="name"
-                            label="Ingredient"
-                            light
-                            outlined
-                            required
-                            v-model="editedItem.selection"
+                      :items="availableIngredients"
+                      :rules="[v => !!v || 'Please select ingredient']"
+                      class="flex-grow-1"
+                      clearable
+                      item-text="name"
+                      item-value="name"
+                      label="Ingredient"
+                      light
+                      outlined
+                      required
+                      v-model="editedItem.selection"
                     />
                   </v-col>
                   <v-col cols="12" md="4" sm="6">
                     <v-text-field
-                            label="Amount"
-                            min="0"
-                            type="number"
-                            v-model="editedItem.amount"
+                      label="Amount"
+                      min="0"
+                      type="number"
+                      v-model="editedItem.amount"
                     ></v-text-field>
                   </v-col>
                   <v-col cols="12" md="4" sm="6">
                     <v-text-field
-                            label="Units"
-                            v-model="editedItem.unit"
+                      label="Units"
+                      v-model="editedItem.unit"
                     ></v-text-field>
                   </v-col>
                 </v-row>
@@ -63,23 +62,23 @@
                 <v-row>
                   <v-col cols="12" md="4" sm="6">
                     <v-text-field
-                            label="Ingredient"
-                            type="text"
-                            v-model="newItem.name"
+                      label="Ingredient"
+                      type="text"
+                      v-model="newItem.name"
                     ></v-text-field>
                   </v-col>
                   <v-col cols="12" md="4" sm="6">
                     <v-text-field
-                            label="Amount"
-                            min="0"
-                            type="number"
-                            v-model="newItem.amount"
+                      label="Amount"
+                      min="0"
+                      type="number"
+                      v-model="newItem.amount"
                     ></v-text-field>
                   </v-col>
                   <v-col cols="12" md="4" sm="6">
                     <v-text-field
-                            label="Units"
-                            v-model="newItem.unit"
+                      label="Units"
+                      v-model="newItem.unit"
                     ></v-text-field>
                   </v-col>
                 </v-row>
@@ -88,20 +87,20 @@
 
             <v-card-actions>
               <v-btn
-                      @click="editMode = !editMode"
-                      class="mb-3 ml-7"
-                      color="primary"
-                      dark
-                      v-if="editMode"
-              >New
+                @click="editMode = !editMode"
+                class="mb-3 ml-7"
+                color="primary"
+                dark
+                v-if="editMode"
+                >New
               </v-btn>
               <v-btn
-                      @click="editMode = !editMode"
-                      class="mb-3 ml-7"
-                      color="primary"
-                      dark
-                      v-else
-              >Add
+                @click="editMode = !editMode"
+                class="mb-3 ml-7"
+                color="primary"
+                dark
+                v-else
+                >Add
               </v-btn>
               <v-spacer></v-spacer>
               <v-btn @click="close" color="blue darken-1" text>Cancel</v-btn>
@@ -120,97 +119,97 @@
 </template>
 
 <script>
-  import RecipeService from "@/services/recipes";
+import RecipeService from "@/services/recipes";
 
-  export default {
-    props: ["value"],
+export default {
+  props: ["value"],
 
-    data: () => ({
-      dialog: false,
-      headers: [
-        {
-          text: "Ingredient",
-          align: "start",
-          value: "name"
-        },
-        {text: "Amount", value: "amount"},
-        {text: "Units", value: "unit"}
-      ],
-      availableIngredients: [],
-      editedIndex: -1,
-      editedItem: {
-        name: "",
-        amount: 0,
-        unit: ""
+  data: () => ({
+    dialog: false,
+    headers: [
+      {
+        text: "Ingredient",
+        align: "start",
+        value: "name"
       },
-      newItem: {
-        name: "",
-        amount: 0,
-        unit: ""
-      },
-      editMode: true
-    }),
+      { text: "Amount", value: "amount" },
+      { text: "Units", value: "unit" }
+    ],
+    availableIngredients: [],
+    editedIndex: -1,
+    editedItem: {
+      name: "",
+      amount: 0,
+      unit: ""
+    },
+    newItem: {
+      name: "",
+      amount: 0,
+      unit: ""
+    },
+    editMode: true
+  }),
 
-    computed: {
-      formTitle() {
-        return this.editedIndex === -1 ? "New Ingredient" : "Edit Ingredient";
-      }
+  computed: {
+    formTitle() {
+      return this.editedIndex === -1 ? "New Ingredient" : "Edit Ingredient";
+    }
+  },
+
+  watch: {
+    dialog(val) {
+      val || this.close();
+    }
+  },
+
+  mounted() {
+    RecipeService.ingredientsData().then(response => {
+      this.availableIngredients = response;
+    });
+  },
+
+  methods: {
+    editItem(item) {
+      this.editedIndex = this.value.indexOf(item);
+      this.editedItem = Object.assign({}, item);
+      this.dialog = true;
     },
 
-    watch: {
-      dialog(val) {
-        val || this.close();
-      }
+    deleteItem(item) {
+      const index = this.ingredients.indexOf(item);
+      confirm("Are you sure you want to delete this item?") &&
+        this.value.splice(index, 1);
     },
 
-    mounted() {
-      RecipeService.ingredientsData().then(response => {
-        this.availableIngredients = response;
+    close() {
+      this.dialog = false;
+      this.$nextTick(() => {
+        this.editedItem = Object.assign({}, this.defaultItem);
+        this.editedIndex = -1;
       });
     },
 
-    methods: {
-      editItem(item) {
-        this.editedIndex = this.value.indexOf(item);
-        this.editedItem = Object.assign({}, item);
-        this.dialog = true;
-      },
+    save() {
+      if (this.editMode) {
+        this.editedItem.name = this.editedItem.selection.name;
+        this.editedItem.id = this.editedItem.selection.id;
+        delete this.editedItem.selection;
 
-      deleteItem(item) {
-        const index = this.ingredients.indexOf(item);
-        confirm("Are you sure you want to delete this item?") &&
-        this.value.splice(index, 1);
-      },
-
-      close() {
-        this.dialog = false;
-        this.$nextTick(() => {
-          this.editedItem = Object.assign({}, this.defaultItem);
-          this.editedIndex = -1;
-        });
-      },
-
-      save() {
-        if (this.editMode) {
-          this.editedItem.name = this.editedItem.selection.name;
-          this.editedItem.id = this.editedItem.selection.id;
-          delete this.editedItem.selection;
-
-          if (this.editedIndex > -1) {
-            Object.assign(this.value[this.editedIndex], this.editedItem);
-          } else {
-            this.value.push(this.editedItem);
-          }
+        if (this.editedIndex > -1) {
+          Object.assign(this.value[this.editedIndex], this.editedItem);
         } else {
-          this.newItem.id = Math.floor(Math.random() * (10000 - 1 + 1)) + 1;
-          if (this.newItem > -1) {
-            Object.assign(this.value[this.newItem], this.newItem);
-          } else {
-            this.value.push(this.newItem);
-          }
+          this.value.push(this.editedItem);
         }
-        this.close();
+      } else {
+        this.newItem.id = Math.floor(Math.random() * (10000 - 1 + 1)) + 1;
+        if (this.newItem > -1) {
+          Object.assign(this.value[this.newItem], this.newItem);
+        } else {
+          this.value.push(this.newItem);
+        }
       }
+      this.close();
     }
-  };
+  }
+};
 </script>

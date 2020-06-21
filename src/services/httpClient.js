@@ -10,7 +10,7 @@ const httpClient = axios.create({
   withCredentials: false,
   // Try attaching token upon sending a request
   transformRequest: [
-    function (data, headers) {
+    function(data, headers) {
       const token = store.getters.token;
       if (token) headers["Authorization"] = `Bearer ${token}`;
       return JSON.stringify(data);
@@ -25,17 +25,17 @@ const httpClient = axios.create({
 
 // Configure interceptors
 httpClient.interceptors.response.use(
-    function (response) {
-      return response;
-    },
-    function (error) {
-      // Logout on UNAUTHORIZED because the token has timed out
-      if (error.response.status === 401)
-        store.dispatch("logout").then(() => {
-          if (router.currentRoute.path !== "/") router.push("/login");
-        });
-      return Promise.reject(error);
-    }
+  function(response) {
+    return response;
+  },
+  function(error) {
+    // Logout on UNAUTHORIZED because the token has timed out
+    if (error.response.status === 401)
+      store.dispatch("logout").then(() => {
+        if (router.currentRoute.path !== "/") router.push("/login");
+      });
+    return Promise.reject(error);
+  }
 );
 
 export default httpClient;

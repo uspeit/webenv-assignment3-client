@@ -3,19 +3,19 @@
     <v-col class="d-flex">
       <div class="d-flex flex-column align-center">
         <v-img
-                aspect-ratio="1.2"
-                v-bind:src="recipe.image"
-                v-bind:width="imageWidth"
-                v-bind:max-width="imageWidth"
-                v-bind:class="imageClasses"
+          aspect-ratio="1.2"
+          v-bind:class="imageClasses"
+          v-bind:max-width="imageWidth"
+          v-bind:src="recipe.image"
+          v-bind:width="imageWidth"
         />
         <RecipeRating
-                class="rating-container"
-                v-bind:rating="recipe.aggregate_likes"
+          class="rating-container"
+          v-bind:rating="recipe.aggregate_likes"
         />
       </div>
       <div
-              v-bind:class="
+        v-bind:class="
           'fill-height flex-grow-1 ml-4 overflow-hidden ' +
             (size !== 'md' ? ' pad-score' : '')
         "
@@ -25,9 +25,9 @@
         <h2 class="single-line mb-2" v-else>{{ recipe.title }}</h2>
 
         <RecipeInfo
-                v-bind:size="size"
-                v-bind:recipe="recipe"
-                v-bind:hideWatched="hideWatchedIndicator"
+          v-bind:hideWatched="hideWatchedIndicator"
+          v-bind:recipe="recipe"
+          v-bind:size="size"
         />
       </div>
     </v-col>
@@ -35,20 +35,20 @@
 </template>
 
 <script>
-  import RecipeInfo from "@/components/RecipeInfo.vue";
-  import RecipeRating from "@/components/RecipeRating.vue";
+import RecipeInfo from "@/components/RecipeInfo.vue";
+import RecipeRating from "@/components/RecipeRating.vue";
 
-  export default {
-    name: "RecipeSummary",
+export default {
+  name: "RecipeSummary",
 
-    props: [
-      "recipe",
-      "size",
-      "height",
-      "hideWatchedIndicator" // In case all recipes already been seen and we want to hide the indicator
-    ],
+  props: [
+    "recipe",
+    "size",
+    "height",
+    "hideWatchedIndicator" // In case all recipes already been seen and we want to hide the indicator
+  ],
 
-    components: {
+  components: {
     RecipeInfo,
     RecipeRating
   },

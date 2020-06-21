@@ -13,18 +13,18 @@ export default {
   getRecentRecipes() {
     return new Promise((resolve, reject) => {
       httpClient
-          .get("/metadata/last-seen")
-          .then(response => {
-            let results = response.data.results.filter(x => x !== null);
-            // Adapt items
-            results.forEach(res => {
-              res.saved = res.favs;
-              delete res.favs;
-            });
-            //
-            resolve({data: results});
-          })
-          .catch(reason => reject(reason));
+        .get("/metadata/last-seen")
+        .then(response => {
+          let results = response.data.results.filter(x => x !== null);
+          // Adapt items
+          results.forEach(res => {
+            res.saved = res.favs;
+            delete res.favs;
+          });
+          //
+          resolve({ data: results });
+        })
+        .catch(reason => reject(reason));
     });
   },
 
@@ -32,22 +32,22 @@ export default {
   getMyRecipes() {
     return new Promise((resolve, reject) => {
       httpClient
-          .get("/metadata/personal")
-          .then(response => {
-            let results = response.data.personal.filter(x => x !== null);
-            // Adapt items
-            let personal = [];
-            results.forEach(id => {
-              httpClient.get("/recipes/" + id).then(response => {
-                let raw = response.data;
-                raw.saved = raw.favs;
-                delete raw.favs;
-                personal.push(raw);
-              });
+        .get("/metadata/personal")
+        .then(response => {
+          let results = response.data.personal.filter(x => x !== null);
+          // Adapt items
+          let personal = [];
+          results.forEach(id => {
+            httpClient.get("/recipes/" + id).then(response => {
+              let raw = response.data;
+              raw.saved = raw.favs;
+              delete raw.favs;
+              personal.push(raw);
             });
-            resolve({data: personal});
-          })
-          .catch(reason => reject(reason));
+          });
+          resolve({ data: personal });
+        })
+        .catch(reason => reject(reason));
     });
   },
 
@@ -55,22 +55,22 @@ export default {
   getFamilyRecipes() {
     return new Promise((resolve, reject) => {
       httpClient
-          .get("/metadata/family")
-          .then(response => {
-            let results = response.data.family.filter(x => x !== null);
-            // Adapt items
-            let family = [];
-            results.forEach(id => {
-              httpClient.get("/recipes/" + id).then(response => {
-                let raw = response.data;
-                raw.saved = raw.favs;
-                delete raw.favs;
-                family.push(raw);
-              });
+        .get("/metadata/family")
+        .then(response => {
+          let results = response.data.family.filter(x => x !== null);
+          // Adapt items
+          let family = [];
+          results.forEach(id => {
+            httpClient.get("/recipes/" + id).then(response => {
+              let raw = response.data;
+              raw.saved = raw.favs;
+              delete raw.favs;
+              family.push(raw);
             });
-            resolve({data: family});
-          })
-          .catch(reason => reject(reason));
+          });
+          resolve({ data: family });
+        })
+        .catch(reason => reject(reason));
     });
   },
 
@@ -78,22 +78,22 @@ export default {
   getFavoritesRecipes() {
     return new Promise((resolve, reject) => {
       httpClient
-          .get("/metadata/favs")
-          .then(response => {
-            let results = response.data.favs.filter(x => x !== null);
-            // Adapt items
-            let favorites = [];
-            results.forEach(id => {
-              httpClient.get("/recipes/" + id).then(response => {
-                let raw = response.data;
-                raw.saved = true;
-                delete raw.favs;
-                favorites.push(raw);
-              });
+        .get("/metadata/favs")
+        .then(response => {
+          let results = response.data.favs.filter(x => x !== null);
+          // Adapt items
+          let favorites = [];
+          results.forEach(id => {
+            httpClient.get("/recipes/" + id).then(response => {
+              let raw = response.data;
+              raw.saved = true;
+              delete raw.favs;
+              favorites.push(raw);
             });
-            resolve({data: favorites});
-          })
-          .catch(reason => reject(reason));
+          });
+          resolve({ data: favorites });
+        })
+        .catch(reason => reject(reason));
     });
   },
 
@@ -147,12 +147,12 @@ export default {
   ingredientsData() {
     return new Promise((resolve, reject) => {
       httpClient
-          .get("/ingredients")
-          .then(response => {
-            let data = response.data;
-            resolve(data);
-          })
-          .catch(reason => reject(reason));
+        .get("/ingredients")
+        .then(response => {
+          let data = response.data;
+          resolve(data);
+        })
+        .catch(reason => reject(reason));
     });
   },
 
@@ -160,12 +160,12 @@ export default {
   addIngredient() {
     return new Promise((resolve, reject) => {
       httpClient
-          .post("/ingredients")
-          .then(response => {
-            let data = response.data;
-            resolve(data);
-          })
-          .catch(reason => reject(reason));
+        .post("/ingredients")
+        .then(response => {
+          let data = response.data;
+          resolve(data);
+        })
+        .catch(reason => reject(reason));
     });
   },
 
@@ -173,19 +173,19 @@ export default {
   getRecipesByRoute(route, queryParams) {
     return new Promise((resolve, reject) => {
       httpClient
-          .get(route, {
-            params: queryParams
-          })
-          .then(response => {
-            let data = this.parseRecipeResponse(response);
+        .get(route, {
+          params: queryParams
+        })
+        .then(response => {
+          let data = this.parseRecipeResponse(response);
 
-            this.processRecipes(data)
-                .then(fullData => {
-                  resolve(fullData);
-                })
-                .catch(reason => reject(reason));
-          })
-          .catch(reason => reject(reason));
+          this.processRecipes(data)
+            .then(fullData => {
+              resolve(fullData);
+            })
+            .catch(reason => reject(reason));
+        })
+        .catch(reason => reject(reason));
     });
   },
 
@@ -203,7 +203,7 @@ export default {
 
     // Wraps data if needed
     if (Object.prototype.hasOwnProperty.call(data, "data")) return data;
-    else return {data: data};
+    else return { data: data };
   },
 
   // Processes either a single recipe or a list
@@ -216,16 +216,16 @@ export default {
     if (store.getters.tokenPresent) {
       return new Promise(resolve => {
         httpClient
-            .get("/metadata")
-            .then(response => {
-              recipesObj = this.applyToRecipesInObj(
-                  recipesObj,
-                  this.attachMetadata,
-                  response.data
-              );
-              resolve(recipesObj);
-            })
-            .catch(() => resolve(recipesObj));
+          .get("/metadata")
+          .then(response => {
+            recipesObj = this.applyToRecipesInObj(
+              recipesObj,
+              this.attachMetadata,
+              response.data
+            );
+            resolve(recipesObj);
+          })
+          .catch(() => resolve(recipesObj));
       });
     } else {
       return new Promise(resolve => {
@@ -261,19 +261,19 @@ export default {
   // Parses recipe instructions into an array
   formatInstructions(recipe) {
     recipe.instructions = recipe.instructions
-        .replace(/^Instructions\s*/, "")
-        .replace(/<.*?>/g, ".")
-        .replace(/[.!]+/g, ".")
-        .split(/\.\s*/)
-        .filter(line => line.length > 0)
-        .map(line => line + ".");
+      .replace(/^Instructions\s*/, "")
+      .replace(/<.*?>/g, ".")
+      .replace(/[.!]+/g, ".")
+      .split(/\.\s*/)
+      .filter(line => line.length > 0)
+      .map(line => line + ".");
     return recipe;
   }
 };
-String.prototype.replaceAt = function (index, replacement) {
+String.prototype.replaceAt = function(index, replacement) {
   return (
-      this.substr(0, index) +
-      replacement +
-      this.substr(index + replacement.length)
+    this.substr(0, index) +
+    replacement +
+    this.substr(index + replacement.length)
   );
 };

@@ -5,63 +5,62 @@
         <v-card class="elevation-12">
           <v-toolbar color="primary" dark flat>
             <v-toolbar-title class="d-block text-center text-uppercase"
-            >Register
-            </v-toolbar-title
-            >
+              >Register
+            </v-toolbar-title>
           </v-toolbar>
           <v-card-text class="card">
             <v-form
-                    class="d-flex flex-column"
-                    lazy-validation
-                    ref="registerForm"
-                    v-model="valid"
+              class="d-flex flex-column"
+              lazy-validation
+              ref="registerForm"
+              v-model="valid"
             >
               <v-row>
                 <v-col>
                   <v-text-field
-                          v-model="userName"
-                          :rules="userNameRules"
-                          label="Username"
-                          required
-                          light
+                    :rules="userNameRules"
+                    label="Username"
+                    light
+                    required
+                    v-model="userName"
                   ></v-text-field>
                   <v-text-field
-                          label="First Name"
-                          light
-                          required
-                          v-model="firstName"
+                    label="First Name"
+                    light
+                    required
+                    v-model="firstName"
                   ></v-text-field>
                   <v-text-field
-                          label="Last Name"
-                          light
-                          required
-                          v-model="lastName"
+                    label="Last Name"
+                    light
+                    required
+                    v-model="lastName"
                   ></v-text-field>
                   <v-combobox
-                          v-model="country"
-                          :items="countries"
-                          item-text="name"
-                          :rules="[v => !!v || 'Please select country']"
-                          label="Country"
-                          required
-                          light
+                    :items="countries"
+                    :rules="[v => !!v || 'Please select country']"
+                    item-text="name"
+                    label="Country"
+                    light
+                    required
+                    v-model="country"
                   >
                     <template slot="selection" slot-scope="{ item }">
                       <img
-                              class="country-icon"
-                              height="16"
-                              v-bind:src="item.flag"
-                              width="24"
+                        class="country-icon"
+                        height="16"
+                        v-bind:src="item.flag"
+                        width="24"
                       />
                       <span class="mx-2"></span>
                       {{ item.name }}
                     </template>
                     <template slot="item" slot-scope="{ item }">
                       <img
-                              class="country-icon"
-                              height="16"
-                              v-bind:src="item.flag"
-                              width="24"
+                        class="country-icon"
+                        height="16"
+                        v-bind:src="item.flag"
+                        width="24"
                       />
                       <span class="mx-2"></span>
                       {{ item.name }}
@@ -79,24 +78,24 @@
                   ></v-text-field>
 
                   <v-text-field
-                          v-model="passwordConfirm"
-                          :rules="confirmPasswordRules"
-                          label="Confirm Password"
-                          type="password"
-                          required
-                          light
+                    :rules="confirmPasswordRules"
+                    label="Confirm Password"
+                    light
+                    required
+                    type="password"
+                    v-model="passwordConfirm"
                   ></v-text-field>
                   <v-text-field
-                          label="Email"
-                          light
-                          required
-                          v-model="email"
+                    label="Email"
+                    light
+                    required
+                    v-model="email"
                   ></v-text-field>
                   <v-text-field
-                          label="Image URL"
-                          light
-                          required
-                          v-model="imgUrl"
+                    label="Image URL"
+                    light
+                    required
+                    v-model="imgUrl"
                   ></v-text-field>
                 </v-col>
               </v-row>
@@ -104,14 +103,13 @@
           </v-card-text>
           <v-card-actions class="d-flex flex-column card">
             <v-btn
-                    :disabled="!valid"
-                    color="success"
-                    class="mb-4 align-self-stretch"
-                    @click="validateCredentials"
-                    light
-            >Register
-            </v-btn
-            >
+              :disabled="!valid"
+              @click="validateCredentials"
+              class="mb-4 align-self-stretch"
+              color="success"
+              light
+              >Register
+            </v-btn>
           </v-card-actions>
         </v-card>
       </v-col>
@@ -120,22 +118,26 @@
 </template>
 
 <script>
-  import AuthService from "@/services/auth";
-  import countryData from "@/assets/countryData.json";
+import AuthService from "@/services/auth";
+import countryData from "@/assets/countryData.json";
 
-  import {confirmPasswordRules, passwordRules, userNameRules} from "@/core/validationRules";
+import {
+  confirmPasswordRules,
+  passwordRules,
+  userNameRules
+} from "@/core/validationRules";
 
-  export default {
-    data: () => ({
-      valid: true,
-      userName: "",
-      userNameRules: userNameRules,
-      password: "",
-      passwordRules: passwordRules,
-      passwordConfirm: "",
-      confirmPasswordRules: confirmPasswordRules,
-      firstName: "",
-      lastName: "",
+export default {
+  data: () => ({
+    valid: true,
+    userName: "",
+    userNameRules: userNameRules,
+    password: "",
+    passwordRules: passwordRules,
+    passwordConfirm: "",
+    confirmPasswordRules: confirmPasswordRules,
+    firstName: "",
+    lastName: "",
     countries: countryData,
     country: "",
     email: "",

@@ -2,80 +2,74 @@
   <div class="mt-1">
     <!-- Ready in -->
     <v-icon class="mr-1" color="text" style="top: -1.5px" v-bind:size="iconSize"
-    >mdi-alarm
-    </v-icon
-    >
+      >mdi-alarm
+    </v-icon>
     <span v-bind:class="size">{{
       recipe["ready_in_minutes"] | timeString
     }}</span>
-    <br/>
+    <br />
     <!-- Serves -->
     <v-icon class="mr-1" color="text" style="top: -1.5px" v-bind:size="iconSize"
-    >mdi-bowl
-    </v-icon
-    >
+      >mdi-bowl
+    </v-icon>
     <span v-bind:class="size">{{ recipe["serving"] }} servings</span>
-    <br/>
+    <br />
 
     <!-- Icons -->
     <div class="mt-1" style="left: -3px; position: relative;">
       <v-icon
-              v-bind:size="iconSize"
-              v-bind:color="
+        class="mr-1"
+        v-bind:color="
           recipe['gluten_free'] ? 'noRestriction' : 'hasRestriction'
         "
-              class="mr-1"
-      >mdi-barley
-      </v-icon
-      >
+        v-bind:size="iconSize"
+        >mdi-barley
+      </v-icon>
       <v-icon
-              v-bind:size="iconSize"
-              v-bind:color="
+        class="mr-1"
+        v-bind:color="
           recipe.vegan
             ? 'noRestriction'
             : recipe.vegetarian
             ? 'partialRestriction'
             : 'hasRestriction'
         "
-              class="mr-1"
-      >mdi-leaf
-      </v-icon
-      >
+        v-bind:size="iconSize"
+        >mdi-leaf
+      </v-icon>
       <v-icon
-              v-bind:size="iconSize"
-              v-bind:color="recipe.watched ? 'primary' : 'inactive'"
-              class="mr-1"
-              v-if="isLoggedIn && !hideWatched"
-      >mdi-eye
-      </v-icon
-      >
+        class="mr-1"
+        v-bind:color="recipe.watched ? 'primary' : 'inactive'"
+        v-bind:size="iconSize"
+        v-if="isLoggedIn && !hideWatched"
+        >mdi-eye
+      </v-icon>
       <v-icon
-              v-bind:size="iconSize"
-              v-bind:color="recipe.saved ? 'saved' : 'inactive'"
-              v-on:click.stop.prevent="toggleSave()"
-              class="save-icon mr-1"
-              v-if="isLoggedIn"
-      >mdi-heart
-      </v-icon
-      >
+        class="save-icon mr-1"
+        v-bind:color="recipe.saved ? 'saved' : 'inactive'"
+        v-bind:size="iconSize"
+        v-if="isLoggedIn"
+        v-on:click.stop.prevent="toggleSave()"
+        >mdi-heart
+      </v-icon>
     </div>
   </div>
 </template>
 
 <script>
-  import RecipeService from "@/services/recipes";
+import RecipeService from "@/services/recipes";
 
-  export default {
-    name: "RecipeInfo",
+export default {
+  name: "RecipeInfo",
 
-    props: ["recipe", "size", "hideWatched"],
+  props: ["recipe", "size", "hideWatched"],
 
-    methods: {
-      toggleSave() {
-        const recipe = this.$props.recipe;
-        // Change value
-        const original = recipe.saved;
-        recipe.saved = !original;
+  methods: {
+    toggleSave() {
+      const recipe = this.$props.recipe;
+      // Change value
+      const original = recipe.saved;
+      recipe.saved = !original;
       // Update server
       RecipeService.setSaved(recipe.id, recipe.saved)
         .then(res => (recipe.saved = res.data.favs.includes(recipe.id))) // Validate with result
