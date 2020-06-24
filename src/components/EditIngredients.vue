@@ -24,18 +24,16 @@
             <v-card-text>
               <v-container>
                 <v-row>
-                  <v-col cols="12" md="4" sm="6">
-                    <v-combobox
+                  <v-col>
+                    <v-select
                       v-if="editMode"
                       :items="availableIngredients"
                       :rules="[v => !!v || 'Please select ingredient']"
                       class="flex-grow-1"
-                      clearable
                       item-text="name"
                       item-value="name"
                       label="Ingredient"
                       light
-                      outlined
                       required
                       v-model="editedItem.selection"
                     />
@@ -46,7 +44,8 @@
                       v-model="editedItem.name"
                     ></v-text-field>
                   </v-col>
-                  <v-col cols="12" md="4" sm="6">
+                </v-row><v-row>
+                  <v-col>
                     <v-text-field
                       label="Amount"
                       min="0"
@@ -54,7 +53,7 @@
                       v-model="editedItem.amount"
                     ></v-text-field>
                   </v-col>
-                  <v-col cols="12" md="4" sm="6">
+                  <v-col>
                     <v-text-field
                       label="Units"
                       v-model="editedItem.unit"
@@ -70,7 +69,7 @@
                 color="primary"
                 dark
                 v-if="editMode"
-                >New
+                >Custom Ingredient
               </v-btn>
               <v-btn
                 @click="editMode = !editMode"
@@ -78,7 +77,7 @@
                 color="primary"
                 dark
                 v-else
-                >Add
+                >Choose Ingredient
               </v-btn>
               <v-spacer></v-spacer>
               <v-btn @click="close" color="blue darken-1" text>Cancel</v-btn>

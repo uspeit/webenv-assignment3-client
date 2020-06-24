@@ -59,6 +59,7 @@ export default {
   computed: {
     isLoggedIn: function() {
       const currentVal = this.$store.getters.tokenPresent;
+      // Reload random recipes if logged in after load, because current recipes are missing user data
       if (this.loadedWithToken === false && currentVal) {
         this.$refs.randRecipes.triggerLoad();
       }

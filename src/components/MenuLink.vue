@@ -24,18 +24,6 @@ export default {
       }
     );
   }
-
-  // computed: {
-  // active: function() {
-  //   console.log(this.$router.currentRoute);
-  //   console.log(this.route);
-  //   console.log("---");
-  //   return (
-  //     typeof this.$router.currentRoute === "string" &&
-  //     this.$router.currentRoute.startsWith(this.route)
-  //   );
-  // }
-  // }
 };
 </script>
 
