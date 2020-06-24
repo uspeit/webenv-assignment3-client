@@ -1,14 +1,16 @@
 <template>
-  <v-container class="fill-height">
-    <v-col cols="6" offset="3" xl="2">
-      <RecipeList
-        hideWatchedIndicator="true"
-        size="lg"
-        title="My Recipes"
-        v-bind:dataSource="loadMyRecipes"
-        lockHeight="true"
-      />
-    </v-col>
+  <v-container>
+    <v-row justify="center">
+      <v-col cols="8">
+        <RecipeList
+          hideWatchedIndicator="true"
+          size="lg"
+          title="My Recipes"
+          v-bind:dataSource="loadMyRecipes"
+          lockHeight="true"
+        />
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
