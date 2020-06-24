@@ -193,7 +193,6 @@ export default {
       };
 
       RecipeService.addRecipe(recipeInfo)
-        .then(response => RecipeService.setPersonal(response.id))
         .then(() => this.$router.push("/personal/recipes"))
         .catch(err => console.log(err));
     },
