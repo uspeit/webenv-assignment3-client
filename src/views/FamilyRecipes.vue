@@ -6,6 +6,7 @@
         size="lg"
         title="Family Recipes"
         v-bind:dataSource="loadFamilyRecipes"
+        lockHeight="true"
       />
     </v-col>
   </v-container>

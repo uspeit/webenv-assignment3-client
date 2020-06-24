@@ -6,6 +6,7 @@
         size="lg"
         title="Favorites Recipes"
         v-bind:dataSource="loadFavoritesRecipes"
+        lockHeight="true"
       />
     </v-col>
   </v-container>
