@@ -38,7 +38,7 @@
           </v-list-item>
         </v-list>
       </v-menu>
-      <MenuLink route="/personal/create" v-show="currentUser">Create</MenuLink>
+      <MenuLink route="/create" v-show="currentUser">Create</MenuLink>
       <v-spacer></v-spacer>
 
       <div v-if="isLoggedIn">

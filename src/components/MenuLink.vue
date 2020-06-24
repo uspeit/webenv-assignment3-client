@@ -14,14 +14,28 @@
 export default {
   name: "MenuLink",
   props: ["route", "activator", "disableNav"],
-  computed: {
-    active: function() {
-      return (
-        typeof this.$router.currentRoute === "string" &&
-        this.$router.currentRoute.startsWith(this.route)
-      );
-    }
+  data: () => ({ active: false }),
+  mounted() {
+    this.routeWatcher = this.$watch(
+      () => this.$route,
+      route => {
+        if (this.route === "/") this.active = route.fullPath === "/";
+        else this.active = route.fullPath.startsWith(this.route);
+      }
+    );
   }
+
+  // computed: {
+  // active: function() {
+  //   console.log(this.$router.currentRoute);
+  //   console.log(this.route);
+  //   console.log("---");
+  //   return (
+  //     typeof this.$router.currentRoute === "string" &&
+  //     this.$router.currentRoute.startsWith(this.route)
+  //   );
+  // }
+  // }
 };
 </script>
 
