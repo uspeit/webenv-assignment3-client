@@ -25,8 +25,8 @@ export default {
   data: () => ({}),
 
   methods: {
-    loadFavoritesRecipes() {
-      return RecipeService.getFavoritesRecipes();
+    loadFavoritesRecipes(page) {
+      return RecipeService.getFavoritesRecipes(page);
     }
   },
 

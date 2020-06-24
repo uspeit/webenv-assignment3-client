@@ -2,6 +2,8 @@ import httpClient from "@/services/httpClient";
 import store from "@/store/index";
 
 const ID_SOURCE_THRESHOLD = 200; // Threshold for determining if ID is local or belongs to the external API
+const RECIPES_PER_PAGE = 3;
+const SEARCH_RESULTS_LIMIT = 12;
 
 export default {
   // GET /recipes/rand
@@ -29,57 +31,42 @@ export default {
   },
 
   // GET /metadata/last-seen
-  async getMyRecipes() {
-    try {
-      let response = await httpClient.get("/metadata/personal");
-      let ids = response.data.personal.filter(x => x !== null).reverse();
-      let personal = [];
-      const result = ids.map(v => this.getRecipe(v));
-      for await (const recipe of result) {
-        let raw = recipe.data;
-        raw.saved = raw.favs;
-        delete raw.favs;
-        personal.push(raw);
-      }
-      return { data: personal };
-    } catch (e) {
-      return { error: e };
-    }
+  async getMyRecipes(requestedPage) {
+    return await this.getMetaDataRecipes('personal', requestedPage)
+
   },
 
   // GET /metadata/last-seen
-  async getFamilyRecipes() {
-    try {
-      let response = await httpClient.get("/metadata/family");
-      let ids = response.data.family.filter(x => x !== null).reverse();
-      let personal = [];
-      const result = ids.map(v => this.getRecipe(v));
-      for await (const recipe of result) {
-        let raw = recipe.data;
-        raw.saved = raw.favs;
-        delete raw.favs;
-        personal.push(raw);
-      }
-      return { data: personal };
-    } catch (e) {
-      return { error: e };
-    }
+  async getFamilyRecipes(requestedPage) {
+    return await this.getMetaDataRecipes('family', requestedPage);
   },
 
   // GET /metadata/last-seen
-  async getFavoritesRecipes() {
+  async getFavoritesRecipes(requestedPage) {
+    return await this.getMetaDataRecipes('favs', requestedPage);
+  },
+
+  async getMetaDataRecipes(category, requestedPage) {
     try {
-      let response = await httpClient.get("/metadata/favs");
-      let ids = response.data.favs.filter(x => x !== null).reverse();
-      let favs = [];
-      const result = ids.map(v => this.getRecipe(v));
-      for await (const recipe of result) {
+      let response = await httpClient.get("/metadata/" + category);
+      let ids = response.data[category].filter(x => x !== null).reverse();
+      let result = [];
+
+      // Pagination
+      let pages = Math.ceil(ids.length / RECIPES_PER_PAGE);
+      let page = requestedPage || 1;
+      let chunkStart = (page - 1) * RECIPES_PER_PAGE;
+      ids = ids.slice(chunkStart, chunkStart + RECIPES_PER_PAGE);
+      //
+
+      const recipeData = ids.map(v => this.getRecipe(v));
+      for await (const recipe of recipeData) {
         let raw = recipe.data;
         raw.saved = true;
         delete raw.favs;
-        favs.push(raw);
+        result.push(raw);
       }
-      return { data: favs };
+      return { data: result, Pagination: { total_pages: pages, page: page } };
     } catch (e) {
       return { error: e };
     }
@@ -118,16 +105,16 @@ export default {
   },
 
   // GET /recipes/search
-  searchRecipes(query, selectedFilters, requestPage) {
+  searchRecipes(query, selectedFilters, requestedPage) {
     return this.getRecipesByRoute("/recipes/search", {
       query: query,
       cuisine: selectedFilters.Cuisines,
       diet: selectedFilters.Diets,
       intolerances: selectedFilters.Intolerances,
       instructionsRequired: true,
-      number: 12, // TODO: Change
-      limit: 3, // TODO: Change to 5
-      page: requestPage ? requestPage : 0
+      number: SEARCH_RESULTS_LIMIT,
+      limit: RECIPES_PER_PAGE,
+      page: requestedPage ? requestedPage : 0
     });
   },
 
@@ -258,7 +245,7 @@ export default {
     return recipe;
   }
 };
-String.prototype.replaceAt = function(index, replacement) {
+String.prototype.replaceAt = function (index, replacement) {
   return (
     this.substr(0, index) +
     replacement +

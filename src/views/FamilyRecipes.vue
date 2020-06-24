@@ -25,8 +25,8 @@ export default {
   data: () => ({}),
 
   methods: {
-    loadFamilyRecipes() {
-      return RecipeService.getFamilyRecipes();
+    loadFamilyRecipes(page) {
+      return RecipeService.getFamilyRecipes(page);
     }
   }
 };
