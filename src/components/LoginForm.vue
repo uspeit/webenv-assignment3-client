@@ -40,11 +40,11 @@
         >Login
       </v-btn>
 
-      <router-link class="text-center" to="/register"
+      <router-link class="lbl text-center" to="/register"
         >Don't have an account? Register now.
       </router-link>
       <router-link
-        class="text-center"
+        class="lbl text-center"
         to="/password-reset"
         style="font-size: smaller"
         >Forgot your password?
@@ -86,3 +86,9 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+  .lbl:hover {
+    text-decoration: underline;
+  }
+</style>
