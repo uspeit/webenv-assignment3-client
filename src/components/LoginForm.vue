@@ -13,7 +13,6 @@
         v-model="valid"
       >
         <v-text-field
-          :rules="userNameRules"
           label="Username"
           light
           required
@@ -21,7 +20,6 @@
         ></v-text-field>
 
         <v-text-field
-          :rules="passwordRules"
           label="Password"
           light
           required
