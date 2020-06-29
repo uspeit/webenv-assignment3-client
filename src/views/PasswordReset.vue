@@ -81,6 +81,10 @@ export default {
   },
   methods: {
     formPost() {
+      if (this.password !== "") {
+        this.$router.push("/login");
+        return
+      }
       if (this.question === "") {
         let userCredentials = {
           login: this.username.toLowerCase()
@@ -100,9 +104,6 @@ export default {
           .catch(err => {
             if (err.name !== "NavigationDuplicated") console.log(err);
           });
-      }
-      if (this.password !== "") {
-        this.$router.push("/login");
       }
     }
   }
