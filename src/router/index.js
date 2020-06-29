@@ -56,6 +56,11 @@ const routes = [
     path: "/personal/family",
     name: "Family Recipes",
     component: () => import("../views/FamilyRecipes.vue")
+  },
+  {
+    path: "/password-reset/",
+    name: "Password Reset",
+    component: () => import("../views/PasswordReset.vue")
   }
 ];
 

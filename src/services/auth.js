@@ -20,6 +20,27 @@ export default {
     });
   },
 
+  getQuestion(username) {
+    return new Promise((resolve, reject) => {
+      httpClient
+        .post("/authenticate/password-reset", username)
+        .then(response => {
+          resolve(response.data.question);
+        })
+        .catch(reason => reject(reason));
+    });
+  },
+  postAnswer(answer) {
+    return new Promise((resolve, reject) => {
+      httpClient
+        .put("/authenticate/password-reset", answer)
+        .then(response => {
+          resolve(response.data.new_password);
+        })
+        .catch(reason => reject(reason));
+    });
+  },
+
   // Perform registration
   register(userCredentials, userInfo) {
     return new Promise((resolve, reject) => {

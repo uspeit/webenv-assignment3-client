@@ -32,18 +32,17 @@ export default {
 
   // GET /metadata/last-seen
   async getMyRecipes(requestedPage) {
-    return await this.getMetaDataRecipes('personal', requestedPage)
-
+    return await this.getMetaDataRecipes("personal", requestedPage);
   },
 
   // GET /metadata/last-seen
   async getFamilyRecipes(requestedPage) {
-    return await this.getMetaDataRecipes('family', requestedPage);
+    return await this.getMetaDataRecipes("family", requestedPage);
   },
 
   // GET /metadata/last-seen
   async getFavoritesRecipes(requestedPage) {
-    return await this.getMetaDataRecipes('favs', requestedPage);
+    return await this.getMetaDataRecipes("favs", requestedPage);
   },
 
   async getMetaDataRecipes(category, requestedPage) {
@@ -245,7 +244,7 @@ export default {
     return recipe;
   }
 };
-String.prototype.replaceAt = function (index, replacement) {
+String.prototype.replaceAt = function(index, replacement) {
   return (
     this.substr(0, index) +
     replacement +
