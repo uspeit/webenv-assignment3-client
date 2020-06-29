@@ -43,8 +43,8 @@
                       type="text"
                       v-model="editedItem.name"
                     ></v-text-field>
-                  </v-col>
-                </v-row><v-row>
+                  </v-col> </v-row
+                ><v-row>
                   <v-col>
                     <v-text-field
                       label="Amount"

@@ -4,7 +4,11 @@
       <v-col cols="6" xl="5">
         <v-card class="elevation-12">
           <v-toolbar color="primary" dark flat>
-            <v-toolbar-title class="d-block text-center text-uppercase"
+            <v-avatar color="black-grey">
+              <v-img v-bind:src="imgUrl" v-if="imgUrl" />
+              <v-icon v-else dense >mdi-account-circle</v-icon>
+            </v-avatar>
+            <v-toolbar-title class="ml-2 d-block text-center text-uppercase"
               >Register
             </v-toolbar-title>
           </v-toolbar>
@@ -91,12 +95,33 @@
                     required
                     v-model="email"
                   ></v-text-field>
-                  <v-text-field
-                    label="Image URL"
-                    light
-                    required
-                    v-model="imgUrl"
-                  ></v-text-field>
+                  <form
+                          ref="imageUpload"
+                          enctype="multipart/form-data"
+                          class="d-flex align-center"
+                  >
+                    <v-file-input
+                            accept="image/*"
+                            class="flex-grow-1"
+                            label="Profile Picture"
+                            light
+                            required
+                            name="file"
+                            v-model="imgObj"
+                            id="imageInput"
+                    ></v-file-input>
+                    <v-btn
+                            :loading="loading"
+                            @click="performUpload"
+                            class="ml-4 small white--text"
+                            color="blue-grey"
+                            fab
+                            outlined
+                            small
+                    >
+                      <v-icon dark>mdi-cloud-upload</v-icon>
+                    </v-btn>
+                  </form>
                 </v-col>
               </v-row>
             </v-form>
@@ -120,6 +145,7 @@
 <script>
 import AuthService from "@/services/auth";
 import countryData from "@/assets/countryData.json";
+import FileService from "@/services/files";
 
 import {
   confirmPasswordRules,
@@ -141,10 +167,24 @@ export default {
     countries: countryData,
     country: "",
     email: "",
-    imgUrl: ""
+    imgUrl: "",
+    imgObj: {},
+    loading: false
   }),
 
   methods: {
+    async performUpload() {
+      if(!this.imgObj.name)
+        return
+      this.loading = true;
+      let formData = new FormData();
+
+      formData.append("image", this.imgObj, this.imgObj.name);
+
+      this.imgUrl = await FileService.uploadImg(formData);
+      this.loading = false;
+    },
+
     validateCredentials() {
       if (!this.$refs.registerForm.validate()) return;
 

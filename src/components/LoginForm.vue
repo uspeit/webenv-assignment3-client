@@ -13,7 +13,6 @@
         v-model="valid"
       >
         <v-text-field
-          :rules="userNameRules"
           label="Username"
           light
           required
@@ -21,7 +20,6 @@
         ></v-text-field>
 
         <v-text-field
-          :rules="passwordRules"
           label="Password"
           light
           required
@@ -40,8 +38,14 @@
         >Login
       </v-btn>
 
-      <router-link class="text-center" to="/register"
+      <router-link class="lbl text-center" to="/register"
         >Don't have an account? Register now.
+      </router-link>
+      <router-link
+        class="lbl text-center"
+        to="/password-reset"
+        style="font-size: smaller"
+        >Forgot your password?
       </router-link>
     </v-card-actions>
   </v-card>
@@ -80,3 +84,9 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+  .lbl:hover {
+    text-decoration: underline;
+  }
+</style>
