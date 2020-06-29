@@ -8,6 +8,10 @@ span {
     font-family: 'Montserrat SemiBold', sans-serif;
 }
 
+#profile:hover {
+    text-decoration: underline;
+}
+
 a {
     text-decoration: none;
 }

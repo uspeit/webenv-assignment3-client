@@ -86,7 +86,7 @@ export default {
 </script>
 
 <style scoped>
-  .lbl:hover {
-    text-decoration: underline;
-  }
+.lbl:hover {
+  text-decoration: underline;
+}
 </style>

@@ -14,7 +14,7 @@ export default new Vuetify({
     themes: {
       dark: {
         text: colors.grey.darken4,
-        primary:colors.blueGrey,
+        primary: colors.blueGrey,
         accent: colors.shades.white,
         card: colors.shades.white,
         // Icon colors

@@ -83,7 +83,7 @@ export default {
     formPost() {
       if (this.password !== "") {
         this.$router.push("/login");
-        return
+        return;
       }
       if (this.question === "") {
         let userCredentials = {

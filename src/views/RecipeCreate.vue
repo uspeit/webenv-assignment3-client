@@ -198,8 +198,7 @@ export default {
     },
 
     async performUpload() {
-      if(!this.imgObj.name)
-        return
+      if (!this.imgObj.name) return;
       this.loading = true;
       let formData = new FormData();
 

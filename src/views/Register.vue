@@ -6,7 +6,7 @@
           <v-toolbar color="primary" dark flat>
             <v-avatar color="black-grey">
               <v-img v-bind:src="imgUrl" v-if="imgUrl" />
-              <v-icon v-else dense >mdi-account-circle</v-icon>
+              <v-icon v-else dense>mdi-account-circle</v-icon>
             </v-avatar>
             <v-toolbar-title class="ml-2 d-block text-center text-uppercase"
               >Register
@@ -96,28 +96,28 @@
                     v-model="email"
                   ></v-text-field>
                   <form
-                          ref="imageUpload"
-                          enctype="multipart/form-data"
-                          class="d-flex align-center"
+                    ref="imageUpload"
+                    enctype="multipart/form-data"
+                    class="d-flex align-center"
                   >
                     <v-file-input
-                            accept="image/*"
-                            class="flex-grow-1"
-                            label="Profile Picture"
-                            light
-                            required
-                            name="file"
-                            v-model="imgObj"
-                            id="imageInput"
+                      accept="image/*"
+                      class="flex-grow-1"
+                      label="Profile Picture"
+                      light
+                      required
+                      name="file"
+                      v-model="imgObj"
+                      id="imageInput"
                     ></v-file-input>
                     <v-btn
-                            :loading="loading"
-                            @click="performUpload"
-                            class="ml-4 small white--text"
-                            color="blue-grey"
-                            fab
-                            outlined
-                            small
+                      :loading="loading"
+                      @click="performUpload"
+                      class="ml-4 small white--text"
+                      color="blue-grey"
+                      fab
+                      outlined
+                      small
                     >
                       <v-icon dark>mdi-cloud-upload</v-icon>
                     </v-btn>
@@ -174,8 +174,7 @@ export default {
 
   methods: {
     async performUpload() {
-      if(!this.imgObj.name)
-        return
+      if (!this.imgObj.name) return;
       this.loading = true;
       let formData = new FormData();
 
