@@ -43,6 +43,12 @@
       <router-link class="text-center" to="/register"
         >Don't have an account? Register now.
       </router-link>
+      <router-link
+        class="text-center"
+        to="/password-reset"
+        style="font-size: smaller"
+        >Forgot your password?
+      </router-link>
     </v-card-actions>
   </v-card>
 </template>
