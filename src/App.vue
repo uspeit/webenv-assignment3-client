@@ -51,7 +51,7 @@
       <div v-if="isLoggedIn">
         <!-- Logged in -->
         <transition name="fade-in">
-          <span @click="navigate('/profile/')">
+          <span style="cursor: pointer" @click="navigate('/profile/')">
             <span id="profile" class="mx-4 mt-1"
               >Hello {{ currentUser.fullname }}</span
             >
