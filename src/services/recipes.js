@@ -30,19 +30,24 @@ export default {
     });
   },
 
-  // GET /metadata/last-seen
+  // GET /metadata/personal
   async getMyRecipes(requestedPage) {
     return await this.getMetaDataRecipes("personal", requestedPage);
   },
 
-  // GET /metadata/last-seen
+  // GET /metadata/family
   async getFamilyRecipes(requestedPage) {
     return await this.getMetaDataRecipes("family", requestedPage);
   },
 
-  // GET /metadata/last-seen
+  // GET /metadata/favs
   async getFavoritesRecipes(requestedPage) {
     return await this.getMetaDataRecipes("favs", requestedPage);
+  },
+
+  // GET /metadata/meal
+  async getMealRecipes(requestedPage) {
+    return await this.getMetaDataRecipes("meal", requestedPage);
   },
 
   async getMetaDataRecipes(category, requestedPage) {
@@ -101,6 +106,11 @@ export default {
   // POST /metadata/watched/{id}
   setWatched(id) {
     return httpClient.post("/metadata/watched/" + id);
+  },
+
+  // POST /metadata/meal/{id}
+  addToMeal(id) {
+    return httpClient.post("/metadata/meal/" + id);
   },
 
   // GET /recipes/search

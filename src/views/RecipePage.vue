@@ -32,6 +32,18 @@
                     class="rating-container float-right"
                     v-bind:rating="recipe.aggregate_likes"
                   />
+                  <v-spacer></v-spacer>
+                  <v-btn
+                    @click="addToMeal"
+                    class="ml-5 mt-5 small white--text"
+                    color="primary"
+                    fab
+                    outlined
+                    small
+                    title="Add to My Meal"
+                  >
+                    <v-icon dark>mdi-silverware</v-icon>
+                  </v-btn>
                 </v-col>
                 <v-col cols="8">
                   <div class="position-relative fill-height">
@@ -104,6 +116,12 @@ export default {
         RecipeService.setWatched(recipeId).then();
       }
     });
+  },
+  methods: {
+    addToMeal() {
+      let recipeId = this.$route.params.id;
+      RecipeService.addToMeal(recipeId).then();
+    }
   }
 };
 </script>

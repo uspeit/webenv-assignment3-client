@@ -1,18 +1,32 @@
 <template>
   <v-container class="fill-height">
     <v-row justify="center" align="center">
-      <v-col cols="15" xl="5">
-        <v-card class="elevation-12">
-          <v-toolbar color="primary" dark flat>
-            <v-avatar color="black-grey">
-              <v-icon size="2.5em">mdi-pot-mix</v-icon>
-            </v-avatar>
-            <v-toolbar-title
-              class="ml-2 d-block font-weight-bold text-center text-uppercase"
-              >Cook A Meal
-            </v-toolbar-title>
-          </v-toolbar>
-          <v-card-text class="card black--text">
+      <v-col cols="8">
+        <v-card>
+          <!--          <RecipeList-->
+          <!--                  hideWatchedIndicator="true"-->
+          <!--                  size="md"-->
+          <!--                  title="Cook A Meal"-->
+          <!--                  v-bind:dataSource="loadMealRecipes"-->
+          <!--                  lockHeight="false"-->
+          <!--          />-->
+          <div
+            v-for="(recipe, index) in recipes"
+            :key="recipe.id"
+            :data-index="index"
+          >
+            <RecipeSummary
+              class="white--text flex-column d-flex"
+              style="max-width: 20em"
+              :recipe="recipe"
+              :size="size"
+              :height="height"
+              :hideWatchedIndicator="hideWatchedIndicator"
+            >
+            </RecipeSummary>
+            <v-checkbox class="ml-8">cooked?</v-checkbox>
+          </div>
+          <v-card-text class="white--text">
             <div>
               Lorem ipsum dolor sit amet, consectetur adipisicing elit. A
               asperiores corporis dicta doloremque esse est harum ipsa itaque
@@ -26,29 +40,31 @@
               quis quod reiciendis, repellendus, sapiente similique tenetur
               voluptatem?
             </div>
-            <div>
-              Architecto dolores doloribus excepturi expedita mollitia nisi non,
-              nulla omnis sequi soluta. Ad architecto, aspernatur consequatur
-              debitis delectus facere facilis illum in incidunt iure laudantium
-              nisi praesentium, repellendus sapiente voluptate.
-            </div>
-            <div>
-              Accusamus blanditiis deleniti deserunt, in incidunt iure
-              laudantium molestias necessitatibus nulla repudiandae. Atque eius
-              fugit nostrum officiis ratione saepe sed sequi sit tempore vitae.
-              Beatae eius eligendi ex ipsa soluta.
-            </div>
-            <div>
-              Consectetur maxime numquam provident quis temporibus. A, accusamus
-              ad consectetur consequuntur deleniti exercitationem fugit harum
-              maiores molestiae numquam obcaecati officiis perferendis quidem
-              quis quod reiciendis, repellendus, sapiente similique tenetur
-              voluptatem?
-            </div>
           </v-card-text>
-          <v-card-actions class="d-flex flex-column card">
-            <v-btn class="mb-4 align-self-stretch" color="success" light to="/"
-              >Back
+          <div class="">
+            <br />
+            <v-progress-linear
+              style="max-width: 45em;"
+              class="ml-6"
+              color="light-green darken-4"
+              :buffer-value="progress + 15"
+              :value="progress"
+              height="10"
+              striped
+              stream
+            ></v-progress-linear>
+            <br />
+          </div>
+          <v-card-actions class=" mt-3 d-flex flex-column col-5 offset-3">
+            <v-btn
+              class="ma-2 mb-4 align-self-stretch"
+              to="/"
+              tile
+              outlined
+              color="success"
+            >
+              <v-icon left>mdi-home</v-icon>
+              Back
             </v-btn>
           </v-card-actions>
         </v-card>
@@ -58,7 +74,26 @@
 </template>
 
 <script>
-export default {};
+import RecipeService from "@/services/recipes";
+import RecipeSummary from "../components/RecipeSummary";
+
+export default {
+  components: {
+    RecipeSummary
+  },
+
+  data: () => ({
+    progress: 45,
+    recipes: [],
+    size: "md",
+    height: "5em",
+    hideWatchedIndicator: true
+  }),
+
+  async mounted() {
+    this.recipes = await RecipeService.getMealRecipes();
+  }
+};
 </script>
 
 <style scoped></style>
