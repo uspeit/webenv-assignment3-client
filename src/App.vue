@@ -1,11 +1,5 @@
 <template>
-  <v-app
-    id="inspire"
-    :style="{
-      'background-image':
-        'url(https://cdn.dribbble.com/users/1758067/screenshots/6307098/morocco_pattern_dribbble_bw_pattern_copy_4x.jpg?compress=1&resize=800x600)'
-    }"
-  >
+  <v-app id="inspire">
     <v-app-bar app clipped-left color="primary" dense>
       <router-link class="d-flex white--text" to="/">
         <v-avatar>
