@@ -25,10 +25,12 @@
             disableNav="true"
             route="/personal"
             v-show="currentUser"
-            >Personal
+          >
+            <v-badge color="teal " icon="mdi-vuetify" :content="badge"
+              >Personal
+            </v-badge>
           </MenuLink>
         </template>
-
         <v-list>
           <v-list-item
             :key="index"
@@ -86,7 +88,9 @@
 
 <script>
 import AuthService from "@/services/auth";
+import RecipeService from "@/services/recipes";
 import MenuLink from "@/components/MenuLink.vue";
+import recipes from "./services/recipes";
 
 export default {
   name: "App",
@@ -115,12 +119,16 @@ export default {
         text: "Cook A Meal",
         route: "/meal"
       }
-    ]
+    ],
+    badge: ""
   }),
 
-  mounted() {
+  async mounted() {
     // Loads user data when app starts
     AuthService.fetchUserData().then();
+    this.badge = await RecipeService.getMealRecipes().then(i => {
+      return i.data.length;
+    });
   },
 
   computed: {

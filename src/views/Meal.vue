@@ -55,6 +55,17 @@
             ></v-progress-linear>
             <br />
           </div>
+          <v-btn
+            @click="clearAll"
+            class="ml-3 small white--text"
+            color="success"
+            fab
+            outlined
+            small
+            title="Clear All"
+          >
+            <v-icon dark>mdi-delete-empty</v-icon>
+          </v-btn>
           <v-card-actions class=" mt-3 d-flex flex-column col-5 offset-3">
             <v-btn
               class="ma-2 mb-4 align-self-stretch"
@@ -92,6 +103,12 @@ export default {
 
   async mounted() {
     this.recipes = await RecipeService.getMealRecipes();
+  },
+
+  methods: {
+    clearAll() {
+      this.recipes = [];
+    }
   }
 };
 </script>
