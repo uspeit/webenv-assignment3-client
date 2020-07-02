@@ -127,7 +127,8 @@ export default {
     // Loads user data when app starts
     AuthService.fetchUserData().then();
     this.badge = await RecipeService.getMealRecipes().then(i => {
-      return i.data.length;
+      console.log(i)
+      return i.Pagination.total;
     });
   },
 
