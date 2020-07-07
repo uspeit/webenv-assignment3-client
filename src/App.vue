@@ -127,9 +127,11 @@ export default {
     // Loads user data when app starts
     AuthService.fetchUserData().then();
     this.badge = await RecipeService.getMealRecipes().then(i => {
-      console.log(i)
+      console.log(i);
       return i.Pagination.total;
     });
+    // this.$el.addEventListener("pushMeal", () => this.badge = 100)
+
   },
 
   computed: {

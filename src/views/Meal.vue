@@ -7,8 +7,9 @@
             <v-avatar color="black-grey">
               <v-icon>mdi-food</v-icon>
             </v-avatar>
-            <v-toolbar-title class="ml-2 font-weight-bold d-block text-center text-uppercase"
-            >Cook A Meal
+            <v-toolbar-title
+              class="ml-2 font-weight-bold d-block text-center text-uppercase"
+              >Cook A Meal
             </v-toolbar-title>
           </v-toolbar>
           <div
@@ -16,22 +17,27 @@
             :key="recipe.id"
             :data-index="index"
           >
-            <router-link :to="'/recipe/'+recipe.id">
-            <div class="d-flex text-center" style="color: darkslategray;">
-
-                <span class="ma-3 mt-8" style="text-decoration: underline">{{index+1}}</span>
+            <router-link :to="'/recipe/' + recipe.id">
+              <div class="d-flex text-center" style="color: darkslategray;">
+                <span class="ma-3 mt-8" style="text-decoration: underline">{{
+                  index + 1
+                }}</span>
                 <RecipeSummary
-                        class="white--text"
-                        style=""
-                        :recipe="recipe"
-                        :size="size"
-                        :height="height"
-                        :hideWatchedIndicator="hideWatchedIndicator"
+                  class="white--text"
+                  style=""
+                  :recipe="recipe"
+                  :size="size"
+                  :height="height"
+                  :hideWatchedIndicator="hideWatchedIndicator"
                 />
-              <v-checkbox class="" inheritance style="-webkit-text-fill-color: darkslategray">cooked?</v-checkbox>
-            </div>
+                <v-checkbox
+                  class=""
+                  inheritance
+                  style="-webkit-text-fill-color: darkslategray"
+                  >cooked?</v-checkbox
+                >
+              </div>
             </router-link>
-
           </div>
           <div class="">
             <br />
@@ -43,30 +49,29 @@
               :value="progress"
               height="10"
               striped
-
               stream
             ></v-progress-linear>
             <br />
           </div>
-            <v-btn
-              to="/"
-              class="ma-3 small white--text"
-              color="success"
-              fab
-              outlined
-              small
-              title="Back Homw"
-            >
-              <v-icon dark>mdi-keyboard-backspace</v-icon>
-            </v-btn>
           <v-btn
-                  @click="clearAll"
-                  class="ml-3 small white--text"
-                  color="success"
-                  fab
-                  outlined
-                  small
-                  title="Clear All"
+            to="/"
+            class="ma-3 small white--text"
+            color="success"
+            fab
+            outlined
+            small
+            title="Back Homw"
+          >
+            <v-icon dark>mdi-keyboard-backspace</v-icon>
+          </v-btn>
+          <v-btn
+            @click="clearAll"
+            class="ml-3 small white--text"
+            color="success"
+            fab
+            outlined
+            small
+            title="Clear All"
           >
             <v-icon dark>mdi-delete-empty</v-icon>
           </v-btn>
@@ -95,13 +100,13 @@ export default {
 
   async mounted() {
     this.recipes = await RecipeService.getMealRecipes();
-    this.progress=0;
+    this.progress = 0;
   },
 
   methods: {
     clearAll() {
       this.recipes = [];
-      this.progress=-15;
+      this.progress = -15;
     }
   }
 };

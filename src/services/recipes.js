@@ -54,7 +54,7 @@ export default {
     try {
       let response = await httpClient.get("/metadata/" + category);
       let ids = response.data[category].filter(x => x !== null).reverse();
-      const total = ids.length
+      const total = ids.length;
       let result = [];
 
       // Pagination
@@ -72,7 +72,10 @@ export default {
         result.push(raw);
       }
 
-      return { data: result, Pagination: { total_pages: pages, page: page, total: total  } };
+      return {
+        data: result,
+        Pagination: { total_pages: pages, page: page, total: total }
+      };
     } catch (e) {
       return { error: e };
     }
