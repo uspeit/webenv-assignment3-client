@@ -1,5 +1,5 @@
 <template>
-  <v-row v-bind:class="'recipe-item position-relative px-4 ' + size">
+  <v-row v-bind:class="'recipe-item position-relative px-4 ' + recipeClassSuffix">
     <v-col class="d-flex">
       <div class="d-flex flex-column align-center">
         <v-img
@@ -9,10 +9,7 @@
           v-bind:src="recipe.image"
           v-bind:width="imageWidth"
         />
-        <RecipeRating
-          class="rating-container"
-          v-bind:rating="recipe.aggregate_likes"
-        />
+        <RecipeRating class="rating-container" v-bind:rating="recipe.aggregate_likes" />
       </div>
       <div
         v-bind:class="
@@ -21,8 +18,7 @@
         "
       >
         <!-- Details -->
-        <h3 class="single-line" v-if="size == 'md'">{{ recipe.title }}</h3>
-        <h2 class="single-line mb-2" v-else>{{ recipe.title }}</h2>
+        <h3 class="single-line mb-2" :class="size" v-if="!hideTitle">{{ recipe.title }}</h3>
 
         <RecipeInfo
           v-bind:hideWatched="hideWatchedIndicator"
@@ -45,7 +41,9 @@ export default {
     "recipe",
     "size",
     "height",
-    "hideWatchedIndicator" // In case all recipes already been seen and we want to hide the indicator
+    "hideWatchedIndicator", // In case all recipes already been seen and we want to hide the indicator
+    "hideTitle",
+    "disableAnimation" // Disables zoom and other animations for plain summary
   ],
 
   components: {
@@ -80,6 +78,10 @@ export default {
       let width = 120;
       if (this.$props.size === "lg") width = 200;
       return width;
+    },
+
+    recipeClassSuffix() {
+      return this.$props.size + (this.$props.disableAnimation ? " disableAnimation" : "");
     }
   }
 };
@@ -91,6 +93,8 @@ export default {
 }
 .recipe-item:hover {
   background-color: rgba(185, 180, 180, 0.03);
+}
+.recipe-item:not(.disableAnimation):hover {
   transform: scale(1.01);
 }
 

@@ -1,6 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import AuthService from "../services/auth";
+import mealModule from "./modules/meal";
 
 Vue.use(Vuex);
 
@@ -51,7 +52,9 @@ export default new Vuex.Store({
       });
     }
   },
-  modules: {},
+  modules: {
+    meal: mealModule
+  },
   getters: {
     tokenPresent: state => !!state.token,
     userDataPresent: state => !!state.currentUser,

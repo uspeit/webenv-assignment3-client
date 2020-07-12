@@ -47,7 +47,38 @@ export default {
 
   // GET /metadata/meal
   async getMealRecipes(requestedPage) {
-    return await this.getMetaDataRecipes("meal", requestedPage);
+    let recipes = await this.getMetaDataRecipes("meal", requestedPage);
+
+    // Create string representation of accomodations
+    recipes.data = recipes.data.map(recipe => {
+      let accommodations = "";
+
+      // Define helper function to append strings
+      let appendTo = (str, value) => {
+        if (str.length === 0) return value;
+        else return str + ", " + value;
+      };
+
+      if (recipe.gluten_free) accommodations = appendTo(accommodations, "Gluten Free");
+
+      // Since vegan is a subset of vegetarian we use else
+      if (recipe.vegan) accommodations = appendTo(accommodations, "Vegan");
+      else if (recipe.vegetarian) accommodations = appendTo(accommodations, "Vegetarian");
+
+      recipe.accommodations = accommodations.length > 0 ? accommodations : "None";
+
+      return recipe;
+    });
+
+    // Update cooked meals from state
+    let cookedRecipes = store.getters.cookedRecipes;
+    recipes.data = recipes.data.map(recipe => {
+      recipe.cooked = cookedRecipes.includes(recipe.id);
+
+      return recipe;
+    });
+
+    return recipes;
   },
 
   async getMetaDataRecipes(category, requestedPage) {
@@ -259,7 +290,7 @@ export default {
     return recipe;
   }
 };
-String.prototype.replaceAt = function(index, replacement) {
+String.prototype.replaceAt = function (index, replacement) {
   return (
     this.substr(0, index) +
     replacement +
