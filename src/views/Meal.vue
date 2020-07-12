@@ -1,9 +1,9 @@
 <template>
-  <v-container class="fill-height">
+  <v-container>
     <v-row justify="center" align="center">
       <v-col cols="7">
         <v-card class="card">
-          <v-toolbar color="primary">
+          <v-toolbar color="primary" class="mb-5">
             <v-avatar color="black-grey">
               <v-icon>mdi-food</v-icon>
             </v-avatar>
@@ -13,6 +13,7 @@
           </v-toolbar>
 
           <v-data-table
+            v-if="!loading"
             :headers="dataTable.headers"
             :items="recipes"
             :single-expand="dataTable.singleExpand"
@@ -112,6 +113,7 @@ export default {
   },
 
   data: () => ({
+    loading: true,
     progress: 0,
     recipes: [],
     height: "1em",
@@ -140,6 +142,8 @@ export default {
     this.progress = 0;
 
     this.updateProgress();
+
+    this.loading = false;
   },
 
   methods: {

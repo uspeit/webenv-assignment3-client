@@ -32,22 +32,22 @@ export default {
 
   // GET /metadata/personal
   async getMyRecipes(requestedPage) {
-    return await this.getMetaDataRecipes("personal", requestedPage);
+    return await this.getMetaDataRecipes("personal", { page: requestedPage });
   },
 
   // GET /metadata/family
   async getFamilyRecipes(requestedPage) {
-    return await this.getMetaDataRecipes("family", requestedPage);
+    return await this.getMetaDataRecipes("family", { page: requestedPage });
   },
 
   // GET /metadata/favs
   async getFavoritesRecipes(requestedPage) {
-    return await this.getMetaDataRecipes("favs", requestedPage);
+    return await this.getMetaDataRecipes("favs", { page: requestedPage });
   },
 
   // GET /metadata/meal
-  async getMealRecipes(requestedPage) {
-    let recipes = await this.getMetaDataRecipes("meal", requestedPage);
+  async getMealRecipes() {
+    let recipes = await this.getMetaDataRecipes("meal");
 
     // Create string representation of accomodations
     recipes.data = recipes.data.map(recipe => {
@@ -81,7 +81,7 @@ export default {
     return recipes;
   },
 
-  async getMetaDataRecipes(category, requestedPage) {
+  async getMetaDataRecipes(category, paginationConfig) {
     try {
       let response = await httpClient.get("/metadata/" + category);
       let ids = response.data[category].filter(x => x !== null).reverse();
@@ -89,10 +89,14 @@ export default {
       let result = [];
 
       // Pagination
-      let pages = Math.ceil(ids.length / RECIPES_PER_PAGE);
-      let page = requestedPage || 1;
-      let chunkStart = (page - 1) * RECIPES_PER_PAGE;
-      ids = ids.slice(chunkStart, chunkStart + RECIPES_PER_PAGE);
+      let paginationData = {};
+      if (paginationConfig !== undefined) {
+        let pages = Math.ceil(ids.length / RECIPES_PER_PAGE);
+        let page = paginationConfig.page || 1;
+        let chunkStart = (page - 1) * RECIPES_PER_PAGE;
+        ids = ids.slice(chunkStart, chunkStart + RECIPES_PER_PAGE);
+        paginationData = { total_pages: pages, page: page, total: total };
+      }
       //
 
       const recipeData = ids.map(v => this.getRecipe(v));
@@ -105,7 +109,7 @@ export default {
 
       return {
         data: result,
-        Pagination: { total_pages: pages, page: page, total: total }
+        Pagination: paginationData
       };
     } catch (e) {
       return { error: e };
