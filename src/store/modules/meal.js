@@ -4,7 +4,8 @@ import LocalStorageFacade from "@/core/localStorageFacade";
 
 export default {
     state: {
-        cookedRecipes: new List(LocalStorageFacade.getList("cookedRecipes"))
+        cookedRecipes: new List(LocalStorageFacade.getList("cookedRecipes")),
+        mealCount: ''
     },
     mutations: {
         cooked(state, { recipeId }) {
@@ -15,7 +16,10 @@ export default {
         },
         clear(state) {
             state.cookedRecipes.clear();
-        }
+        },
+        update_meal_count(state, {count}){
+            state.mealCount = count
+        },
     },
     actions: {
         setCookedStatus({ commit }, { recipeId, cooked }) {
@@ -31,9 +35,13 @@ export default {
                 localStorage.removeItem("cookedRecipes");
                 resolve();
             });
-        }
+        },
+        updateMealCount({commit}, newCount){
+            commit('update_meal_count', {count: newCount})
+        },
     },
     getters: {
-        cookedRecipes: state => state.cookedRecipes.items
+        cookedRecipes: state => state.cookedRecipes.items,
+        mealCount: state => state.mealCount
     }
 }

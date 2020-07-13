@@ -150,12 +150,12 @@ export default {
 
   // POST /metadata/meal/{id}
   addToMeal(id) {
-    return httpClient.post("/metadata/meal/" + id);
+    return httpClient.post("/metadata/meal/" + id).then(i => store.dispatch('updateMealCount', i.data.meal.length));
   },
 
   // DELETE /metadata/meal/{id}
   removeFromMeal(id) {
-    return httpClient.delete("/metadata/meal/" + id);
+    return httpClient.delete("/metadata/meal/" + id).then(i => store.dispatch('updateMealCount', i.data.meal.length));
   },
 
   // GET /recipes/search

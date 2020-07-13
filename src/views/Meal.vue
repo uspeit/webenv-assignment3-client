@@ -150,17 +150,20 @@ export default {
 
   methods: {
     async clearAll() {
+      await this.$store.dispatch('updateMealCount', 0)
       let pro = []
       for await (let i of this.recipes){
          const p = await RecipeService.removeFromMeal(i.id)
           pro.push(p)
       }
       await Promise.all(pro)
+      this.recipes = []
     },
 
     async deleteItem (item) {
       const index = item.id
       confirm('Are you sure you want to delete this item?') &&  await RecipeService.removeFromMeal(index)
+      this.recipes.splice(this.recipes.indexOf(item),1)
     },
 
     updateCookedValue(item) {

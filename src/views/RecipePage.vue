@@ -122,7 +122,6 @@ export default {
       let recipeId = this.$route.params.id;
       await RecipeService.addToMeal(recipeId).then();
       await this.$router.push('/recipe/' + recipeId);
-      // this.$el.dispatchEvent(new Event("pushMeal"));
     }
   }
 };

@@ -47,11 +47,11 @@
       <MenuLink route="/create" v-show="currentUser">Create</MenuLink>
       <v-spacer></v-spacer>
 
-      <div v-if="isLoggedIn">
+      <div v-if="isLoggedIn && currentUser">
         <!-- Logged in -->
         <transition name="fade-in">
           <span style="cursor: pointer" @click="navigate('/profile/')">
-            <span id="profile" class="mx-4 mt-1"
+            <span  id="profile" class="mx-4 mt-1"
               >Hello {{ currentUser.fullname }}</span
             >
             <v-avatar size="2.5em" class="mr-3" color="#c8e2f1">
@@ -123,14 +123,13 @@ export default {
         route: "/meal"
       }
     ],
-    badge: ""
   }),
 
-  async mounted() {
+   mounted() {
     // Loads user data when app starts
     AuthService.fetchUserData().then();
-    this.badge = await RecipeService.getMealRecipes().then(i => {
-      return i.data.length;
+    RecipeService.getMealRecipes().then(i => {
+      this.$store.dispatch('updateMealCount', i.data.length ) ;
     });
   },
 
@@ -140,6 +139,9 @@ export default {
     },
     currentUser: function() {
       return this.$store.getters.currentUser;
+    },
+    badge: function() {
+      return this.$store.getters.mealCount;
     }
   },
 
