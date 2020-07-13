@@ -9,8 +9,7 @@
             </v-avatar>
             <v-toolbar-title
               class="ml-2 font-weight-bold d-block text-center text-uppercase"
-              >Cook A Meal</v-toolbar-title
-            >
+            >Cook A Meal</v-toolbar-title>
           </v-toolbar>
 
           <v-data-table
@@ -20,7 +19,8 @@
             :single-expand="dataTable.singleExpand"
             :expanded.sync="dataTable.expanded"
             item-key="id"
-            show-expand
+            :show-expand="!reorderActive"
+            hide-default-footer
             light
             :footer-props="{
               prevIcon: 'mdi-minus',
@@ -30,19 +30,17 @@
             :items-per-page="5"
           >
             <template v-slot:item.ready_in_minutes="{ item }">
-              <v-chip :color="getColor(item.ready_in_minutes)" dark>{{
+              <v-chip :color="getColor(item.ready_in_minutes)" dark>
+                {{
                 item.ready_in_minutes
-              }}</v-chip>
+                }}
+              </v-chip>
             </template>
             <template v-slot:item.index="{ item }">
               <span class="text--black">{{ recipes.indexOf(item) + 1 }}</span>
             </template>
             <template v-slot:expanded-item="{ headers, item }">
-              <td
-                :colspan="headers.length"
-                class="text-center"
-                style="color: darkslategray;"
-              >
+              <td :colspan="headers.length" class="text-center" style="color: darkslategray;">
                 <router-link :to="'/recipe-cook/' + item.id">
                   <RecipeSummary
                     class="white--text"
@@ -58,15 +56,10 @@
               </td>
             </template>
             <template v-slot:item.cooked="{ item }">
-              <v-checkbox
-                v-model="item.cooked"
-                @change="updateCookedValue(item)"
-              ></v-checkbox>
+              <v-checkbox v-model="item.cooked" @change="updateCookedValue(item)"></v-checkbox>
             </template>
             <template v-slot:item.action="{ item }">
-              <v-icon small @click="deleteItem(item)">
-                mdi-delete
-              </v-icon>
+              <v-icon small @click="deleteItem(item)">mdi-delete</v-icon>
             </template>
           </v-data-table>
           <div class>
@@ -103,6 +96,17 @@
           >
             <v-icon dark>mdi-delete-empty</v-icon>
           </v-btn>
+          <v-btn
+            @click="toggleReorder"
+            class="ml-3 small white--text"
+            color="success"
+            fab
+            :outlined="!reorderActive"
+            small
+            title="Reorder"
+          >
+            <v-icon dark>mdi-swap-vertical</v-icon>
+          </v-btn>
         </v-card>
       </v-col>
     </v-row>
@@ -112,6 +116,7 @@
 <script>
 import RecipeService from "@/services/recipes";
 import RecipeSummary from "../components/RecipeSummary";
+import Sortable from "sortablejs";
 
 export default {
   components: {
@@ -120,6 +125,7 @@ export default {
 
   data: () => ({
     loading: true,
+    reorderActive: false,
     progress: 0,
     recipes: [],
     height: "1em",
@@ -149,6 +155,22 @@ export default {
     this.recipes = (await RecipeService.getMealRecipes()).data;
 
     this.updateProgress();
+
+    // Bootstrap recipe sorting
+    setTimeout(() => {
+      let table = document.querySelector(".v-data-table tbody");
+      const _self = this;
+      this.sortableInstance = Sortable.create(table, {
+        disabled: true,
+        onEnd({ newIndex, oldIndex }) {
+          // Move relevant item
+          const rowSelected = _self.recipes.splice(oldIndex, 1)[0];
+          _self.recipes.splice(newIndex, 0, rowSelected);
+          // Update server
+          RecipeService.updateMealOrder(_self.recipes.map(r => r.id));
+        }
+      });
+    }, 0);
 
     this.loading = false;
   },
@@ -197,6 +219,14 @@ export default {
       });
 
       this.progress = (cooked / total) * 100;
+    },
+
+    toggleReorder() {
+      // Disable expanded rows to avoid bugs with reordering
+      this.dataTable.expanded = [];
+      this.reorderActive = !this.reorderActive;
+      // Toggle sorting
+      this.sortableInstance.option("disabled", !this.reorderActive);
     }
   }
 };

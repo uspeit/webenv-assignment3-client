@@ -165,6 +165,11 @@ export default {
       .then(i => store.dispatch("updateMealCount", i.data.meal.length));
   },
 
+  // POST /metadata/mealOrder
+  updateMealOrder(orderedIds) {
+    return httpClient.post("/metadata/mealOrder/", orderedIds);
+  },
+
   // GET /recipes/search
   searchRecipes(query, selectedFilters, requestedPage, number, sort) {
     return this.getRecipesByRoute("/recipes/search", {
@@ -307,7 +312,7 @@ export default {
     return recipe;
   }
 };
-String.prototype.replaceAt = function(index, replacement) {
+String.prototype.replaceAt = function (index, replacement) {
   return (
     this.substr(0, index) +
     replacement +
