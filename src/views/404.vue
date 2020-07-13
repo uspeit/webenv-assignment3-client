@@ -1,6 +1,6 @@
 <template>
   <div class="section">
-    <h1 class="ti blue-grey">404</h1>
+    <h1 class="ti">404</h1>
     <div class="page white--text">
       Ooops!!! The page you are looking for is not found
     </div>
@@ -58,7 +58,7 @@ a {
   color: #008b62;
   text-shadow: 1px 1px 1px #00593e, 2px 2px 1px #00593e, 3px 3px 1px #00593e,
     4px 4px 1px #00593e, 5px 5px 1px #00593e, 6px 6px 1px #00593e,
-    7px 7px 1px #00593e, 8px 8px 1px #00593e, 25px 25px 8px rgba(0, 0, 0, 0.2);
+    7px 7px 1px #00593e, 8px 8px 1px #00593e, 25px 25px 8px rgba(14, 1, 1, 0.6);
 }
 
 .page {
@@ -66,6 +66,8 @@ a {
   font-size: 20px;
   font-weight: 600;
   color: #444;
+  text-shadow:
+          7px 7px 1px #1e3830, 8px 8px 1px #365048, 25px 25px 8px rgba(14, 1, 1, 0.6);
 }
 
 .back-home {
@@ -76,7 +78,7 @@ a {
   font-weight: 600;
   padding: 0.75rem 1rem 0.6rem;
   transition: all 0.2s linear;
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
 }
 .back-home:hover {
   background: cadetblue;

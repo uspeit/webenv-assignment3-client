@@ -44,11 +44,19 @@
                   clearable
                 ></v-select>
               </v-col>
-              <v-col cols="2">
+              <v-col cols="4">
                 <v-select
                   v-model="limit"
                   :label="'Limit'"
                   :items="[5, 10, 15]"
+                  :menu-props="{ light: true }"
+                  persistent-hint
+                  light
+                ></v-select>
+                <v-select
+                  v-model="sort"
+                  :label="'Sort by'"
+                  :items="['aggregateLikes', 'readyInMinutes']"
                   :menu-props="{ light: true }"
                   persistent-hint
                   light
@@ -101,6 +109,7 @@ export default {
     searching: false,
     resultsCount: -1,
     query: "",
+    sort: '',
     selectedFilters: {},
     filters: filterData,
     limit: 5
@@ -112,7 +121,8 @@ export default {
         this.query,
         this.selectedFilters,
         searchPage,
-        this.limit
+        this.limit,
+        this.sort
       );
     },
 

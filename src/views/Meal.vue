@@ -72,15 +72,13 @@
           <div class>
             <br />
             <v-progress-linear
-              style="max-width: 42em;"
-              class="ml-7"
+              style="max-width: 44em;"
+              class="ml-7 black--text font-weight-bold"
               color="light-green darken-4"
-              :buffer-value="progress + 5"
+              :buffer-value="100"
               :value="progress"
-              height="10"
-              striped
-              stream
-            ></v-progress-linear>
+              height="25"
+            >{{ Math.ceil(progress) || 0 }}%</v-progress-linear>
             <br />
           </div>
           <v-btn

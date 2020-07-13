@@ -87,14 +87,14 @@
                 </v-col>
                 <v-progress-linear
                   style="max-width: 49em;"
-                  class="ml-7"
+                  class="ml-7 black--text font-weight-bold"
                   color="light-green darken-4"
-                  :buffer-value="progress + 5"
+                  :buffer-value="progress + 10"
                   :value="progress"
-                  height="10"
+                  height="25"
                   striped
                   stream
-                ></v-progress-linear>
+                >{{Math.ceil(progress) || 0}}%</v-progress-linear>
                 <v-btn
                   to="/meal"
                   class="ma-3 small white--text"

@@ -166,7 +166,7 @@ export default {
   },
 
   // GET /recipes/search
-  searchRecipes(query, selectedFilters, requestedPage, number) {
+  searchRecipes(query, selectedFilters, requestedPage, number, sort) {
     return this.getRecipesByRoute("/recipes/search", {
       query: query,
       cuisine: selectedFilters.Cuisines,
@@ -175,6 +175,7 @@ export default {
       instructionsRequired: true,
       number: number ? number : SEARCH_RESULTS_LIMIT,
       limit: RECIPES_PER_PAGE,
+      sort: sort ? sort : 'like',
       page: requestedPage ? requestedPage : 0
     });
   },
