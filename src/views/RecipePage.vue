@@ -121,7 +121,7 @@ export default {
     async addToMeal() {
       let recipeId = this.$route.params.id;
       await RecipeService.addToMeal(recipeId).then();
-      await this.$router.push('/recipe/' + recipeId);
+      await this.$router.push("/recipe/" + recipeId);
     }
   }
 };

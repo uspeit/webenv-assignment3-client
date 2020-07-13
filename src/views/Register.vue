@@ -63,13 +63,30 @@
                       <img
                         class="country-icon"
                         height="16"
-                        v-bind:src="item.flag"
+                        :src="item.flag"
                         width="24"
                       />
                       <span class="mx-2"></span>
                       {{ item.name }}
                     </template>
                   </v-combobox>
+                  <v-combobox
+                    :items="questions"
+                    :rules="[v => !!v || 'Please select question']"
+                    item-text="q"
+                    label="Recovery Question"
+                    light
+                    required
+                    v-model="question"
+                  />
+                  <v-combobox
+                    :items="roles"
+                    :rules="[v => !!v || 'Please select role']"
+                    label="Choose a Role"
+                    light
+                    required
+                    v-model="role"
+                  />
                 </v-col>
                 <v-col>
                   <v-text-field
@@ -122,6 +139,12 @@
                       <v-icon dark>mdi-cloud-upload</v-icon>
                     </v-btn>
                   </form>
+                  <v-text-field
+                    label="Answer"
+                    light
+                    required
+                    v-model="answer"
+                  ></v-text-field>
                 </v-col>
               </v-row>
             </v-form>
@@ -167,9 +190,20 @@ export default {
     countries: countryData,
     country: "",
     email: "",
+    question: "",
+    answer: "",
+    role: "",
     imgUrl: "",
     imgObj: {},
-    loading: false
+    loading: false,
+    roles: ["Client", "Chef", "Reviewer"],
+    questions: [
+      "What is the name of the town where you were born?",
+      "What was your first car?",
+      "What elementary school did you attend?",
+      "What is the name of your first pet?",
+      "What is your mother's maiden name?"
+    ]
   }),
 
   methods: {
@@ -195,14 +229,14 @@ export default {
       let userInfo = {
         login: this.userName,
         password: this.password,
-        role: "Client",
+        role: this.role,
         avatar: this.imgUrl,
         fullname: this.firstName + " " + this.lastName,
         country: this.country.name,
         email: this.email,
         is_blocked: false,
-        question: "Place of Birth?",
-        answer: "Dimona"
+        question: this.question,
+        answer: this.answer
       };
 
       AuthService.register(userCredentials, userInfo)

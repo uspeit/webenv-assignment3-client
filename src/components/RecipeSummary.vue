@@ -1,5 +1,7 @@
 <template>
-  <v-row v-bind:class="'recipe-item position-relative px-4 ' + recipeClassSuffix">
+  <v-row
+    v-bind:class="'recipe-item position-relative px-4 ' + recipeClassSuffix"
+  >
     <v-col class="d-flex">
       <div class="d-flex flex-column align-center">
         <v-img
@@ -9,7 +11,10 @@
           v-bind:src="recipe.image"
           v-bind:width="imageWidth"
         />
-        <RecipeRating class="rating-container" v-bind:rating="recipe.aggregate_likes" />
+        <RecipeRating
+          class="rating-container"
+          v-bind:rating="recipe.aggregate_likes"
+        />
       </div>
       <div
         v-bind:class="
@@ -18,7 +23,9 @@
         "
       >
         <!-- Details -->
-        <h3 class="single-line mb-2" :class="size" v-if="!hideTitle">{{ recipe.title }}</h3>
+        <h3 class="single-line mb-2" :class="size" v-if="!hideTitle">
+          {{ recipe.title }}
+        </h3>
 
         <RecipeInfo
           v-bind:hideWatched="hideWatchedIndicator"
@@ -81,7 +88,10 @@ export default {
     },
 
     recipeClassSuffix() {
-      return this.$props.size + (this.$props.disableAnimation ? " disableAnimation" : "");
+      return (
+        this.$props.size +
+        (this.$props.disableAnimation ? " disableAnimation" : "")
+      );
     }
   }
 };

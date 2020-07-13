@@ -9,7 +9,8 @@
             </v-avatar>
             <v-toolbar-title
               class="ml-2 font-weight-bold d-block text-center text-uppercase"
-            >Cook A Meal</v-toolbar-title>
+              >Cook A Meal</v-toolbar-title
+            >
           </v-toolbar>
 
           <v-data-table
@@ -29,35 +30,41 @@
             :items-per-page="5"
           >
             <template v-slot:item.ready_in_minutes="{ item }">
-              <v-chip  :color="getColor(item.ready_in_minutes)" dark>{{ item.ready_in_minutes }}</v-chip>
+              <v-chip :color="getColor(item.ready_in_minutes)" dark>{{
+                item.ready_in_minutes
+              }}</v-chip>
             </template>
             <template v-slot:item.index="{ item }">
-              <span class="text--black">{{recipes.indexOf(item)+1}}</span>
+              <span class="text--black">{{ recipes.indexOf(item) + 1 }}</span>
             </template>
             <template v-slot:expanded-item="{ headers, item }">
-              <td :colspan="headers.length" class="text-center" style="color: darkslategray;">
-                <router-link :to="'/recipe/'+item.id">
-                <RecipeSummary
-                  class="white--text"
-                  style
-                  :recipe="item"
-                  size="md"
-                  :height="height"
-                  hideTitle="true"
-                  disableAnimation="true"
-                  :hideWatchedIndicator="hideWatchedIndicator"
-                />
+              <td
+                :colspan="headers.length"
+                class="text-center"
+                style="color: darkslategray;"
+              >
+                <router-link :to="'/recipe/' + item.id">
+                  <RecipeSummary
+                    class="white--text"
+                    style
+                    :recipe="item"
+                    size="md"
+                    :height="height"
+                    hideTitle="true"
+                    disableAnimation="true"
+                    :hideWatchedIndicator="hideWatchedIndicator"
+                  />
                 </router-link>
               </td>
             </template>
             <template v-slot:item.cooked="{ item }">
-              <v-checkbox v-model="item.cooked" @change="updateCookedValue(item)"></v-checkbox>
+              <v-checkbox
+                v-model="item.cooked"
+                @change="updateCookedValue(item)"
+              ></v-checkbox>
             </template>
             <template v-slot:item.action="{ item }">
-              <v-icon
-                      small
-                      @click="deleteItem(item)"
-              >
+              <v-icon small @click="deleteItem(item)">
                 mdi-delete
               </v-icon>
             </template>
@@ -121,7 +128,7 @@ export default {
     hideWatchedIndicator: true,
     dataTable: {
       headers: [
-        { text: "#", value: "index" , sortable: false},
+        { text: "#", value: "index", sortable: false },
         {
           text: "Dish",
           align: "start",
@@ -150,20 +157,21 @@ export default {
 
   methods: {
     async clearAll() {
-      await this.$store.dispatch('updateMealCount', 0)
-      let pro = []
-      for await (let i of this.recipes){
-         const p = await RecipeService.removeFromMeal(i.id)
-          pro.push(p)
+      await this.$store.dispatch("updateMealCount", 0);
+      let pro = [];
+      for await (let i of this.recipes) {
+        const p = await RecipeService.removeFromMeal(i.id);
+        pro.push(p);
       }
-      await Promise.all(pro)
-      this.recipes = []
+      await Promise.all(pro);
+      this.recipes = [];
     },
 
-    async deleteItem (item) {
-      const index = item.id
-      confirm('Are you sure you want to delete this item?') &&  await RecipeService.removeFromMeal(index)
-      this.recipes.splice(this.recipes.indexOf(item),1)
+    async deleteItem(item) {
+      const index = item.id;
+      confirm("Are you sure you want to delete this item?") &&
+        (await RecipeService.removeFromMeal(index));
+      this.recipes.splice(this.recipes.indexOf(item), 1);
     },
 
     updateCookedValue(item) {
@@ -175,10 +183,10 @@ export default {
       this.updateProgress();
     },
 
-    getColor (rim) {
-      if (rim > 45) return 'red'
-      else if (rim > 25) return 'orange'
-      else return 'green'
+    getColor(rim) {
+      if (rim > 45) return "red";
+      else if (rim > 25) return "orange";
+      else return "green";
     },
 
     updateProgress() {

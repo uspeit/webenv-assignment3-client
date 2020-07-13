@@ -28,8 +28,7 @@
                   surprise you. You can also browse through the collections of
                   friends, chefs, and reviewers, or create a new recipe and just
                   sit back. Foodtrack your life with Soupify. Subscribe or cook
-                  for free.<br>
-
+                  for free.<br />
                 </p>
                 <span class="text-uppercase"> Additional Links: </span>
                 <div v-for="l in links" :key="l.title">
@@ -45,38 +44,34 @@
 </template>
 
 <script>
+export default {
+  name: "About",
 
-  export default {
-    name: "About",
-
-    data() {
-      return {
-        links: [
-          {
-            title: "Soupify - API Specification",
-            url: "https://github.com/Serfati/soupify-api-specs-v1.1"
-          },
-          {
-            title: "Soupify - Backend",
-            url: "https://github.com/Serfati/soupify-v1"
-          },
-          {
-            title: "Soupify - Frontend",
-            url: "https://github.com/uspeit/webenv-assignment3-client"
-          },
-          {
-            title: "Retro PACMAN",
-            url: "https://github.com/Serfati/spacman"
-          },
-          {
-            title: "Personal Website",
-            url: "https://github.com/Serfati/serfati_webpage"
-          },
-
-        ]
-      }
-    },
-
-  };
+  data() {
+    return {
+      links: [
+        {
+          title: "Soupify - API Specification",
+          url: "https://github.com/Serfati/soupify-api-specs-v1.1"
+        },
+        {
+          title: "Soupify - Backend",
+          url: "https://github.com/Serfati/soupify-v1"
+        },
+        {
+          title: "Soupify - Frontend",
+          url: "https://github.com/uspeit/webenv-assignment3-client"
+        },
+        {
+          title: "Retro PACMAN",
+          url: "https://github.com/Serfati/spacman"
+        },
+        {
+          title: "Personal Website",
+          url: "https://github.com/Serfati/serfati_webpage"
+        }
+      ]
+    };
+  }
+};
 </script>
-

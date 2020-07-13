@@ -111,13 +111,13 @@ export default {
       },
       { text: "Amount", value: "amount" },
       { text: "Units", value: "unit" },
-      { text: "Actions", value: "actions" },
+      { text: "Actions", value: "actions" }
     ],
     availableIngredients: [],
     editedIndex: -1,
     editedItem: {
       name: "",
-      amount: '',
+      amount: "",
       unit: ""
     },
     editMode: true

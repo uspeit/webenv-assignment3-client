@@ -26,10 +26,11 @@
             route="/personal"
             v-show="currentUser"
           >
-            <v-badge color="teal"
-                     icon="mdi-vuetify"
-                     :content="badge"
-                     :value="badge"
+            <v-badge
+              color="teal"
+              icon="mdi-vuetify"
+              :content="badge"
+              :value="badge"
               >Personal
             </v-badge>
           </MenuLink>
@@ -51,7 +52,7 @@
         <!-- Logged in -->
         <transition name="fade-in">
           <span style="cursor: pointer" @click="navigate('/profile/')">
-            <span  id="profile" class="mx-4 mt-1"
+            <span id="profile" class="mx-4 mt-1"
               >Hello {{ currentUser.fullname }}</span
             >
             <v-avatar size="2.5em" class="mr-3" color="#c8e2f1">
@@ -122,19 +123,19 @@ export default {
         text: "Cook A Meal",
         route: "/meal"
       }
-    ],
+    ]
   }),
 
-   mounted() {
+  mounted() {
     // Loads user data when app starts
     AuthService.fetchUserData().then();
     RecipeService.getMealRecipes().then(i => {
-      this.$store.dispatch('updateMealCount', i.data.length ) ;
+      this.$store.dispatch("updateMealCount", i.data.length);
     });
   },
 
-   computed: {
-    isLoggedIn:  function() {
+  computed: {
+    isLoggedIn: function() {
       return this.$store.getters.tokenPresent;
     },
     currentUser: function() {

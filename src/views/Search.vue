@@ -46,12 +46,12 @@
               </v-col>
               <v-col cols="2">
                 <v-select
-                        v-model="limit"
-                        :label="'Limit'"
-                        :items="[5,10,15]"
-                        :menu-props="{ light: true }"
-                        persistent-hint
-                        light
+                  v-model="limit"
+                  :label="'Limit'"
+                  :items="[5, 10, 15]"
+                  :menu-props="{ light: true }"
+                  persistent-hint
+                  light
                 ></v-select>
               </v-col>
             </v-row>
