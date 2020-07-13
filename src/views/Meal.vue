@@ -43,7 +43,7 @@
                 class="text-center"
                 style="color: darkslategray;"
               >
-                <router-link :to="'/recipe/' + item.id">
+                <router-link :to="'/recipe-cook/' + item.id">
                   <RecipeSummary
                     class="white--text"
                     style

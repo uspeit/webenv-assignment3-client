@@ -5,7 +5,7 @@
         <v-card class="elevation-12 d-flex flex-column">
           <v-toolbar class color="primary" dark flat>
             <v-toolbar-title class="d-block text-center text-uppercase"
-              >{{ recipe.title }}
+              ><v-icon large>mdi-pot</v-icon> {{ recipe.title }}
             </v-toolbar-title>
           </v-toolbar>
           <v-card-text class="d-flex flex-column card">
@@ -34,15 +34,15 @@
                   />
                   <v-spacer></v-spacer>
                   <v-btn
-                    @click="addToMeal"
+                    @click="multiply"
                     class="ml-5 mt-5 small white--text"
                     color="primary"
                     fab
                     outlined
                     small
-                    title="Cook a Meal"
+                    title="Multiply Counts"
                   >
-                    <v-icon dark>mdi-silverware</v-icon>
+                    <v-icon dark>mdi-numeric-2-box-multiple-outline</v-icon>
                   </v-btn>
                 </v-col>
                 <v-col cols="8">
@@ -67,16 +67,56 @@
                     </ul>
                     <h3 class="my-2">Instructions</h3>
                     <ol id="instructions">
-                      <li
-                        :key="instruction"
-                        class="text--text"
+                      <div
                         v-for="instruction in recipe.instructions"
+                        :key="instruction"
+                        class="text--text align-center d-inline-flex"
                       >
-                        {{ instruction }}
-                      </li>
+                        <v-checkbox
+                          @change="updateProgress"
+                          class="mr-5"
+                          light
+                          required
+                        />
+                        <li class="mt-3">
+                          {{ instruction }}
+                        </li>
+                      </div>
                     </ol>
                   </div>
                 </v-col>
+                <v-progress-linear
+                  style="max-width: 49em;"
+                  class="ml-7"
+                  color="light-green darken-4"
+                  :buffer-value="progress + 5"
+                  :value="progress"
+                  height="10"
+                  striped
+                  stream
+                ></v-progress-linear>
+                <v-btn
+                  to="/meal"
+                  class="ma-3 small white--text"
+                  color="success"
+                  fab
+                  outlined
+                  small
+                  title="Back To My Meal"
+                >
+                  <v-icon dark>mdi-keyboard-backspace</v-icon>
+                </v-btn>
+                <v-btn
+                  to="/"
+                  class="ma-3 small white--text"
+                  color="success"
+                  fab
+                  outlined
+                  small
+                  title="Back Home"
+                >
+                  <v-icon dark>mdi-home</v-icon>
+                </v-btn>
               </v-row>
             </transition>
           </v-card-text>
@@ -92,7 +132,7 @@ import RecipeInfo from "@/components/RecipeInfo.vue";
 import RecipeRating from "@/components/RecipeRating.vue";
 
 export default {
-  name: "RecipePage",
+  name: "RecipeCook",
 
   components: {
     RecipeInfo,
@@ -101,6 +141,8 @@ export default {
 
   data: () => ({
     loading: true,
+    progress: 0,
+    step: 0,
     recipe: {}
   }),
 
@@ -109,8 +151,9 @@ export default {
 
     RecipeService.getRecipe(recipeId).then(response => {
       this.recipe = response.data;
+      this.step = 100 / this.recipe.instructions.length;
+      console.log(this.step);
       this.loading = false;
-
       if (!response.watched) {
         this.recipe.watched = true;
         RecipeService.setWatched(recipeId).then();
@@ -118,10 +161,19 @@ export default {
     });
   },
   methods: {
-    async addToMeal() {
-      let recipeId = this.$route.params.id;
-      await RecipeService.addToMeal(recipeId).then();
-      await this.$router.push("/recipe-cook/" + recipeId);
+    multiply() {
+      this.recipe.serving *= 2;
+      this.recipe.extended_ingredients = this.recipe.extended_ingredients.map(
+        i => {
+          i.amount *= 2;
+          return i;
+        }
+      );
+    },
+    updateProgress(action) {
+      this.progress = action
+        ? (this.progress += this.step)
+        : (this.progress -= this.step);
     }
   }
 };

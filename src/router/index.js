@@ -38,6 +38,11 @@ const routes = [
     component: () => import("../views/RecipePage.vue")
   },
   {
+    path: "/recipe-cook/:id",
+    name: "Recipe Cook",
+    component: () => import("../views/RecipeCook.vue")
+  },
+  {
     path: "/create",
     name: "Recipe Creation",
     component: () => import("../views/RecipeCreate.vue")
