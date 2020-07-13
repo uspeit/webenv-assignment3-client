@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-row justify="center" align="center">
-      <v-col cols="7">
+      <v-col cols="8">
         <v-card class="card">
           <v-toolbar color="primary" class="mb-5">
             <v-avatar color="black-grey">
@@ -21,9 +21,22 @@
             item-key="id"
             show-expand
             light
+            :footer-props="{
+              prevIcon: 'mdi-minus',
+              nextIcon: 'mdi-plus',
+              'items-per-page-options': [5, 10, 15, 30]
+            }"
+            :items-per-page="5"
           >
+            <template v-slot:item.ready_in_minutes="{ item }">
+              <v-chip  :color="getColor(item.ready_in_minutes)" dark>{{ item.ready_in_minutes }}</v-chip>
+            </template>
+            <template v-slot:item.index="{ item }">
+              <span class="text--black">{{recipes.indexOf(item)+1}}</span>
+            </template>
             <template v-slot:expanded-item="{ headers, item }">
               <td :colspan="headers.length" class="text-center" style="color: darkslategray;">
+                <router-link :to="'/recipe/'+item.id">
                 <RecipeSummary
                   class="white--text"
                   style
@@ -34,38 +47,26 @@
                   disableAnimation="true"
                   :hideWatchedIndicator="hideWatchedIndicator"
                 />
+                </router-link>
               </td>
             </template>
             <template v-slot:item.cooked="{ item }">
               <v-checkbox v-model="item.cooked" @change="updateCookedValue(item)"></v-checkbox>
             </template>
+            <template v-slot:item.action="{ item }">
+              <v-icon
+                      small
+                      @click="deleteItem(item)"
+              >
+                mdi-delete
+              </v-icon>
+            </template>
           </v-data-table>
-
-          <!-- <div v-for="(recipe, index) in recipes.data" :key="recipe.id" :data-index="index">
-            <router-link :to="'/recipe/' + recipe.id">
-              <div class="d-flex text-center" style="color: darkslategray;">
-                <span class="ma-3 mt-8" style="text-decoration: underline">
-                  {{
-                  index + 1
-                  }}
-                </span>
-                <RecipeSummary
-                  class="white--text"
-                  style
-                  :recipe="recipe"
-                  :size="size"
-                  :height="height"
-                  :hideWatchedIndicator="hideWatchedIndicator"
-                />
-                <v-checkbox class inheritance style="-webkit-text-fill-color: darkslategray">cooked?</v-checkbox>
-              </div>
-            </router-link>
-          </div>-->
           <div class>
             <br />
             <v-progress-linear
-              style="max-width: 38em;"
-              class="ml-6"
+              style="max-width: 42em;"
+              class="ml-7"
               color="light-green darken-4"
               :buffer-value="progress + 5"
               :value="progress"
@@ -82,7 +83,7 @@
             fab
             outlined
             small
-            title="Back Homw"
+            title="Back Home"
           >
             <v-icon dark>mdi-keyboard-backspace</v-icon>
           </v-btn>
@@ -120,6 +121,7 @@ export default {
     hideWatchedIndicator: true,
     dataTable: {
       headers: [
+        { text: "#", value: "index" , sortable: false},
         {
           text: "Dish",
           align: "start",
@@ -129,7 +131,8 @@ export default {
         { text: "Preparation time (min)", value: "ready_in_minutes" },
         { text: "Servings", value: "serving" },
         { text: "Dietary accommodations", value: "accommodations" },
-        { text: "Cooked", value: "cooked" },
+        { text: "Cooked?", value: "cooked" },
+        { text: "Action", value: "action" },
         { text: "", value: "data-table-expand" }
       ],
       expanded: [],
@@ -139,7 +142,6 @@ export default {
 
   async mounted() {
     this.recipes = (await RecipeService.getMealRecipes()).data;
-    this.progress = 0;
 
     this.updateProgress();
 
@@ -147,9 +149,18 @@ export default {
   },
 
   methods: {
-    clearAll() {
-      this.recipes = [];
-      this.progress = -15;
+    async clearAll() {
+      let pro = []
+      for await (let i of this.recipes){
+         const p = await RecipeService.removeFromMeal(i.id)
+          pro.push(p)
+      }
+      await Promise.all(pro)
+    },
+
+    async deleteItem (item) {
+      const index = item.id
+      confirm('Are you sure you want to delete this item?') &&  await RecipeService.removeFromMeal(index)
     },
 
     updateCookedValue(item) {
@@ -159,6 +170,12 @@ export default {
       });
 
       this.updateProgress();
+    },
+
+    getColor (rim) {
+      if (rim > 45) return 'red'
+      else if (rim > 25) return 'orange'
+      else return 'green'
     },
 
     updateProgress() {

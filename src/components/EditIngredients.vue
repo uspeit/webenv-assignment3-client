@@ -110,13 +110,14 @@ export default {
         value: "name"
       },
       { text: "Amount", value: "amount" },
-      { text: "Units", value: "unit" }
+      { text: "Units", value: "unit" },
+      { text: "Actions", value: "actions" },
     ],
     availableIngredients: [],
     editedIndex: -1,
     editedItem: {
       name: "",
-      amount: 0,
+      amount: '',
       unit: ""
     },
     editMode: true
@@ -148,7 +149,7 @@ export default {
     },
 
     deleteItem(item) {
-      const index = this.ingredients.indexOf(item);
+      const index = this.value.indexOf(item);
       confirm("Are you sure you want to delete this item?") &&
         this.value.splice(index, 1);
     },
@@ -163,9 +164,8 @@ export default {
 
     save() {
       if (this.editMode) {
-        this.editedItem.name = this.editedItem.selection.name;
+        this.editedItem.name = this.editedItem.selection;
         this.editedItem.id = this.editedItem.selection.id;
-        delete this.editedItem.selection;
 
         if (this.editedIndex > -1) {
           Object.assign(this.value[this.editedIndex], this.editedItem);

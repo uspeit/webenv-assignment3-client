@@ -40,7 +40,7 @@
                     fab
                     outlined
                     small
-                    title="Add to My Meal"
+                    title="Cook a Meal"
                   >
                     <v-icon dark>mdi-silverware</v-icon>
                   </v-btn>
@@ -118,9 +118,10 @@ export default {
     });
   },
   methods: {
-    addToMeal() {
+    async addToMeal() {
       let recipeId = this.$route.params.id;
-      RecipeService.addToMeal(recipeId).then();
+      await RecipeService.addToMeal(recipeId).then();
+      await this.$router.push('/recipe/' + recipeId);
       // this.$el.dispatchEvent(new Event("pushMeal"));
     }
   }

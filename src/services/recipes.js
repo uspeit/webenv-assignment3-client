@@ -153,15 +153,20 @@ export default {
     return httpClient.post("/metadata/meal/" + id);
   },
 
+  // DELETE /metadata/meal/{id}
+  removeFromMeal(id) {
+    return httpClient.delete("/metadata/meal/" + id);
+  },
+
   // GET /recipes/search
-  searchRecipes(query, selectedFilters, requestedPage) {
+  searchRecipes(query, selectedFilters, requestedPage, number) {
     return this.getRecipesByRoute("/recipes/search", {
       query: query,
       cuisine: selectedFilters.Cuisines,
       diet: selectedFilters.Diets,
       intolerances: selectedFilters.Intolerances,
       instructionsRequired: true,
-      number: SEARCH_RESULTS_LIMIT,
+      number: number ? number : SEARCH_RESULTS_LIMIT,
       limit: RECIPES_PER_PAGE,
       page: requestedPage ? requestedPage : 0
     });

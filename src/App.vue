@@ -26,7 +26,10 @@
             route="/personal"
             v-show="currentUser"
           >
-            <v-badge color="teal " icon="mdi-vuetify" :content="badge"
+            <v-badge color="teal"
+                     icon="mdi-vuetify"
+                     :content="badge"
+                     :value="badge"
               >Personal
             </v-badge>
           </MenuLink>
@@ -127,15 +130,12 @@ export default {
     // Loads user data when app starts
     AuthService.fetchUserData().then();
     this.badge = await RecipeService.getMealRecipes().then(i => {
-      console.log(i);
-      return i.Pagination.total;
+      return i.data.length;
     });
-    // this.$el.addEventListener("pushMeal", () => this.badge = 100)
-
   },
 
-  computed: {
-    isLoggedIn: function() {
+   computed: {
+    isLoggedIn:  function() {
       return this.$store.getters.tokenPresent;
     },
     currentUser: function() {

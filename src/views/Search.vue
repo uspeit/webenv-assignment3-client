@@ -44,6 +44,16 @@
                   clearable
                 ></v-select>
               </v-col>
+              <v-col cols="2">
+                <v-select
+                        v-model="limit"
+                        :label="'Limit'"
+                        :items="[5,10,15]"
+                        :menu-props="{ light: true }"
+                        persistent-hint
+                        light
+                ></v-select>
+              </v-col>
             </v-row>
           </v-card-text>
         </v-card>
@@ -92,7 +102,8 @@ export default {
     resultsCount: -1,
     query: "",
     selectedFilters: {},
-    filters: filterData
+    filters: filterData,
+    limit: 5
   }),
 
   methods: {
@@ -100,7 +111,8 @@ export default {
       return RecipeService.searchRecipes(
         this.query,
         this.selectedFilters,
-        searchPage
+        searchPage,
+        this.limit
       );
     },
 
