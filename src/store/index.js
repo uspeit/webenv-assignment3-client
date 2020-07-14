@@ -17,7 +17,7 @@ export default new Vuex.Store({
     save_search_data(state, searchData) {
       state.savedSearch = searchData;
     },
-    clear_search_data(state, searchData) {
+    clear_search_data(state) {
       state.savedSearch = null;
     }
   },
