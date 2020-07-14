@@ -78,7 +78,8 @@
               :buffer-value="100"
               :value="progress"
               height="25"
-            >{{ Math.ceil(progress) || 0 }}%</v-progress-linear>
+              >{{ Math.ceil(progress) || 0 }}%</v-progress-linear
+            >
             <br />
           </div>
           <v-btn

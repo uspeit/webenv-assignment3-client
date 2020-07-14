@@ -47,23 +47,23 @@
             </v-row>
             <v-row>
               <v-col cols="4" offset-lg="3">
-              <v-select
-                      v-model="sort"
-                      :label="'Sort by'"
-                      :items="['aggregateLikes', 'readyInMinutes']"
-                      :menu-props="{ light: true }"
-                      persistent-hint
-                      light
-              ></v-select>
-              </v-col>
-              <v-col cols="2" >
                 <v-select
-                        v-model="limit"
-                        :label="'Limit'"
-                        :items="[5, 10, 15]"
-                        :menu-props="{ light: true }"
-                        persistent-hint
-                        light
+                  v-model="sort"
+                  :label="'Sort by'"
+                  :items="['aggregateLikes', 'readyInMinutes']"
+                  :menu-props="{ light: true }"
+                  persistent-hint
+                  light
+                ></v-select>
+              </v-col>
+              <v-col cols="2">
+                <v-select
+                  v-model="limit"
+                  :label="'Limit'"
+                  :items="[5, 10, 15]"
+                  :menu-props="{ light: true }"
+                  persistent-hint
+                  light
                 ></v-select>
               </v-col>
             </v-row>
@@ -113,7 +113,7 @@ export default {
     searching: false,
     resultsCount: -1,
     query: "",
-    sort: '',
+    sort: "",
     selectedFilters: {},
     filters: filterData,
     limit: 5
