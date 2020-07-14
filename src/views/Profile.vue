@@ -148,7 +148,6 @@ import countryData from "@/assets/countryData.json";
 import FileService from "@/services/files";
 
 import {
-  confirmPasswordRules,
   passwordRules,
   userNameRules
 } from "@/core/validationRules";
@@ -161,7 +160,6 @@ export default {
     oldPassword: "",
     passwordRules: passwordRules,
     newPassword: "",
-    confirmPasswordRules: confirmPasswordRules,
     firstName: "",
     lastName: "",
     countries: countryData,

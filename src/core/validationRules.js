@@ -16,12 +16,3 @@ export const passwordRules = [
   v => /\d/.test(v) || "Password must contain at least one number",
   v => /[a-zA-Z]/.test(v) || "Password must contain at least one english letter"
 ];
-
-export const confirmPasswordRules = [
-  v => !!v || "Password is required",
-  v =>
-    (v && v.length >= 5 && v.length <= 10) ||
-    "Password must be between 5 and 10 characters",
-  v => /\d/.test(v) || "Password must contain at least one number",
-  v => /[a-zA-Z]/.test(v) || "Password must contain at least one english letter"
-];
