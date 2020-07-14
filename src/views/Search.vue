@@ -136,8 +136,7 @@ export default {
       this.limit = savedSearch.limit;
       this.sort = savedSearch.sort;
 
-      this.searching = true;
-      this.$refs.searchResults.triggerLoad();
+      this.performSearch();
     }
   },
 
