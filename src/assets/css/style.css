@@ -32,6 +32,10 @@ a {
     position: relative;
 }
 
+.position-absolute {
+    position: absolute;
+}
+
 .single-line {
     white-space: nowrap;
     overflow: hidden;

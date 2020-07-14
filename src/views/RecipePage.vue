@@ -4,46 +4,26 @@
       <v-col cols="8">
         <v-card class="elevation-12 d-flex flex-column">
           <v-toolbar class color="primary" dark flat>
-            <v-toolbar-title class="d-block text-center text-uppercase"
-              >{{ recipe.title }}
-            </v-toolbar-title>
+            <v-toolbar-title class="d-block text-center text-uppercase">{{ recipe.title }}</v-toolbar-title>
           </v-toolbar>
           <v-card-text class="d-flex flex-column card">
             <transition name="fade" mode="out-in">
               <v-row v-if="loading">
                 <v-col class="text-center">
-                  <v-progress-circular
-                    color="primary"
-                    indeterminate
-                  ></v-progress-circular>
+                  <v-progress-circular color="primary" indeterminate></v-progress-circular>
                 </v-col>
               </v-row>
               <v-row v-else>
-                <v-col cols="4">
+                <v-col cols="4" class="position-relative">
                   <v-img class="elevation-2 mb-2" v-bind:src="recipe.image" />
 
-                  <RecipeInfo
-                    class="float-left"
-                    hideWatched="true"
-                    v-bind:recipe="recipe"
-                  />
+                  <RecipeInfo class="float-left" hideWatched="true" v-bind:recipe="recipe" />
 
                   <RecipeRating
-                    class="rating-container float-right"
+                    class="rating-container position-absolute"
+                    style="right:0"
                     v-bind:rating="recipe.aggregate_likes"
                   />
-                  <v-spacer></v-spacer>
-                  <v-btn
-                    @click="addToMeal"
-                    class="ml-5 mt-5 small white--text"
-                    color="primary"
-                    fab
-                    outlined
-                    small
-                    title="Cook a Meal"
-                  >
-                    <v-icon dark>mdi-silverware</v-icon>
-                  </v-btn>
                 </v-col>
                 <v-col cols="8">
                   <div class="position-relative fill-height">
@@ -54,15 +34,16 @@
                         class="text--text"
                         v-for="ingredient in recipe.extended_ingredients"
                       >
-                        <span class="ingredient-name">{{
+                        <span class="ingredient-name">
+                          {{
                           ingredient.name
-                        }}</span>
-                        (<span
+                          }}
+                        </span>
+                        (
+                        <span
                           v-html="$options.filters.fraction(ingredient.amount)"
                         ></span>
-                        <span v-if="ingredient.unit"
-                          >&nbsp;{{ ingredient.unit }}</span
-                        >)
+                        <span v-if="ingredient.unit">&nbsp;{{ ingredient.unit }}</span>)
                       </li>
                     </ul>
                     <h3 class="my-2">Instructions</h3>
@@ -71,10 +52,20 @@
                         :key="instruction"
                         class="text--text"
                         v-for="instruction in recipe.instructions"
-                      >
-                        {{ instruction }}
-                      </li>
+                      >{{ instruction }}</li>
                     </ol>
+                    <v-btn
+                      @click="addToMeal"
+                      class="position-absolute small white--text"
+                      style="right:0; top: 0"
+                      color="primary"
+                      fab
+                      outlined
+                      small
+                      title="Cook a Meal"
+                    >
+                      <v-icon dark>mdi-silverware</v-icon>
+                    </v-btn>
                   </div>
                 </v-col>
               </v-row>
@@ -106,8 +97,9 @@ export default {
 
   mounted() {
     let recipeId = this.$route.params.id;
+    let includeAdditionalData = this.$route.query.metadata;
 
-    RecipeService.getRecipe(recipeId).then(response => {
+    RecipeService.getRecipe(recipeId, includeAdditionalData).then(response => {
       this.recipe = response.data;
       this.loading = false;
 

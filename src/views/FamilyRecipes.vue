@@ -8,6 +8,7 @@
           title="Family Recipes"
           v-bind:dataSource="loadFamilyRecipes"
           lockHeight="true"
+          includeAdditionalData="true"
         />
       </v-col>
     </v-row>
