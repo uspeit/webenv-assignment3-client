@@ -37,7 +37,7 @@ export default {
 
   // GET /metadata/family
   async getFamilyRecipes(requestedPage) {
-    return await this.getMetaDataRecipes("family", { page: requestedPage });
+    return await this.getMetaDataRecipes("family", { page: requestedPage }, true);
   },
 
   // GET /metadata/favs
@@ -84,7 +84,7 @@ export default {
     return recipes;
   },
 
-  async getMetaDataRecipes(category, paginationConfig) {
+  async getMetaDataRecipes(category, paginationConfig, extractAdditionalData) {
     try {
       let response = await httpClient.get("/metadata/" + category);
       let ids = response.data[category].filter(x => x !== null).reverse();
@@ -100,14 +100,16 @@ export default {
         ids = ids.slice(chunkStart, chunkStart + RECIPES_PER_PAGE);
         paginationData = { total_pages: pages, page: page, total: total };
       }
-      //
 
-      const recipeData = ids.map(v => this.getRecipe(v));
-      for await (const recipe of recipeData) {
-        let raw = recipe.data;
-        raw.saved = true;
-        delete raw.favs;
-        result.push(raw);
+      // Get recipes by id
+      const recipeResponses = ids.map(v => this.getRecipe(v, extractAdditionalData));
+
+      // Adapt data
+      for await (const response of recipeResponses) {
+        let recipe = response.data;
+        recipe.saved = true;
+        delete recipe.favs;
+        result.push(recipe);
       }
 
       return {
@@ -120,11 +122,25 @@ export default {
   },
 
   // GET /recipes/{id}
-  getRecipe(id) {
+  async getRecipe(id, extractAdditionalData) {
     let route = "/recipes/" + id;
     if (id <= ID_SOURCE_THRESHOLD) route += "?local=true";
 
-    return this.getRecipesByRoute(route);
+    let response = await this.getRecipesByRoute(route);
+
+    if (extractAdditionalData) {
+      // Extract data embedded in ingredients
+      const additionalDataIndex = response.data.extended_ingredients.findIndex(x => !Object.prototype.hasOwnProperty.call(x, "id")); // Additional data is the only item without id if it exists
+      if (additionalDataIndex >= 0) {
+        let extractedData = response.data.extended_ingredients.splice(additionalDataIndex, 1)[0];
+        response.data.additional_data = extractedData;
+      }
+    } else {
+      // Remove data embedded in ingredients
+      response.data.extended_ingredients = response.data.extended_ingredients.filter(x => Object.prototype.hasOwnProperty.call(x, "id"));
+    }
+
+    return response;
   },
 
   // POST /metadata/personal/{id}
@@ -172,13 +188,13 @@ export default {
 
   // GET /recipes/search
   searchRecipes(query, selectedFilters, requestedPage, number, sort) {
-      // Save search to load later
-      store.dispatch("saveSearch", {
-        query: query,
-        selectedFilters: selectedFilters,
-        limit: number,
-        sort: sort
-      });
+    // Save search to load later
+    store.dispatch("saveSearch", {
+      query: query,
+      selectedFilters: selectedFilters,
+      limit: number,
+      sort: sort
+    });
 
     return this.getRecipesByRoute("/recipes/search", {
       query: query,
@@ -320,7 +336,7 @@ export default {
     return recipe;
   }
 };
-String.prototype.replaceAt = function(index, replacement) {
+String.prototype.replaceAt = function (index, replacement) {
   return (
     this.substr(0, index) +
     replacement +
