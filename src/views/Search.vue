@@ -46,12 +46,22 @@
               </v-col>
             </v-row>
             <v-row>
-              <v-col cols="4" offset-lg="3">
+              <v-col cols="3">
+                <div class="offset-1">
+                  <v-img
+                    style="height: 100px;width: 100px"
+                    src="https://res.cloudinary.com/serfati/image/upload/v1591970948/soupify_zrbnbo.png"
+                  />
+                </div>
+              </v-col>
+              <v-col cols="4">
                 <v-select
                   v-model="sort"
                   :label="'Sort by'"
-                  :items="['aggregateLikes', 'readyInMinutes']"
+                  :items="['none', 'aggregate_likes', 'ready_in_minutes']"
                   :menu-props="{ light: true }"
+                  no-data-text="none"
+                  outlined
                   persistent-hint
                   light
                 ></v-select>
@@ -60,6 +70,7 @@
                 <v-select
                   v-model="limit"
                   :label="'Limit'"
+                  outlined
                   :items="[5, 10, 15]"
                   :menu-props="{ light: true }"
                   persistent-hint

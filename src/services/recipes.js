@@ -180,7 +180,7 @@ export default {
       instructionsRequired: true,
       number: number ? number : SEARCH_RESULTS_LIMIT,
       limit: RECIPES_PER_PAGE,
-      sort: sort ? sort : "like",
+      sort: sort ? sort : null,
       page: requestedPage ? requestedPage : 0
     });
   },
@@ -312,7 +312,7 @@ export default {
     return recipe;
   }
 };
-String.prototype.replaceAt = function (index, replacement) {
+String.prototype.replaceAt = function(index, replacement) {
   return (
     this.substr(0, index) +
     replacement +

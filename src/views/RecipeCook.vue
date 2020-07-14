@@ -33,28 +33,28 @@
                     v-bind:rating="recipe.aggregate_likes"
                   />
                   <div class="d-inline-flex ml-2 mt-8">
-                  <v-btn
-                    @click="multiply"
-                    class=" small white--text"
-                    color="primary"
-                    fab
-                    outlined
-                    x-small
-                    title="Multiply Counts"
-                  >
-                    <v-icon dark>mdi-format-superscript</v-icon>
-                  </v-btn>
-                  <v-btn
-                    @click="divide"
-                    class=" small ml-2 white--text"
-                    color="primary"
-                    outlined
-                    fab
-                    x-small
-                    title="Divide Counts"
-                  >
-                    <v-icon dark>mdi-square-root</v-icon>
-                  </v-btn>
+                    <v-btn
+                      @click="multiply"
+                      class=" small white--text"
+                      color="primary"
+                      fab
+                      outlined
+                      x-small
+                      title="Multiply Counts"
+                    >
+                      <v-icon dark>mdi-format-superscript</v-icon>
+                    </v-btn>
+                    <v-btn
+                      @click="divide"
+                      class=" small ml-2 white--text"
+                      color="primary"
+                      outlined
+                      fab
+                      x-small
+                      title="Divide Counts"
+                    >
+                      <v-icon dark>mdi-square-root</v-icon>
+                    </v-btn>
                   </div>
                 </v-col>
                 <v-col cols="8">

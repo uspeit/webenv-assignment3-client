@@ -9,7 +9,8 @@
             </v-avatar>
             <v-toolbar-title
               class="ml-2 font-weight-bold d-block text-center text-uppercase"
-            >Cook A Meal</v-toolbar-title>
+              >Cook A Meal</v-toolbar-title
+            >
           </v-toolbar>
 
           <v-data-table
@@ -31,17 +32,23 @@
           >
             <template v-slot:item.ready_in_minutes="{ item }">
               <v-chip :color="getColor(item.ready_in_minutes)" dark>
-                {{
-                item.ready_in_minutes
-                }}
+                {{ item.ready_in_minutes }}
               </v-chip>
             </template>
             <template v-slot:item.index="{ item }">
-              <span v-if="!reorderActive" class="text--black">{{ recipes.indexOf(item) + 1 }}</span>
-              <v-icon v-else x-small style="cursor: move">mdi-drag-vertical</v-icon>
+              <span v-if="!reorderActive" class="text--black">{{
+                recipes.indexOf(item) + 1
+              }}</span>
+              <v-icon v-else x-small style="cursor: move"
+                >mdi-drag-vertical</v-icon
+              >
             </template>
             <template v-slot:expanded-item="{ headers, item }">
-              <td :colspan="headers.length" class="text-center" style="color: darkslategray;">
+              <td
+                :colspan="headers.length"
+                class="text-center"
+                style="color: darkslategray;"
+              >
                 <router-link :to="'/recipe-cook/' + item.id">
                   <RecipeSummary
                     class="white--text"
@@ -57,7 +64,10 @@
               </td>
             </template>
             <template v-slot:item.cooked="{ item }">
-              <v-checkbox v-model="item.cooked" @change="updateCookedValue(item)"></v-checkbox>
+              <v-checkbox
+                v-model="item.cooked"
+                @change="updateCookedValue(item)"
+              ></v-checkbox>
             </template>
             <template v-slot:item.action="{ item }">
               <v-icon small @click="deleteItem(item)">mdi-delete</v-icon>
