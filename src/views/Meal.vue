@@ -37,7 +37,8 @@
               </v-chip>
             </template>
             <template v-slot:item.index="{ item }">
-              <span class="text--black">{{ recipes.indexOf(item) + 1 }}</span>
+              <span v-if="!reorderActive" class="text--black">{{ recipes.indexOf(item) + 1 }}</span>
+              <v-icon v-else x-small style="cursor: move">mdi-drag-vertical</v-icon>
             </template>
             <template v-slot:expanded-item="{ headers, item }">
               <td :colspan="headers.length" class="text-center" style="color: darkslategray;">

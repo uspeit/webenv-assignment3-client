@@ -32,18 +32,30 @@
                     class="rating-container float-right"
                     v-bind:rating="recipe.aggregate_likes"
                   />
-                  <v-spacer></v-spacer>
+                  <div class="d-inline-flex ml-2 mt-8">
                   <v-btn
                     @click="multiply"
-                    class="ml-5 mt-5 small white--text"
+                    class=" small white--text"
                     color="primary"
                     fab
                     outlined
-                    small
+                    x-small
                     title="Multiply Counts"
                   >
-                    <v-icon dark>mdi-numeric-2-box-multiple-outline</v-icon>
+                    <v-icon dark>mdi-format-superscript</v-icon>
                   </v-btn>
+                  <v-btn
+                    @click="divide"
+                    class=" small ml-2 white--text"
+                    color="primary"
+                    outlined
+                    fab
+                    x-small
+                    title="Divide Counts"
+                  >
+                    <v-icon dark>mdi-square-root</v-icon>
+                  </v-btn>
+                  </div>
                 </v-col>
                 <v-col cols="8">
                   <div class="position-relative fill-height">
@@ -167,6 +179,15 @@ export default {
       this.recipe.extended_ingredients = this.recipe.extended_ingredients.map(
         i => {
           i.amount *= 2;
+          return i;
+        }
+      );
+    },
+    divide() {
+      this.recipe.serving /= 2;
+      this.recipe.extended_ingredients = this.recipe.extended_ingredients.map(
+        i => {
+          i.amount /= 2;
           return i;
         }
       );
