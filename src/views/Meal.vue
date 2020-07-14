@@ -164,7 +164,7 @@ export default {
   }),
 
   async mounted() {
-    this.recipes = (await RecipeService.getMealRecipes()).data;
+    this.recipes = (await RecipeService.getMealRecipes()).data.reverse();
 
     this.updateProgress();
 
