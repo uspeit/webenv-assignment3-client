@@ -167,7 +167,7 @@ export default {
 
   // POST /metadata/mealOrder
   updateMealOrder(orderedIds) {
-    return httpClient.post("/metadata/mealOrder/", orderedIds);
+    return httpClient.post("/metadata/reorder/", orderedIds);
   },
 
   // GET /recipes/search
