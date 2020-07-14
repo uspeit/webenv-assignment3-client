@@ -1,20 +1,12 @@
 <template>
-  <v-data-table
-    :headers="headers"
-    :items="value"
-    disable-pagination
-    light
-    sort-by="name"
-  >
+  <v-data-table :headers="headers" :items="value" disable-pagination light sort-by="name">
     <template v-slot:top>
       <v-toolbar color="white" flat>
         <v-toolbar-title>Ingredients</v-toolbar-title>
         <v-spacer></v-spacer>
         <v-dialog light max-width="500px" v-model="dialog">
           <template v-slot:activator="{ on, attrs }">
-            <v-btn class="mb-2" color="primary" dark v-bind="attrs" v-on="on"
-              >Add
-            </v-btn>
+            <v-btn class="mb-2" color="primary" dark v-bind="attrs" v-on="on">Add</v-btn>
           </template>
           <v-card>
             <v-card-title>
@@ -25,8 +17,7 @@
               <v-container>
                 <v-row>
                   <v-col>
-                    <v-select
-                      v-if="editMode"
+                    <v-combobox
                       :items="availableIngredients"
                       :rules="[v => !!v || 'Please select ingredient']"
                       class="flex-grow-1"
@@ -35,50 +26,21 @@
                       label="Ingredient"
                       light
                       required
-                      v-model="editedItem.selection"
-                    />
-                    <v-text-field
-                      v-else
-                      label="Ingredient"
-                      type="text"
                       v-model="editedItem.name"
-                    ></v-text-field>
-                  </v-col> </v-row
-                ><v-row>
+                    />
+                  </v-col>
+                </v-row>
+                <v-row>
                   <v-col>
-                    <v-text-field
-                      label="Amount"
-                      min="0"
-                      type="number"
-                      v-model="editedItem.amount"
-                    ></v-text-field>
+                    <v-text-field label="Amount" min="0" type="number" v-model="editedItem.amount"></v-text-field>
                   </v-col>
                   <v-col>
-                    <v-text-field
-                      label="Units"
-                      v-model="editedItem.unit"
-                    ></v-text-field>
+                    <v-text-field label="Units" v-model="editedItem.unit"></v-text-field>
                   </v-col>
                 </v-row>
               </v-container>
             </v-card-text>
             <v-card-actions>
-              <v-btn
-                @click="editMode = !editMode"
-                class="mb-3 ml-7"
-                color="primary"
-                dark
-                v-if="editMode"
-                >Custom Ingredient
-              </v-btn>
-              <v-btn
-                @click="editMode = !editMode"
-                class="mb-3 ml-7"
-                color="primary"
-                dark
-                v-else
-                >Choose Ingredient
-              </v-btn>
               <v-spacer></v-spacer>
               <v-btn @click="close" color="blue darken-1" text>Cancel</v-btn>
               <v-btn @click="save" color="blue darken-1" text>Save</v-btn>
@@ -119,8 +81,7 @@ export default {
       name: "",
       amount: "",
       unit: ""
-    },
-    editMode: true
+    }
   }),
 
   computed: {
@@ -163,22 +124,17 @@ export default {
     },
 
     save() {
-      if (this.editMode) {
-        this.editedItem.name = this.editedItem.selection;
-        this.editedItem.id = this.editedItem.selection.id;
-
-        if (this.editedIndex > -1) {
-          Object.assign(this.value[this.editedIndex], this.editedItem);
-        } else {
-          this.value.push(this.editedItem);
-        }
+      if (typeof this.editedItem.name !== "string") { // Combobox selected items will appear as objects, typed items will be strings
+        this.editedItem.id = this.editedItem.name.id;
+        this.editedItem.name = this.editedItem.name.name;
       } else {
         this.editedItem.id = Math.floor(Math.random() * 100) + 50;
-        if (this.editedIndex > -1) {
-          Object.assign(this.value[this.editedIndex], this.editedItem);
-        } else {
-          this.value.push(this.editedItem);
-        }
+      }
+
+      if (this.editedIndex > -1) {
+        Object.assign(this.value[this.editedIndex], this.editedItem);
+      } else {
+        this.value.push(this.editedItem);
       }
       this.close();
     }

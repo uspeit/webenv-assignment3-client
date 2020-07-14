@@ -1,148 +1,116 @@
 <template>
-  <div class="modal-backdrop">
-    <v-container class="fill-height">
-      <v-row align="center" justify="center">
-        <v-col cols="12">
-          <v-card class="elevation-12">
-            <v-toolbar color="primary" dark flat>
-              <v-toolbar-title class="d-block text-center text-uppercase"
-                >Create a recipe
-              </v-toolbar-title>
-            </v-toolbar>
-            <v-card-text class="card pt-0">
-              <v-form
-                class="d-flex flex-column"
-                lazy-validation
-                ref="recipeForm"
-                v-model="valid"
-              >
-                <v-row>
-                  <v-col cols="6">
-                    <v-toolbar flat light color="white">
-                      <v-toolbar-title>Description</v-toolbar-title>
-                    </v-toolbar>
-                    <v-row>
-                      <v-col class="pt-0">
-                        <v-text-field
-                          label="Title"
-                          light
-                          required
-                          v-model="title"
-                        ></v-text-field>
-                        <v-text-field
-                          label="Meal Count"
-                          light
-                          min="1"
-                          required
-                          type="number"
-                          v-model="serving"
-                        ></v-text-field>
-                        <v-text-field
-                          label="Ready In Minutes"
-                          light
-                          min="1"
-                          required
-                          type="number"
-                          v-model="ready_in_minutes"
-                        ></v-text-field>
-                      </v-col>
-                      <v-col class="pt-0">
-                        <v-checkbox
-                          label="Vegan?"
-                          light
-                          required
-                          v-model="vegan"
-                        ></v-checkbox>
-
-                        <v-checkbox
-                          label="Vegetarian?"
-                          light
-                          required
-                          v-model="vegetarian"
-                        ></v-checkbox>
-
-                        <v-checkbox
-                          label="Gluten Free?"
-                          light
-                          required
-                          v-model="gluten_free"
-                        ></v-checkbox>
-                      </v-col>
-                    </v-row>
-                    <v-row>
-                      <v-col>
-                        <form
-                          ref="imageUpload"
-                          enctype="multipart/form-data"
-                          class="d-flex align-center"
-                        >
-                          <v-file-input
-                            accept="image/*"
-                            class="flex-grow-1"
-                            label="Upload Image"
-                            light
-                            required
-                            name="file"
-                            v-model="imgObj"
-                            id="imageInput"
-                          ></v-file-input>
-                          <v-btn
-                            :loading="loading"
-                            @click="performUpload"
-                            class="ml-4 small white--text"
-                            color="blue-grey"
-                            fab
-                            outlined
-                            small
-                          >
-                            <v-icon dark>mdi-cloud-upload</v-icon>
-                          </v-btn>
-                        </form>
-                      </v-col>
-                      <v-col class="d-flex align-center justify-space-end">
-                        <label class="v-label theme--light mr-4"
-                          >Preview:</label
-                        >
-                        <v-avatar color="primary">
-                          <v-img v-bind:src="imgUrl" v-if="imgUrl" />
-                          <v-icon v-else>mdi-pot-mix</v-icon>
-                        </v-avatar>
-                      </v-col>
-                    </v-row>
-                    <v-row>
-                      <v-textarea
-                        label="Instructions"
+  <v-container class="fill-height">
+    <v-row align="center" justify="center">
+      <v-col cols="12">
+        <v-card class="elevation-12">
+          <v-toolbar color="primary" dark flat>
+            <v-toolbar-title class="d-block text-center text-uppercase">Create a recipe</v-toolbar-title>
+          </v-toolbar>
+          <v-card-text class="card pt-0">
+            <v-form class="d-flex flex-column" lazy-validation ref="recipeForm" v-model="valid">
+              <v-row>
+                <v-col cols="6">
+                  <v-toolbar flat light color="white">
+                    <v-toolbar-title>Description</v-toolbar-title>
+                  </v-toolbar>
+                  <v-row>
+                    <v-col class="pt-0">
+                      <v-text-field label="Title" light required v-model="title"></v-text-field>
+                      <v-text-field
+                        label="Meal Count"
                         light
-                        outlined
-                        requireds
-                        style="text-align:center"
-                        v-model="instructions"
-                        value="The Woodman set to work at once, and so sharp"
-                      />
-                    </v-row>
-                  </v-col>
-                  <v-col cols="6">
-                    <EditIngredients v-bind:value="extended_ingredients" />
-                  </v-col>
-                </v-row>
-              </v-form>
-            </v-card-text>
+                        min="1"
+                        required
+                        type="number"
+                        v-model="serving"
+                      ></v-text-field>
+                      <v-text-field
+                        label="Ready In Minutes"
+                        light
+                        min="1"
+                        required
+                        type="number"
+                        v-model="ready_in_minutes"
+                      ></v-text-field>
+                    </v-col>
+                    <v-col class="pt-0">
+                      <v-checkbox label="Vegan?" light required v-model="vegan"></v-checkbox>
 
-            <v-card-actions class="d-flex flex-column card">
-              <v-btn
-                :disabled="!valid"
-                @click="validateInformation"
-                class="mb-4 align-self-stretch"
-                color="success"
-                light
-                >Create
-              </v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-col>
-      </v-row>
-    </v-container>
-  </div>
+                      <v-checkbox label="Vegetarian?" light required v-model="vegetarian"></v-checkbox>
+
+                      <v-checkbox label="Gluten Free?" light required v-model="gluten_free"></v-checkbox>
+                    </v-col>
+                  </v-row>
+                  <v-row>
+                    <v-col>
+                      <form
+                        ref="imageUpload"
+                        enctype="multipart/form-data"
+                        class="d-flex align-center"
+                      >
+                        <v-file-input
+                          accept="image/*"
+                          class="flex-grow-1"
+                          label="Upload Image"
+                          light
+                          required
+                          name="file"
+                          v-model="imgObj"
+                          id="imageInput"
+                        ></v-file-input>
+                        <v-btn
+                          :loading="loading"
+                          @click="performUpload"
+                          class="ml-4 small white--text"
+                          color="blue-grey"
+                          fab
+                          outlined
+                          small
+                        >
+                          <v-icon dark>mdi-cloud-upload</v-icon>
+                        </v-btn>
+                      </form>
+                    </v-col>
+                    <v-col class="d-flex align-center justify-space-end">
+                      <label class="v-label theme--light mr-4">Preview:</label>
+                      <v-avatar color="primary">
+                        <v-img v-bind:src="imgUrl" v-if="imgUrl" />
+                        <v-icon v-else>mdi-pot-mix</v-icon>
+                      </v-avatar>
+                    </v-col>
+                  </v-row>
+                  <v-row>
+                    <v-textarea
+                      label="Instructions"
+                      light
+                      outlined
+                      requireds
+                      style="text-align:center"
+                      v-model="instructions"
+                      value="The Woodman set to work at once, and so sharp"
+                    />
+                  </v-row>
+                </v-col>
+                <v-col cols="6">
+                  <EditIngredients v-bind:value="extended_ingredients" />
+                </v-col>
+              </v-row>
+            </v-form>
+          </v-card-text>
+
+          <v-card-actions class="d-flex flex-column card">
+            <v-btn
+              :disabled="!valid"
+              @click="validateInformation"
+              class="mb-4 align-self-stretch"
+              color="success"
+              light
+            >Create</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
