@@ -172,6 +172,14 @@ export default {
 
   // GET /recipes/search
   searchRecipes(query, selectedFilters, requestedPage, number, sort) {
+      // Save search to load later
+      store.dispatch("saveSearch", {
+        query: query,
+        selectedFilters: selectedFilters,
+        limit: number,
+        sort: sort
+      });
+
     return this.getRecipesByRoute("/recipes/search", {
       query: query,
       cuisine: selectedFilters.Cuisines,

@@ -4,9 +4,7 @@
       <v-col cols="8">
         <v-card class="elevation-12 d-flex flex-column">
           <v-toolbar class color="primary" dark flat>
-            <v-toolbar-title class="d-block text-center text-uppercase"
-              >Search
-            </v-toolbar-title>
+            <v-toolbar-title class="d-block text-center text-uppercase">Search</v-toolbar-title>
           </v-toolbar>
           <v-card-text class="d-flex flex-column card">
             <v-row>
@@ -28,8 +26,7 @@
                   depressed
                   large
                   uppercase
-                  >Search
-                </v-btn>
+                >Search</v-btn>
               </v-col>
             </v-row>
             <v-row>
@@ -112,6 +109,7 @@
 import RecipeList from "@/components/RecipeList.vue";
 import RecipeService from "@/services/recipes";
 import filterData from "@/assets/filterData.json";
+import localStorageFacade from "@/core/localStorageFacade";
 
 export default {
   name: "Search",
@@ -129,6 +127,19 @@ export default {
     filters: filterData,
     limit: 5
   }),
+
+  mounted() {
+    const savedSearch = this.$store.getters.savedSearch;
+    if (savedSearch) {
+      this.query = savedSearch.query;
+      this.selectedFilters = savedSearch.selectedFilters || {};
+      this.limit = savedSearch.limit;
+      this.sort = savedSearch.sort;
+
+      this.searching = true;
+      this.$refs.searchResults.triggerLoad();
+    }
+  },
 
   methods: {
     searchRecipes(searchPage) {

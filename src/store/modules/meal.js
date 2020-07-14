@@ -1,9 +1,9 @@
 import List from "@/core/dataStructures";
-import LocalStorageFacade from "@/core/localStorageFacade";
+import localStorageFacade from "@/core/localStorageFacade";
 
 export default {
   state: {
-    cookedRecipes: new List(LocalStorageFacade.getList("cookedRecipes")),
+    cookedRecipes: new List(localStorageFacade.getList("cookedRecipes")),
     mealCount: ""
   },
   mutations: {
@@ -24,7 +24,7 @@ export default {
     setCookedStatus({ commit }, { recipeId, cooked }) {
       return new Promise(resolve => {
         commit(cooked ? "cooked" : "revert_cooked", { recipeId: recipeId });
-        LocalStorageFacade.updateList(
+        localStorageFacade.updateList(
           "cookedRecipes",
           cooked ? "add" : "remove",
           recipeId
