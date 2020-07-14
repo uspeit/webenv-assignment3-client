@@ -180,7 +180,7 @@ export default {
       instructionsRequired: true,
       number: number ? number : SEARCH_RESULTS_LIMIT,
       limit: RECIPES_PER_PAGE,
-      sort: sort ? sort : 'like',
+      sort: sort ? sort : "like",
       page: requestedPage ? requestedPage : 0
     });
   },

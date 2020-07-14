@@ -94,7 +94,8 @@
                   height="25"
                   striped
                   stream
-                >{{Math.ceil(progress) || 0}}%</v-progress-linear>
+                  >{{ Math.ceil(progress) || 0 }}%
+                </v-progress-linear>
                 <v-btn
                   to="/meal"
                   class="ma-3 small white--text"

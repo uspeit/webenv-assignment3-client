@@ -66,8 +66,8 @@ a {
   font-size: 20px;
   font-weight: 600;
   color: #444;
-  text-shadow:
-          7px 7px 1px #1e3830, 8px 8px 1px #365048, 25px 25px 8px rgba(14, 1, 1, 0.6);
+  text-shadow: 7px 7px 1px #1e3830, 8px 8px 1px #365048,
+    25px 25px 8px rgba(14, 1, 1, 0.6);
 }
 
 .back-home {
