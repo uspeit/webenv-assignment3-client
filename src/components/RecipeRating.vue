@@ -1,8 +1,8 @@
 <template>
   <!-- Rating -->
-  <div>
-    <span>{{ rating }}</span>
-    <v-icon class="ml-1" style="top: -1.5px">mdi-star</v-icon>
+  <div class="rating-item">
+    <span class="text--white">{{ rating }}</span>
+    <v-icon class="ml-1" style="top: -3.5px">mdi-star</v-icon>
   </div>
 </template>
 
@@ -22,6 +22,14 @@ span {
 
 span,
 .v-icon {
-  color: var(--v-rating-base) !important;
+  color: white !important;
+}
+
+.rating-item {
+  background-color: #ff9800 !important;
+  border-color: #ff9800 !important;
+  border-radius: 16px;
+  font-size: 14px;
+  padding: 2px 12px;
 }
 </style>
