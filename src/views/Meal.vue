@@ -9,8 +9,7 @@
             </v-avatar>
             <v-toolbar-title
               class="ml-2 font-weight-bold d-block text-center text-uppercase"
-              >Cook A Meal</v-toolbar-title
-            >
+            >Cook A Meal</v-toolbar-title>
           </v-toolbar>
 
           <v-data-table
@@ -31,24 +30,18 @@
             :items-per-page="5"
           >
             <template v-slot:item.ready_in_minutes="{ item }">
-              <v-chip :color="getColor(item.ready_in_minutes)" dark>
-                {{ item.ready_in_minutes }}
-              </v-chip>
+              <v-chip :color="getColor(item.ready_in_minutes)" dark>{{ item.ready_in_minutes }}</v-chip>
             </template>
             <template v-slot:item.index="{ item }">
-              <span v-if="!reorderActive" class="text--black">{{
+              <span v-if="!reorderActive" class="text--black">
+                {{
                 recipes.indexOf(item) + 1
-              }}</span>
-              <v-icon v-else x-small style="cursor: move"
-                >mdi-drag-vertical</v-icon
-              >
+                }}
+              </span>
+              <v-icon v-else x-small style="cursor: move">mdi-drag-vertical</v-icon>
             </template>
             <template v-slot:expanded-item="{ headers, item }">
-              <td
-                :colspan="headers.length"
-                class="text-center"
-                style="color: darkslategray;"
-              >
+              <td :colspan="headers.length" class="text-center" style="color: darkslategray;">
                 <router-link :to="'/recipe-cook/' + item.id">
                   <RecipeSummary
                     class="white--text"
@@ -63,11 +56,8 @@
                 </router-link>
               </td>
             </template>
-            <template v-slot:item.cooked="{ item }">
-              <v-checkbox
-                v-model="item.cooked"
-                @change="updateCookedValue(item)"
-              ></v-checkbox>
+            <template v-slot:item.progress="{ item }">
+              <v-progress-linear v-model="item.progress" color="primary"></v-progress-linear>
             </template>
             <template v-slot:item.action="{ item }">
               <v-icon small @click="deleteItem(item)">mdi-delete</v-icon>
@@ -81,9 +71,9 @@
               color="light-green darken-4"
               :buffer-value="100"
               :value="progress"
+              v-if="recipes.length > 0"
               height="25"
-              >{{ Math.ceil(progress) || 0 }}%</v-progress-linear
-            >
+            >{{ Math.ceil(progress) || 0 }}%</v-progress-linear>
             <br />
           </div>
           <v-btn
@@ -105,6 +95,7 @@
             outlined
             small
             title="Clear All"
+              v-if="recipes.length > 0"
           >
             <v-icon dark>mdi-delete-empty</v-icon>
           </v-btn>
@@ -116,6 +107,7 @@
             :outlined="!reorderActive"
             small
             title="Reorder"
+              v-if="recipes.length > 0"
           >
             <v-icon dark>mdi-swap-vertical</v-icon>
           </v-btn>
@@ -154,7 +146,7 @@ export default {
         { text: "Preparation time (min)", value: "ready_in_minutes" },
         { text: "Servings", value: "serving" },
         { text: "Dietary accommodations", value: "accommodations" },
-        { text: "Cooked?", value: "cooked" },
+        { text: "Progress", value: "progress" },
         { text: "Action", value: "action" },
         { text: "", value: "data-table-expand" }
       ],
@@ -165,6 +157,17 @@ export default {
 
   async mounted() {
     this.recipes = (await RecipeService.getMealRecipes()).data.reverse();
+
+    // Calculate progress for recipes
+    const recipeProgressData = this.$store.getters.mealProgress;
+
+    this.recipes.forEach(
+      recipe =>
+        (recipe.progress =
+          Math.floor(
+            (recipeProgressData[recipe.id] / recipe.instructions.length) * 100
+          ) || 0)
+    );
 
     this.updateProgress();
 
@@ -197,23 +200,27 @@ export default {
       }
       await Promise.all(pro);
       this.recipes = [];
+      this.progress = 0;
     },
 
     async deleteItem(item) {
-      const index = item.id;
-      confirm("Are you sure you want to delete this item?") &&
-        (await RecipeService.removeFromMeal(index));
-      this.recipes.splice(this.recipes.indexOf(item), 1);
+      if (confirm("Are you sure you want to delete this item?")) {
+        const index = item.id;
+        await RecipeService.removeFromMeal(index);
+        this.recipes.splice(this.recipes.indexOf(item), 1);
+
+        this.updateProgress();
+      }
     },
 
-    updateCookedValue(item) {
-      this.$store.dispatch("setCookedStatus", {
-        recipeId: item.id,
-        cooked: item.cooked
-      });
+    // updateCookedValue(item) {
+    //   this.$store.dispatch("setCookedStatus", {
+    //     recipeId: item.id,
+    //     cooked: item.cooked
+    //   });
 
-      this.updateProgress();
-    },
+    //   this.updateProgress();
+    // },
 
     getColor(rim) {
       if (rim > 45) return "red";
@@ -222,15 +229,16 @@ export default {
     },
 
     updateProgress() {
-      // Calculate precentage of cooked recipes of total recipes by preparation time
-      let cooked = 0,
-        total = 0;
-      this.recipes.forEach(recipe => {
-        total += recipe.ready_in_minutes;
-        if (recipe.cooked) cooked += recipe.ready_in_minutes;
-      });
+      // Sum ready_in_minutes for all recipes to calculate weights for each recipe
+      const totalMealPrep = this.recipes.reduce(function(accumulator, recipe) {
+        return accumulator + recipe.ready_in_minutes;
+      }, 0);
 
-      this.progress = (cooked / total) * 100;
+      // Calculate weighted average of recipe progress
+      this.progress = this.recipes.reduce((accumulator, recipe) => {
+        const weight = recipe.ready_in_minutes / totalMealPrep;
+        return accumulator + recipe.progress * weight;
+      }, 0);
     },
 
     toggleReorder() {

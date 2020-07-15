@@ -73,14 +73,6 @@ export default {
       return recipe;
     });
 
-    // Update cooked meals from state
-    let cookedRecipes = store.getters.cookedRecipes;
-    recipes.data = recipes.data.map(recipe => {
-      recipe.cooked = cookedRecipes.includes(recipe.id);
-
-      return recipe;
-    });
-
     return recipes;
   },
 
@@ -178,7 +170,10 @@ export default {
   removeFromMeal(id) {
     return httpClient
       .delete("/metadata/meal/" + id)
-      .then(i => store.dispatch("updateMealCount", i.data.meal.length));
+      .then(i => {
+        store.dispatch("updateMealCount", i.data.meal.length);
+        store.dispatch("removeRecipeFromMeal", id);
+      });
   },
 
   // POST /metadata/mealOrder
@@ -331,7 +326,7 @@ export default {
       .replace(/<.*?>/g, ".")
       .replace(/[.!]+/g, ".")
       .split(/\.\s*/)
-      .filter(line => line.length > 0)
+      .filter(line => line.length > 2 && !line.match(/Step .*:/g))
       .map(line => line + ".");
     return recipe;
   }

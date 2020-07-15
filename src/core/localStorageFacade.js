@@ -3,17 +3,29 @@ import List from "./dataStructures";
 // Provides a facade to local storage
 // mainly enables saving and maintaining lists
 export default {
-  getList(itemName) {
-    if (localStorage.getItem(itemName))
-      return JSON.parse(localStorage.getItem(itemName));
-    else return [];
+  getObject(item, defaultVal) {
+    if (localStorage.getItem(item))
+      return JSON.parse(localStorage.getItem(item));
+    else return defaultVal;
   },
 
-  updateList(itemName, action, recipeId) {
-    let list = new List(this.getList(itemName));
+  updateList(item, action, recipeId) {
+    let list = new List(this.getObject(item, []));
     if (action === "add") list.add(recipeId);
     else if (action === "remove") list.remove(recipeId);
 
-    localStorage.setItem(itemName, JSON.stringify(list.items));
+    localStorage.setItem(item, JSON.stringify(list.items));
+  },
+
+  updateObjectProperty(item, key, progress) {
+    let obj = this.getObject(item, {});
+    obj[key] = progress;
+    localStorage.setItem(item, JSON.stringify(obj));
+  },
+
+  removeObjectProperty(item, key) {
+    let obj = this.getObject(item, {});
+    delete obj[key];
+    localStorage.setItem(item, JSON.stringify(obj));
   }
 };

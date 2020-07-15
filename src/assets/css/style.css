@@ -48,3 +48,7 @@ a {
 .v-card__text span:not(.v-btn__content){
     color: var(--v-text-base) !important;
 }
+
+.v-tooltip__content span {
+    color: white !important;
+}

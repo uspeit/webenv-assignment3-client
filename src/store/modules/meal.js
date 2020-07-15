@@ -1,41 +1,39 @@
-import List from "@/core/dataStructures";
 import localStorageFacade from "@/core/localStorageFacade";
 
 export default {
   state: {
-    cookedRecipes: new List(localStorageFacade.getList("cookedRecipes")),
-    mealCount: ""
+    mealCount: "",
+    mealProgress: localStorageFacade.getObject("mealProgress", {})
   },
   mutations: {
-    cooked(state, { recipeId }) {
-      state.cookedRecipes.add(recipeId);
+    recipe_progress(state, { recipeId, progress }) {
+      state.mealProgress[recipeId] = progress;
     },
-    revert_cooked(state, { recipeId }) {
-      state.cookedRecipes.remove(recipeId);
-    },
-    clear(state) {
-      state.cookedRecipes.clear();
+    remove_recipe_progress(state, { recipeId }) {
+      delete state.mealProgress[recipeId];
     },
     update_meal_count(state, { count }) {
       state.mealCount = count;
     }
   },
   actions: {
-    setCookedStatus({ commit }, { recipeId, cooked }) {
+    updateRecipeCookProgress({ commit }, { recipeId, progress }) {
       return new Promise(resolve => {
-        commit(cooked ? "cooked" : "revert_cooked", { recipeId: recipeId });
-        localStorageFacade.updateList(
-          "cookedRecipes",
-          cooked ? "add" : "remove",
-          recipeId
+        commit("recipe_progress", { recipeId, progress });
+
+        localStorageFacade.updateObjectProperty(
+          "mealProgress", recipeId, progress
         );
         resolve();
       });
     },
-    clearCooked({ commit }) {
+    removeRecipeFromMeal({ commit }, { recipeId }) {
       return new Promise(resolve => {
-        commit("clear");
-        localStorage.removeItem("cookedRecipes");
+        commit("remove_recipe_progress", { recipeId, progress });
+
+        localStorageFacade.removeObjectProperty(
+          "mealProgress", recipeId
+        );
         resolve();
       });
     },
@@ -44,7 +42,7 @@ export default {
     }
   },
   getters: {
-    cookedRecipes: state => state.cookedRecipes.items,
-    mealCount: state => state.mealCount
+    mealCount: state => state.mealCount,
+    mealProgress: state => state.mealProgress
   }
 };

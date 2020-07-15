@@ -15,37 +15,86 @@
 
     <!-- Icons -->
     <div class="mt-1" style="left: -3px; position: relative;">
-      <v-icon
-        class="mr-1"
-        v-bind:color="
+      <!-- Gluten -->
+      <v-tooltip bottom light>
+        <template v-slot:activator="{ on, attrs }">
+          <v-icon
+            class="mr-1"
+            v-bind="attrs"
+            v-on="on"
+            v-bind:color="
           recipe['gluten_free'] ? 'noRestriction' : 'hasRestriction'
         "
-        v-bind:size="iconSize"
-      >mdi-barley</v-icon>
-      <v-icon
-        class="mr-1"
-        v-bind:color="
+            v-bind:size="iconSize"
+          >mdi-barley</v-icon>
+        </template>
+        <span class="text--hint">{{recipe['gluten_free'] ? 'Gluten free' : 'Contains gluten'}}</span>
+      </v-tooltip>
+
+      <!-- Vegan / Vegeterian -->
+      <v-tooltip bottom light>
+        <template v-slot:activator="{ on, attrs }">
+          <v-icon
+            class="mr-1"
+            v-bind="attrs"
+            v-on="on"
+            v-bind:color="
           recipe.vegan
             ? 'noRestriction'
             : recipe.vegetarian
             ? 'partialRestriction'
             : 'hasRestriction'
         "
-        v-bind:size="iconSize"
-      >mdi-leaf</v-icon>
-      <v-icon
-        class="mr-1"
-        v-bind:color="recipe.watched ? 'primary' : 'inactive'"
-        v-bind:size="iconSize"
-        v-if="isLoggedIn && !hideWatched"
-      >mdi-eye</v-icon>
-      <v-icon
-        class="save-icon mr-1"
-        v-bind:color="recipe.saved ? 'saved' : 'inactive'"
-        v-bind:size="iconSize"
-        v-if="isLoggedIn"
-        v-on:click.stop.prevent="toggleSave()"
-      >mdi-heart</v-icon>
+            v-bind:size="iconSize"
+          >mdi-leaf</v-icon>
+        </template>
+        <span class="text--hint">
+          {{ recipe.vegan
+          ? 'Vegan'
+          : recipe.vegetarian
+          ? 'Vegetarian'
+          : 'Contains meat'}}
+        </span>
+      </v-tooltip>
+
+      <!-- Watched -->
+      <v-tooltip bottom light>
+        <template v-slot:activator="{ on, attrs }">
+          <v-icon
+            class="mr-1"
+            v-bind="attrs"
+            v-on="on"
+            v-bind:color="recipe.watched ? 'primary' : 'inactive'"
+            v-bind:size="iconSize"
+            v-if="isLoggedIn && !hideWatched"
+          >mdi-eye</v-icon>
+        </template>
+        <span class="text--hint">
+          {{ recipe.watched
+          ? 'Seen'
+          : 'Not seen'}}
+        </span>
+      </v-tooltip>
+
+      <!-- Save -->
+      <v-tooltip bottom light>
+        <template v-slot:activator="{ on, attrs }">
+          <v-icon
+            class="save-icon mr-1"
+            v-bind="attrs"
+            v-on="on"
+            v-bind:color="recipe.saved ? 'saved' : 'inactive'"
+            v-bind:size="iconSize"
+            v-if="isLoggedIn"
+            v-on:click.stop.prevent="toggleSave()"
+          >mdi-heart</v-icon>
+        </template>
+        <span class="text--hint">
+          {{ recipe.saved
+          ? 'Saved'
+          : 'Not saved'}}
+        </span>
+      </v-tooltip>
     </div>
 
     <!-- Additional info -->

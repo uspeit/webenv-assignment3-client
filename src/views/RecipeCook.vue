@@ -4,29 +4,23 @@
       <v-col cols="8">
         <v-card class="elevation-12 d-flex flex-column">
           <v-toolbar class color="primary" dark flat>
-            <v-toolbar-title class="d-block text-center text-uppercase"
-              ><v-icon large>mdi-pot</v-icon> {{ recipe.title }}
+            <v-toolbar-title class="d-block text-center text-uppercase">
+              <v-icon large>mdi-pot</v-icon>
+              {{ recipe.title }}
             </v-toolbar-title>
           </v-toolbar>
           <v-card-text class="d-flex flex-column card">
             <transition name="fade" mode="out-in">
               <v-row v-if="loading">
                 <v-col class="text-center">
-                  <v-progress-circular
-                    color="primary"
-                    indeterminate
-                  ></v-progress-circular>
+                  <v-progress-circular color="primary" indeterminate></v-progress-circular>
                 </v-col>
               </v-row>
               <v-row v-else>
                 <v-col cols="4">
                   <v-img class="elevation-2 mb-2" v-bind:src="recipe.image" />
 
-                  <RecipeInfo
-                    class="float-left"
-                    hideWatched="true"
-                    v-bind:recipe="recipe"
-                  />
+                  <RecipeInfo class="float-left" hideWatched="true" v-bind:recipe="recipe" />
 
                   <RecipeRating
                     class="rating-container float-right"
@@ -35,7 +29,7 @@
                   <div class="d-inline-flex ml-2 mt-8">
                     <v-btn
                       @click="multiply"
-                      class=" small white--text"
+                      class="small white--text"
                       color="primary"
                       fab
                       outlined
@@ -46,7 +40,7 @@
                     </v-btn>
                     <v-btn
                       @click="divide"
-                      class=" small ml-2 white--text"
+                      class="small ml-2 white--text"
                       color="primary"
                       outlined
                       fab
@@ -66,33 +60,33 @@
                         class="text--text"
                         v-for="ingredient in recipe.extended_ingredients"
                       >
-                        <span class="ingredient-name">{{
+                        <span class="ingredient-name">
+                          {{
                           ingredient.name
-                        }}</span>
-                        (<span
+                          }}
+                        </span>
+                        (
+                        <span
                           v-html="$options.filters.fraction(ingredient.amount)"
                         ></span>
-                        <span v-if="ingredient.unit"
-                          >&nbsp;{{ ingredient.unit }}</span
-                        >)
+                        <span v-if="ingredient.unit">&nbsp;{{ ingredient.unit }}</span>)
                       </li>
                     </ul>
                     <h3 class="my-2">Instructions</h3>
                     <ol id="instructions">
                       <div
-                        v-for="instruction in recipe.instructions"
+                        v-for="(instruction, index) in recipe.instructions"
                         :key="instruction"
-                        class="text--text align-center d-inline-flex"
+                        class="text--text align-center d-flex"
                       >
                         <v-checkbox
-                          @change="updateProgress"
+                          v-model="completeInstructionsArray[index]"
+                          @click.stop="updateProgress(index + 1)"
                           class="mr-5"
                           light
                           required
                         />
-                        <li class="mt-3">
-                          {{ instruction }}
-                        </li>
+                        <li class="mt-3">{{ instruction }}</li>
                       </div>
                     </ol>
                   </div>
@@ -106,8 +100,7 @@
                   height="25"
                   striped
                   stream
-                  >{{ Math.ceil(progress) || 0 }}%
-                </v-progress-linear>
+                >{{ Math.ceil(progress) || 0 }}%</v-progress-linear>
                 <v-btn
                   to="/meal"
                   class="ma-3 small white--text"
@@ -154,6 +147,8 @@ export default {
 
   data: () => ({
     loading: true,
+    instructionProgress: -1,
+    completeInstructionsArray: [],
     progress: 0,
     step: 0,
     recipe: {}
@@ -171,6 +166,10 @@ export default {
         this.recipe.watched = true;
         RecipeService.setWatched(recipeId).then();
       }
+      // Load current progress
+      this.updateProgressLocal(
+        this.$store.getters.mealProgress[this.recipe.id]
+      );
     });
   },
   methods: {
@@ -192,10 +191,32 @@ export default {
         }
       );
     },
-    updateProgress(action) {
-      this.progress = action
-        ? (this.progress += this.step)
-        : (this.progress -= this.step);
+
+    updateProgressLocal(val) {
+      if (typeof val !== "number") val = 0;
+
+      let totalInstructions = this.recipe.instructions.length;
+
+      if (val <= this.instructionProgress) val -= 1; // In case user goes back - this unchecks current
+
+      this.instructionProgress = val;
+
+      // Creates a boolean array representing each instruction and if its complete
+      this.completeInstructionsArray = [...Array(totalInstructions).keys()].map(
+        i => i < this.instructionProgress
+      );
+
+      this.progress = Math.floor((this.instructionProgress / totalInstructions) * 100);
+    },
+
+    updateProgress(val) {
+      this.updateProgressLocal(val);
+
+      // Save progress for recipe through Vuex store
+      this.$store.dispatch("updateRecipeCookProgress", {
+        recipeId: this.recipe.id,
+        progress: this.instructionProgress
+      });
     }
   }
 };
