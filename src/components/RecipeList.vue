@@ -1,14 +1,10 @@
 <template>
   <v-card class="elevation-12 d-flex flex-column">
     <v-toolbar class color="primary" dark flat>
-      <v-toolbar-title class="d-block text-center text-uppercase"
-        >{{ title }}
-      </v-toolbar-title>
+      <v-toolbar-title class="d-block text-center text-uppercase">{{ title }}</v-toolbar-title>
     </v-toolbar>
     <v-card-text class="d-flex flex-column card px-0">
-      <h2 class="text-center my-2" v-if="recipeList.length === 0 && !loading">
-        None
-      </h2>
+      <h2 class="text-center my-2" v-if="recipeList.length === 0 && !loading">None</h2>
       <transition-group
         class="overflow-hidden"
         name="staggered-fade"
@@ -24,7 +20,7 @@
           style="overflow: hidden"
           v-bind:data-index="index"
           v-bind:key="recipe.id"
-          v-bind:to="'/recipe/' + recipe.id"
+          v-bind:to="{ path: '/recipe/' + recipe.id + (includeAdditionalData? '?metadata=true' : '') }"
           v-for="(recipe, index) in recipeList"
         >
           <RecipeSummary
@@ -38,26 +34,17 @@
       </transition-group>
 
       <div class="text-center" v-if="totalPages > 1">
-        <v-pagination
-          :length="totalPages"
-          @input="onPageChange"
-          light
-          v-model="currentPage"
-        ></v-pagination>
+        <v-pagination :length="totalPages" @input="onPageChange" light v-model="currentPage"></v-pagination>
       </div>
     </v-card-text>
-    <v-card-actions
-      class="d-flex flex-column card"
-      v-if="refreshButton || loading"
-    >
+    <v-card-actions class="d-flex flex-column card" v-if="refreshButton || loading">
       <v-btn
         :loading="loading"
         :text="loading"
         @click="triggerLoad"
         class="mb-4 px-12"
         color="primary"
-        >Refresh recipes
-      </v-btn>
+      >Refresh recipes</v-btn>
     </v-card-actions>
   </v-card>
 </template>
@@ -75,7 +62,8 @@ export default {
     "refreshButton",
     "lockHeight", // Lock height after initial load, disables height changing on data reload
     "manual", // Disables automatic data loading from data source
-    "hideWatchedIndicator" // In case all recipes already been seen and we want to hide the indicator
+    "hideWatchedIndicator", // In case all recipes already been seen and we want to hide the indicator
+    "includeAdditionalData" // Do our items have additional data to display
   ],
 
   components: {

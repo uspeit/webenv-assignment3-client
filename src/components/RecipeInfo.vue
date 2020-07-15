@@ -1,17 +1,15 @@
 <template>
   <div class="mt-1">
     <!-- Ready in -->
-    <v-icon class="mr-1" color="text" style="top: -1.5px" v-bind:size="iconSize"
-      >mdi-alarm
-    </v-icon>
-    <span v-bind:class="size">{{
+    <v-icon class="mr-1" color="text" style="top: -1.5px" v-bind:size="iconSize">mdi-alarm</v-icon>
+    <span v-bind:class="size">
+      {{
       recipe["ready_in_minutes"] | timeString
-    }}</span>
+      }}
+    </span>
     <br />
     <!-- Serves -->
-    <v-icon class="mr-1" color="text" style="top: -1.5px" v-bind:size="iconSize"
-      >mdi-bowl
-    </v-icon>
+    <v-icon class="mr-1" color="text" style="top: -1.5px" v-bind:size="iconSize">mdi-bowl</v-icon>
     <span v-bind:class="size">{{ recipe["serving"] }} servings</span>
     <br />
 
@@ -23,8 +21,7 @@
           recipe['gluten_free'] ? 'noRestriction' : 'hasRestriction'
         "
         v-bind:size="iconSize"
-        >mdi-barley
-      </v-icon>
+      >mdi-barley</v-icon>
       <v-icon
         class="mr-1"
         v-bind:color="
@@ -35,23 +32,31 @@
             : 'hasRestriction'
         "
         v-bind:size="iconSize"
-        >mdi-leaf
-      </v-icon>
+      >mdi-leaf</v-icon>
       <v-icon
         class="mr-1"
         v-bind:color="recipe.watched ? 'primary' : 'inactive'"
         v-bind:size="iconSize"
         v-if="isLoggedIn && !hideWatched"
-        >mdi-eye
-      </v-icon>
+      >mdi-eye</v-icon>
       <v-icon
         class="save-icon mr-1"
         v-bind:color="recipe.saved ? 'saved' : 'inactive'"
         v-bind:size="iconSize"
         v-if="isLoggedIn"
         v-on:click.stop.prevent="toggleSave()"
-        >mdi-heart
-      </v-icon>
+      >mdi-heart</v-icon>
+    </div>
+
+    <!-- Additional info -->
+    <div v-if="recipe.additional_data">
+      <p class="pt-2">
+        <span
+          v-for="(value, key) in recipe.additional_data"
+          v-bind:key="key"
+          class="d-block"
+        >{{ additionalInfoLocalizer[key] }}: {{value}}</span>
+      </p>
     </div>
   </div>
 </template>
@@ -61,6 +66,13 @@ import RecipeService from "@/services/recipes";
 
 export default {
   name: "RecipeInfo",
+
+  data: () => ({
+    additionalInfoLocalizer: {
+      source: "Recipe source",
+      period: "Prepared around"
+    }
+  }),
 
   props: ["recipe", "size", "hideWatched"],
 
