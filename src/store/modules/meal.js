@@ -27,9 +27,10 @@ export default {
         resolve();
       });
     },
-    removeRecipeFromMeal({ commit }, { recipeId }) {
+
+    removeRecipeFromMeal({ commit }, recipeId) {
       return new Promise(resolve => {
-        commit("remove_recipe_progress", { recipeId, progress });
+        commit("remove_recipe_progress", { recipeId });
 
         localStorageFacade.removeObjectProperty(
           "mealProgress", recipeId
@@ -37,6 +38,7 @@ export default {
         resolve();
       });
     },
+
     updateMealCount({ commit }, newCount) {
       commit("update_meal_count", { count: newCount });
     }
