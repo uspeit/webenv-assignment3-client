@@ -217,7 +217,7 @@ export default {
 
     getColor(rim) {
       if (rim > 45) return "red";
-      else if (rim > 25) return "orange";
+      else if (rim > 30) return "orange";
       else return "green";
     },
 
