@@ -88,7 +88,8 @@
                     v-on="on"
                     small
                     @click="deleteItem(item)"
-                    >mdi-delete</v-icon>
+                    >mdi-delete</v-icon
+                  >
                 </template>
                 <span class="text--hint">
                   Delete

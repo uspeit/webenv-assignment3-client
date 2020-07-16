@@ -62,6 +62,7 @@
                   :menu-props="{ light: true }"
                   no-data-text="none"
                   outlined
+                  hint="Pick your filter"
                   persistent-hint
                   light
                 ></v-select>

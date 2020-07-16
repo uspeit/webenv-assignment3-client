@@ -84,9 +84,28 @@
                     :rules="[v => !!v || 'Please select role']"
                     label="Choose a Role"
                     light
+                    outlined
+                    dense
+                    small-chips
+                    deletable-chips
                     required
                     v-model="role"
-                  />
+                  >
+                    <template slot="item" slot-scope="data">
+                      <span>
+                        <v-icon v-if="data.item === 'Client'" small right
+                          >mdi-face-outline</v-icon
+                        >
+                        <v-icon v-else-if="data.item === 'Chef'" small right
+                          >mdi-chef-hat</v-icon
+                        >
+                        <v-icon v-else small right
+                          >mdi-book-account-outline</v-icon
+                        >
+                        {{ data.item }}</span
+                      >
+                    </template>
+                  </v-combobox>
                 </v-col>
                 <v-col>
                   <v-text-field
@@ -156,8 +175,14 @@
               class="mb-4 align-self-stretch"
               color="success"
               light
-              >Register</v-btn
-            >
+              >Register
+              <div class="pa-3">
+                <v-img
+                  style="height: 32px;width:32px"
+                  src="https://res.cloudinary.com/serfati/image/upload/v1591970948/soupify_zrbnbo.png"
+                />
+              </div>
+            </v-btn>
           </v-card-actions>
         </v-card>
       </v-col>
