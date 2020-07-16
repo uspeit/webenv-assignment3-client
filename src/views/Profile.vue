@@ -147,10 +147,7 @@ import AuthService from "@/services/auth";
 import countryData from "@/assets/countryData.json";
 import FileService from "@/services/files";
 
-import {
-  passwordRules,
-  userNameRules
-} from "@/core/validationRules";
+import { passwordRules, userNameRules } from "@/core/validationRules";
 
 export default {
   data: () => ({

@@ -8,10 +8,17 @@
               <v-img v-bind:src="imgUrl" v-if="imgUrl" />
               <v-icon v-else dense>mdi-account-circle</v-icon>
             </v-avatar>
-            <v-toolbar-title class="ml-2 d-block text-center text-uppercase">Register</v-toolbar-title>
+            <v-toolbar-title class="ml-2 d-block text-center text-uppercase"
+              >Register</v-toolbar-title
+            >
           </v-toolbar>
           <v-card-text class="card">
-            <v-form class="d-flex flex-column" lazy-validation ref="registerForm" v-model="valid">
+            <v-form
+              class="d-flex flex-column"
+              lazy-validation
+              ref="registerForm"
+              v-model="valid"
+            >
               <v-row>
                 <v-col>
                   <v-text-field
@@ -21,8 +28,18 @@
                     required
                     v-model="userName"
                   ></v-text-field>
-                  <v-text-field label="First Name" light required v-model="firstName"></v-text-field>
-                  <v-text-field label="Last Name" light required v-model="lastName"></v-text-field>
+                  <v-text-field
+                    label="First Name"
+                    light
+                    required
+                    v-model="firstName"
+                  ></v-text-field>
+                  <v-text-field
+                    label="Last Name"
+                    light
+                    required
+                    v-model="lastName"
+                  ></v-text-field>
                   <v-combobox
                     :items="countries"
                     :rules="[v => !!v || 'Please select country']"
@@ -33,12 +50,22 @@
                     v-model="country"
                   >
                     <template slot="selection" slot-scope="{ item }">
-                      <img class="country-icon" height="16" v-bind:src="item.flag" width="24" />
+                      <img
+                        class="country-icon"
+                        height="16"
+                        v-bind:src="item.flag"
+                        width="24"
+                      />
                       <span class="mx-2"></span>
                       {{ item.name }}
                     </template>
                     <template slot="item" slot-scope="{ item }">
-                      <img class="country-icon" height="16" :src="item.flag" width="24" />
+                      <img
+                        class="country-icon"
+                        height="16"
+                        :src="item.flag"
+                        width="24"
+                      />
                       <span class="mx-2"></span>
                       {{ item.name }}
                     </template>
@@ -79,8 +106,17 @@
                     type="password"
                     v-model="passwordConfirm"
                   ></v-text-field>
-                  <v-text-field label="Email" light required v-model="email"></v-text-field>
-                  <form ref="imageUpload" enctype="multipart/form-data" class="d-flex align-center">
+                  <v-text-field
+                    label="Email"
+                    light
+                    required
+                    v-model="email"
+                  ></v-text-field>
+                  <form
+                    ref="imageUpload"
+                    enctype="multipart/form-data"
+                    class="d-flex align-center"
+                  >
                     <v-file-input
                       accept="image/*"
                       class="flex-grow-1"
@@ -103,7 +139,12 @@
                       <v-icon dark>mdi-cloud-upload</v-icon>
                     </v-btn>
                   </form>
-                  <v-text-field label="Answer" light required v-model="answer"></v-text-field>
+                  <v-text-field
+                    label="Answer"
+                    light
+                    required
+                    v-model="answer"
+                  ></v-text-field>
                 </v-col>
               </v-row>
             </v-form>
@@ -115,7 +156,8 @@
               class="mb-4 align-self-stretch"
               color="success"
               light
-            >Register</v-btn>
+              >Register</v-btn
+            >
           </v-card-actions>
         </v-card>
       </v-col>
@@ -137,7 +179,7 @@ export default {
     userNameRules: userNameRules,
     password: "",
     passwordRules: passwordRules,
-    passwordConfirm: "", 
+    passwordConfirm: "",
     firstName: "",
     lastName: "",
     countries: countryData,
@@ -197,8 +239,8 @@ export default {
         .catch(err => console.log(err));
     },
 
-    confirmPasswordRule() { 
-      return (this.password === this.passwordConfirm) || 'Password must match';
+    confirmPasswordRule() {
+      return this.password === this.passwordConfirm || "Password must match";
     }
   }
 };

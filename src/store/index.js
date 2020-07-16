@@ -8,7 +8,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   modules: {
     auth: authModule,
-    meal: mealModule,
+    meal: mealModule
   },
   state: {
     savedSearch: JSON.parse(localStorage.getItem("search"))

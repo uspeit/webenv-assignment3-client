@@ -22,7 +22,9 @@ export default {
         commit("recipe_progress", { recipeId, progress });
 
         localStorageFacade.updateObjectProperty(
-          "mealProgress", recipeId, progress
+          "mealProgress",
+          recipeId,
+          progress
         );
         resolve();
       });
@@ -32,9 +34,7 @@ export default {
       return new Promise(resolve => {
         commit("remove_recipe_progress", { recipeId });
 
-        localStorageFacade.removeObjectProperty(
-          "mealProgress", recipeId
-        );
+        localStorageFacade.removeObjectProperty("mealProgress", recipeId);
         resolve();
       });
     },

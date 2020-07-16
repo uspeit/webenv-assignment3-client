@@ -37,7 +37,11 @@ export default {
 
   // GET /metadata/family
   async getFamilyRecipes(requestedPage) {
-    return await this.getMetaDataRecipes("family", { page: requestedPage }, true);
+    return await this.getMetaDataRecipes(
+      "family",
+      { page: requestedPage },
+      true
+    );
   },
 
   // GET /metadata/favs
@@ -94,7 +98,9 @@ export default {
       }
 
       // Get recipes by id
-      const recipeResponses = ids.map(v => this.getRecipe(v, extractAdditionalData));
+      const recipeResponses = ids.map(v =>
+        this.getRecipe(v, extractAdditionalData)
+      );
 
       // Adapt data
       for await (const response of recipeResponses) {
@@ -122,14 +128,21 @@ export default {
 
     if (extractAdditionalData) {
       // Extract data embedded in ingredients
-      const additionalDataIndex = response.data.extended_ingredients.findIndex(x => !Object.prototype.hasOwnProperty.call(x, "id")); // Additional data is the only item without id if it exists
+      const additionalDataIndex = response.data.extended_ingredients.findIndex(
+        x => !Object.prototype.hasOwnProperty.call(x, "id")
+      ); // Additional data is the only item without id if it exists
       if (additionalDataIndex >= 0) {
-        let extractedData = response.data.extended_ingredients.splice(additionalDataIndex, 1)[0];
+        let extractedData = response.data.extended_ingredients.splice(
+          additionalDataIndex,
+          1
+        )[0];
         response.data.additional_data = extractedData;
       }
     } else {
       // Remove data embedded in ingredients
-      response.data.extended_ingredients = response.data.extended_ingredients.filter(x => Object.prototype.hasOwnProperty.call(x, "id"));
+      response.data.extended_ingredients = response.data.extended_ingredients.filter(
+        x => Object.prototype.hasOwnProperty.call(x, "id")
+      );
     }
 
     return response;
@@ -168,12 +181,10 @@ export default {
 
   // DELETE /metadata/meal/{id}
   removeFromMeal(id) {
-    return httpClient
-      .delete("/metadata/meal/" + id)
-      .then(i => {
-        store.dispatch("updateMealCount", i.data.meal.length);
-        store.dispatch("removeRecipeFromMeal", id);
-      });
+    return httpClient.delete("/metadata/meal/" + id).then(i => {
+      store.dispatch("updateMealCount", i.data.meal.length);
+      store.dispatch("removeRecipeFromMeal", id);
+    });
   },
 
   // POST /metadata/mealOrder
@@ -331,7 +342,7 @@ export default {
     return recipe;
   }
 };
-String.prototype.replaceAt = function (index, replacement) {
+String.prototype.replaceAt = function(index, replacement) {
   return (
     this.substr(0, index) +
     replacement +

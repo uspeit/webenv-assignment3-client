@@ -9,7 +9,8 @@
             </v-avatar>
             <v-toolbar-title
               class="ml-2 font-weight-bold d-block text-center text-uppercase"
-            >Cook A Meal</v-toolbar-title>
+              >Cook A Meal</v-toolbar-title
+            >
           </v-toolbar>
 
           <v-data-table
@@ -30,18 +31,35 @@
             :items-per-page="5"
           >
             <template v-slot:item.ready_in_minutes="{ item }">
-              <v-chip :color="getColor(item.ready_in_minutes)" dark>{{ item.ready_in_minutes }}</v-chip>
+              <v-chip :color="getColor(item.ready_in_minutes)"
+                >{{ item.ready_in_minutes }}
+                <v-icon class="" x-small right
+                  >mdi-clock-time-eight-outline</v-icon
+                >
+              </v-chip>
+            </template>
+            <template v-slot:item.serving="{ item }">
+              <v-chip color="grey" outlined
+                >{{ item.serving }}
+                <v-icon x-small right color="grey"
+                  >mdi-silverware-variant</v-icon
+                >
+              </v-chip>
             </template>
             <template v-slot:item.index="{ item }">
-              <span v-if="!reorderActive" class="text--black">
-                {{
-                recipes.indexOf(item) + 1
-                }}
+              <span v-if="!reorderActive">
+                {{ recipes.indexOf(item) + 1 }}
               </span>
-              <v-icon v-else x-small style="cursor: move">mdi-drag-vertical</v-icon>
+              <v-icon v-else x-small style="cursor: move"
+                >mdi-drag-vertical</v-icon
+              >
             </template>
             <template v-slot:expanded-item="{ headers, item }">
-              <td :colspan="headers.length" class="text-center" style="color: darkslategray;">
+              <td
+                :colspan="headers.length"
+                class="text-center"
+                style="color: darkslategray;"
+              >
                 <router-link :to="'/recipe-cook/' + item.id">
                   <RecipeSummary
                     class="white--text"
@@ -57,10 +75,25 @@
               </td>
             </template>
             <template v-slot:item.progress="{ item }">
-              <v-progress-linear v-model="item.progress" color="primary"></v-progress-linear>
+              <v-progress-linear
+                v-model="item.progress"
+                color="primary"
+              ></v-progress-linear>
             </template>
             <template v-slot:item.action="{ item }">
-              <v-icon small @click="deleteItem(item)">mdi-delete</v-icon>
+              <v-tooltip bottom light>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-icon
+                    v-bind="attrs"
+                    v-on="on"
+                    small
+                    @click="deleteItem(item)"
+                    >mdi-delete</v-icon>
+                </template>
+                <span class="text--hint">
+                  Delete
+                </span>
+              </v-tooltip>
             </template>
           </v-data-table>
           <div class>
@@ -73,7 +106,8 @@
               :value="progress"
               v-if="recipes.length > 0"
               height="25"
-            >{{ Math.ceil(progress) || 0 }}%</v-progress-linear>
+              >{{ Math.ceil(progress) || 0 }}%</v-progress-linear
+            >
             <br />
           </div>
           <v-btn
@@ -95,7 +129,7 @@
             outlined
             small
             title="Clear All"
-              v-if="recipes.length > 0"
+            v-if="recipes.length > 0"
           >
             <v-icon dark>mdi-delete-empty</v-icon>
           </v-btn>
@@ -107,7 +141,7 @@
             :outlined="!reorderActive"
             small
             title="Reorder"
-              v-if="recipes.length > 0"
+            v-if="recipes.length > 0"
           >
             <v-icon dark>mdi-swap-vertical</v-icon>
           </v-btn>

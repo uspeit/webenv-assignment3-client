@@ -1,15 +1,17 @@
 <template>
   <div class="mt-1">
     <!-- Ready in -->
-    <v-icon class="mr-1" color="text" style="top: -1.5px" v-bind:size="iconSize">mdi-alarm</v-icon>
+    <v-icon class="mr-1" color="text" style="top: -1.5px" v-bind:size="iconSize"
+      >mdi-alarm</v-icon
+    >
     <span v-bind:class="size">
-      {{
-      recipe["ready_in_minutes"] | timeString
-      }}
+      {{ recipe["ready_in_minutes"] | timeString }}
     </span>
     <br />
     <!-- Serves -->
-    <v-icon class="mr-1" color="text" style="top: -1.5px" v-bind:size="iconSize">mdi-bowl</v-icon>
+    <v-icon class="mr-1" color="text" style="top: -1.5px" v-bind:size="iconSize"
+      >mdi-bowl</v-icon
+    >
     <span v-bind:class="size">{{ recipe["serving"] }} servings</span>
     <br />
 
@@ -23,12 +25,15 @@
             v-bind="attrs"
             v-on="on"
             v-bind:color="
-          recipe['gluten_free'] ? 'noRestriction' : 'hasRestriction'
-        "
+              recipe['gluten_free'] ? 'noRestriction' : 'hasRestriction'
+            "
             v-bind:size="iconSize"
-          >mdi-barley</v-icon>
+            >mdi-barley</v-icon
+          >
         </template>
-        <span class="text--hint">{{recipe['gluten_free'] ? 'Gluten free' : 'Contains gluten'}}</span>
+        <span class="text--hint">{{
+          recipe["gluten_free"] ? "Gluten free" : "Contains gluten"
+        }}</span>
       </v-tooltip>
 
       <!-- Vegan / Vegeterian -->
@@ -39,21 +44,24 @@
             v-bind="attrs"
             v-on="on"
             v-bind:color="
-          recipe.vegan
-            ? 'noRestriction'
-            : recipe.vegetarian
-            ? 'partialRestriction'
-            : 'hasRestriction'
-        "
+              recipe.vegan
+                ? 'noRestriction'
+                : recipe.vegetarian
+                ? 'partialRestriction'
+                : 'hasRestriction'
+            "
             v-bind:size="iconSize"
-          >mdi-leaf</v-icon>
+            >mdi-leaf</v-icon
+          >
         </template>
         <span class="text--hint">
-          {{ recipe.vegan
-          ? 'Vegan'
-          : recipe.vegetarian
-          ? 'Vegetarian'
-          : 'Contains meat'}}
+          {{
+            recipe.vegan
+              ? "Vegan"
+              : recipe.vegetarian
+              ? "Vegetarian"
+              : "Contains meat"
+          }}
         </span>
       </v-tooltip>
 
@@ -67,12 +75,11 @@
             v-bind:color="recipe.watched ? 'primary' : 'inactive'"
             v-bind:size="iconSize"
             v-if="isLoggedIn && !hideWatched"
-          >mdi-eye</v-icon>
+            >mdi-eye</v-icon
+          >
         </template>
         <span class="text--hint">
-          {{ recipe.watched
-          ? 'Seen'
-          : 'Not seen'}}
+          {{ recipe.watched ? "Seen" : "Not seen" }}
         </span>
       </v-tooltip>
 
@@ -87,12 +94,11 @@
             v-bind:size="iconSize"
             v-if="isLoggedIn"
             v-on:click.stop.prevent="toggleSave()"
-          >mdi-heart</v-icon>
+            >mdi-heart</v-icon
+          >
         </template>
         <span class="text--hint">
-          {{ recipe.saved
-          ? 'Saved'
-          : 'Not saved'}}
+          {{ recipe.saved ? "Saved" : "Not saved" }}
         </span>
       </v-tooltip>
     </div>
@@ -104,7 +110,8 @@
           v-for="(value, key) in recipe.additional_data"
           v-bind:key="key"
           class="d-block"
-        >{{ additionalInfoLocalizer[key] }}: {{value}}</span>
+          >{{ additionalInfoLocalizer[key] }}: {{ value }}</span
+        >
       </p>
     </div>
   </div>

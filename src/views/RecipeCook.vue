@@ -13,14 +13,21 @@
             <transition name="fade" mode="out-in">
               <v-row v-if="loading">
                 <v-col class="text-center">
-                  <v-progress-circular color="primary" indeterminate></v-progress-circular>
+                  <v-progress-circular
+                    color="primary"
+                    indeterminate
+                  ></v-progress-circular>
                 </v-col>
               </v-row>
               <v-row v-else>
                 <v-col cols="4">
                   <v-img class="elevation-2 mb-2" v-bind:src="recipe.image" />
 
-                  <RecipeInfo class="float-left" hideWatched="true" v-bind:recipe="recipe" />
+                  <RecipeInfo
+                    class="float-left"
+                    hideWatched="true"
+                    v-bind:recipe="recipe"
+                  />
 
                   <RecipeRating
                     class="rating-container float-right"
@@ -61,15 +68,15 @@
                         v-for="ingredient in recipe.extended_ingredients"
                       >
                         <span class="ingredient-name">
-                          {{
-                          ingredient.name
-                          }}
+                          {{ ingredient.name }}
                         </span>
                         (
                         <span
                           v-html="$options.filters.fraction(ingredient.amount)"
                         ></span>
-                        <span v-if="ingredient.unit">&nbsp;{{ ingredient.unit }}</span>)
+                        <span v-if="ingredient.unit"
+                          >&nbsp;{{ ingredient.unit }}</span
+                        >)
                       </li>
                     </ul>
                     <h3 class="my-2">Instructions</h3>
@@ -100,7 +107,8 @@
                   height="25"
                   striped
                   stream
-                >{{ Math.ceil(progress) || 0 }}%</v-progress-linear>
+                  >{{ Math.ceil(progress) || 0 }}%</v-progress-linear
+                >
                 <v-btn
                   to="/meal"
                   class="ma-3 small white--text"
@@ -160,7 +168,6 @@ export default {
     RecipeService.getRecipe(recipeId).then(response => {
       this.recipe = response.data;
       this.step = 100 / this.recipe.instructions.length;
-      console.log(this.step);
       this.loading = false;
       if (!response.watched) {
         this.recipe.watched = true;
@@ -206,7 +213,9 @@ export default {
         i => i < this.instructionProgress
       );
 
-      this.progress = Math.floor((this.instructionProgress / totalInstructions) * 100);
+      this.progress = Math.floor(
+        (this.instructionProgress / totalInstructions) * 100
+      );
     },
 
     updateProgress(val) {

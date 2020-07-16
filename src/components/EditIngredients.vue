@@ -1,12 +1,20 @@
 <template>
-  <v-data-table :headers="headers" :items="value" disable-pagination light sort-by="name">
+  <v-data-table
+    :headers="headers"
+    :items="value"
+    disable-pagination
+    light
+    sort-by="name"
+  >
     <template v-slot:top>
       <v-toolbar color="white" flat>
         <v-toolbar-title>Ingredients</v-toolbar-title>
         <v-spacer></v-spacer>
         <v-dialog light max-width="500px" v-model="dialog">
           <template v-slot:activator="{ on, attrs }">
-            <v-btn class="mb-2" color="primary" dark v-bind="attrs" v-on="on">Add</v-btn>
+            <v-btn class="mb-2" color="primary" dark v-bind="attrs" v-on="on"
+              >Add</v-btn
+            >
           </template>
           <v-card>
             <v-card-title>
@@ -32,10 +40,18 @@
                 </v-row>
                 <v-row>
                   <v-col>
-                    <v-text-field label="Amount" min="0" type="number" v-model="editedItem.amount"></v-text-field>
+                    <v-text-field
+                      label="Amount"
+                      min="0"
+                      type="number"
+                      v-model="editedItem.amount"
+                    ></v-text-field>
                   </v-col>
                   <v-col>
-                    <v-text-field label="Units" v-model="editedItem.unit"></v-text-field>
+                    <v-text-field
+                      label="Units"
+                      v-model="editedItem.unit"
+                    ></v-text-field>
                   </v-col>
                 </v-row>
               </v-container>
@@ -124,7 +140,8 @@ export default {
     },
 
     save() {
-      if (typeof this.editedItem.name !== "string") { // Combobox selected items will appear as objects, typed items will be strings
+      if (typeof this.editedItem.name !== "string") {
+        // Combobox selected items will appear as objects, typed items will be strings
         this.editedItem.id = this.editedItem.name.id;
         this.editedItem.name = this.editedItem.name.name;
       } else {
