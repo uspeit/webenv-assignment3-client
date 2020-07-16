@@ -109,15 +109,15 @@
         <span
           v-for="(value, key) in recipe.additional_data"
           v-bind:key="key"
-          class="d-block"
+          class="d-block font-italic"
+          style="font-size: 2vh"
         >
-          <v-icon
-            v-if="additionalInfoLocalizer[key] === 'Recipe source'"
-            small
-            right
-            >mdi-chef-hat</v-icon
-          >
-          <v-icon v-else small right>mdi-calendar-clock</v-icon>
+          <v-icon v-if="key === 'source'" color="deep-purple" small right
+            >mdi-chef-hat
+          </v-icon>
+          <v-icon v-else small color="deep-purple" right>
+            mdi-calendar-clock
+          </v-icon>
           {{ value }}
         </span>
       </p>
