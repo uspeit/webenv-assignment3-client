@@ -16,7 +16,6 @@
 
       <MenuLink route="/">Home</MenuLink>
       <MenuLink route="/search">Search</MenuLink>
-      <MenuLink route="/about">About</MenuLink>
 
       <v-menu bottom eager offset-y>
         <template v-slot:activator="{ on }">
@@ -26,11 +25,7 @@
             route="/personal"
             v-show="currentUser"
           >
-            <v-badge
-              color="teal"
-              icon="mdi-vuetify"
-              :content="badge"
-              :value="badge"
+            <v-badge color="teal" icon="mdi-vuetify" :content="badge"
               >Personal
             </v-badge>
           </MenuLink>
@@ -46,6 +41,7 @@
         </v-list>
       </v-menu>
       <MenuLink route="/create" v-show="currentUser">Create</MenuLink>
+      <MenuLink route="/about">About</MenuLink>
       <v-spacer></v-spacer>
 
       <div v-if="isLoggedIn && currentUser">
@@ -129,9 +125,11 @@ export default {
   mounted() {
     // Loads user data when app starts
     AuthService.fetchUserData().then();
-    RecipeService.getMealRecipes().then(i => {
-      this.$store.dispatch("updateMealCount", i.data.length);
-    });
+    RecipeService.getMealRecipes()
+      .then(i => {
+        this.$store.dispatch("updateMealCount", i.data.length);
+      })
+      .then(j => (this.badge = j));
   },
 
   computed: {

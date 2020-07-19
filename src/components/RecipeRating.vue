@@ -16,7 +16,7 @@ export default {
 <style scoped>
 span {
   font-size: 1.5em;
-  line-height: 1.5em;
+  line-height: 1.7em;
   font-weight: 400;
 }
 
@@ -26,10 +26,12 @@ span,
 }
 
 .rating-item {
-  background-color: #ff9800 !important;
-  border-color: #ff9800 !important;
+  background-color: #f7cf3f !important;
+  border-style: solid;
+  border-width: 1px;
+  border-color: rgba(166, 123, 0, 0.36) !important;
   border-radius: 16px;
-  font-size: 14px;
+  font-size: 12px;
   padding: 2px 12px;
 }
 </style>

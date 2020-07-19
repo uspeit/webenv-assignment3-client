@@ -6,6 +6,9 @@
       </v-toolbar-title>
     </v-toolbar>
     <v-card-text class="card">
+      <v-alert v-if="error" class="pa-3" dense light outlined type="error"
+        >Incorrect <strong>username</strong> or <strong>password</strong>.
+      </v-alert>
       <v-form
         class="d-flex flex-column"
         lazy-validation
@@ -63,7 +66,8 @@ export default {
     userName: "",
     userNameRules: userNameRules,
     password: "",
-    passwordRules: passwordRules
+    passwordRules: passwordRules,
+    error: ""
   }),
 
   methods: {
@@ -78,7 +82,7 @@ export default {
       AuthService.login(userCredentials)
         .then(() => this.$router.push("/"))
         .catch(err => {
-          if (err.name !== "NavigationDuplicated") console.log(err);
+          this.error = err;
         });
     }
   }

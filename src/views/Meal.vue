@@ -12,18 +12,18 @@
               >Cook A Meal</v-toolbar-title
             >
           </v-toolbar>
-
           <v-data-table
             v-if="!loading"
+            class="elevation-5 ma-3"
             :headers="dataTable.headers"
             :items="recipes"
             :single-expand="dataTable.singleExpand"
             :expanded.sync="dataTable.expanded"
             item-key="id"
             :show-expand="!reorderActive"
-            hide-default-footer
             light
             :footer-props="{
+              light: true,
               prevIcon: 'mdi-minus',
               nextIcon: 'mdi-plus',
               'items-per-page-options': [5, 10, 15, 30]
@@ -100,9 +100,10 @@
           <div class>
             <br />
             <v-progress-linear
-              style="max-width: 44em;"
+              style="max-width: 44em; border-style: solid; border-radius: 100vh; border-width: 1px; border-color: teal"
               class="ml-7 black--text font-weight-bold"
               color="light-green darken-4"
+              rounded
               :buffer-value="100"
               :value="progress"
               v-if="recipes.length > 0"
