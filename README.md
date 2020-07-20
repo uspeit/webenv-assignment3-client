@@ -12,19 +12,18 @@
 
 ## Linked Repositories
 
-- [Back-end Server](https://github.com/Serfati/soupify-v1)
-- [API Specification v1.1](https://github.com/Serfati/soupify-api-specs-v1.1)
+- [Back-end Server](https://github.com/Serfati/soupify-v1) - or find server [HERE](https://github.com/SISE-Web-Development-Environments/assignment-3-3-v2-sye-soupify/blob/master/soupify-server.zip)
+- [API Specification v1.2](https://github.com/Serfati/soupify-api-specs)
 
 ---
 
 ## 📃 Documentation
 
-- [OpenApi 3 Specification](https://app.swaggerhub.com/apis-docs/serfatio/Soupify/1.1) - files in [API](https://github.com/Serfati/soupify-v1/tree/master/API/OpenAPI) folder
-- [Vue Web Application](https://uspeit.github.io/webenv-assignment3-client-dist/)
+- [OpenApi 3 Specification](https://app.swaggerhub.com/apis-docs/serfatio/Soupify/1.2) - files in [API](https://github.com/Serfati/soupify-v1/tree/master/API/OpenAPI) folder
+- [Vue Live Application](https://uspeit.github.io/webenv-assignment3-client-dist/)
+- [Heroku Live Server](https://soupify.herokuapp.com/api)
 - Default Users: 
-  - Client - serfati: toor!1
-  - Chef - yarden: yarden123
-
+  - Admin - root: toor!1
 ---
 
 ## ⚠️ Prerequisites
