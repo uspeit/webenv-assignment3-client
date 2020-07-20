@@ -30,6 +30,7 @@ export default {
         .catch(reason => reject(reason));
     });
   },
+  
   postAnswer(answer) {
     return new Promise((resolve, reject) => {
       httpClient

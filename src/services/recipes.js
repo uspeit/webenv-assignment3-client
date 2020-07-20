@@ -94,7 +94,7 @@ export default {
         let page = paginationConfig.page || 1;
         let chunkStart = (page - 1) * RECIPES_PER_PAGE;
         ids = ids.slice(chunkStart, chunkStart + RECIPES_PER_PAGE);
-        paginationData = { total_pages: pages, page: page, total: total };
+        paginationData = { total_pages: pages, page: page, total: total, per_page: RECIPES_PER_PAGE };
       }
 
       // Get recipes by id
