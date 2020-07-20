@@ -1,8 +1,10 @@
 <template>
   <v-card class="elevation-12">
     <v-toolbar color="primary" dark flat>
-      <v-toolbar-title class="d-block text-center text-uppercase"
-        >Login
+      <v-toolbar-title class="d-block text-center text-uppercase">
+        <v-toolbar-title class="d-block text-center text-uppercase">
+          <v-icon size="27" class="mr-2">mdi-login</v-icon>Login
+        </v-toolbar-title>
       </v-toolbar-title>
     </v-toolbar>
     <v-card-text class="card">
@@ -18,6 +20,7 @@
         <v-text-field
           label="Username"
           light
+          prepend-icon="mdi-account"
           required
           v-model="userName"
         ></v-text-field>
@@ -25,6 +28,7 @@
         <v-text-field
           label="Password"
           light
+          prepend-icon="mdi-key"
           required
           type="password"
           v-model="password"

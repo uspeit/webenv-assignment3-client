@@ -4,9 +4,9 @@
       <v-col cols="8">
         <v-card class="card">
           <v-toolbar color="primary" class="mb-5">
-            <v-avatar color="black-grey">
-              <v-icon>mdi-food</v-icon>
-            </v-avatar>
+            <v-icon size="27" class="ma-3 mb-4"
+              >mdi-silverware-fork-knife</v-icon
+            >
             <v-toolbar-title
               class="ml-2 font-weight-bold d-block text-center text-uppercase"
               >Cook A Meal</v-toolbar-title

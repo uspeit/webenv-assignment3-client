@@ -84,6 +84,7 @@
                     :rules="[v => !!v || 'Please select role']"
                     label="Choose a Role"
                     light
+                    solo
                     outlined
                     dense
                     small-chips

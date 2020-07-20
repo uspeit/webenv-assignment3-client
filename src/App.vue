@@ -17,7 +17,7 @@
       <MenuLink route="/">Home</MenuLink>
       <MenuLink route="/search">Search</MenuLink>
 
-      <v-menu bottom eager offset-y>
+      <v-menu bottom eager offset-y light>
         <template v-slot:activator="{ on }">
           <MenuLink
             :activator="on"
@@ -36,7 +36,10 @@
             @click="navigate(item.route)"
             v-for="(item, index) in personalLinks"
           >
-            <v-list-item-title> {{ item.text }}</v-list-item-title>
+            <v-list-item-title>
+              <v-icon class="pr-2" v-text="item.icon"></v-icon>
+              {{ item.text }}</v-list-item-title
+            >
           </v-list-item>
         </v-list>
       </v-menu>
@@ -100,24 +103,29 @@ export default {
   data: () => ({
     personalLinks: [
       {
-        text: "Favorite Recipes",
-        route: "/personal/favorite"
+        text: "My Recipes",
+        route: "/personal/recipes",
+        icon: "mdi-fingerprint"
       },
       {
-        text: "My Recipes",
-        route: "/personal/recipes"
+        text: "Favorite Recipes",
+        route: "/personal/favorite",
+        icon: "mdi-account-heart"
       },
       {
         text: "Family Recipes",
-        route: "/personal/family"
-      },
-      {
-        text: "Edit Profile",
-        route: "/profile"
+        route: "/personal/family",
+        icon: "mdi-account-group"
       },
       {
         text: "Cook A Meal",
-        route: "/meal"
+        route: "/meal",
+        icon: "mdi-silverware-fork-knife"
+      },
+      {
+        text: "Edit Profile",
+        route: "/profile",
+        icon: "mdi-account-box-outline"
       }
     ]
   }),

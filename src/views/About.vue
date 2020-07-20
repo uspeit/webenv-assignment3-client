@@ -6,7 +6,10 @@
           <v-toolbar class color="primary" dark flat>
             <v-toolbar-title
               class="d-block font-weight-bold text-center text-uppercase"
-              >About Us
+              ><v-icon size="27" class="mr-1 mb-2"
+                >mdi-information-variant</v-icon
+              >
+              About
             </v-toolbar-title>
           </v-toolbar>
           <v-card-text class="d-flex flex-column card">

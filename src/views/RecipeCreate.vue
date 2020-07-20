@@ -5,6 +5,7 @@
         <v-card class="elevation-12">
           <v-toolbar color="primary" dark flat>
             <v-toolbar-title class="d-block text-center text-uppercase"
+              ><v-icon size="25" class="mr-2 mb-1">mdi-pencil-remove</v-icon
               >Create a recipe</v-toolbar-title
             >
           </v-toolbar>

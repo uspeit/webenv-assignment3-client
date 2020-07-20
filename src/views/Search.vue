@@ -5,6 +5,7 @@
         <v-card class="elevation-12 d-flex flex-column">
           <v-toolbar class color="primary" dark flat>
             <v-toolbar-title class="d-block text-center text-uppercase"
+              ><v-icon size="27" class="mr-2">mdi-magnify</v-icon
               >Search</v-toolbar-title
             >
           </v-toolbar>
