@@ -68,12 +68,12 @@ const routes = [
     component: () => import("../views/PasswordReset.vue")
   },
   {
-    path: "/profile/",
+    path: "/personal/profile/",
     name: "Profile",
     component: () => import("../views/Profile.vue")
   },
   {
-    path: "/Meal/",
+    path: "/personal/meal/",
     name: "Meal",
     component: () => import("../views/Meal.vue")
   },

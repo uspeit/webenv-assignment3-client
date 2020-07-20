@@ -192,14 +192,9 @@ export default {
     validateCredentials() {
       if (!this.$refs.registerForm.validate()) return;
 
-      let userCredentials = {
-        login: this.userName,
-        password: this.oldPassword
-      };
-
       let userInfo = {
         login: this.userName,
-        password: this.oldPassword,
+        password: this.newPassword,
         role: "Client",
         avatar: this.imgUrl,
         fullname: this.firstName + " " + this.lastName,
@@ -210,7 +205,7 @@ export default {
         answer: "Dimona"
       };
 
-      AuthService.register(userCredentials, userInfo)
+      AuthService.updateUser(userInfo)
         .then(() => this.$router.push("/"))
         .catch(err => console.log(err));
     }

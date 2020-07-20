@@ -30,7 +30,7 @@ export default {
         .catch(reason => reject(reason));
     });
   },
-  
+
   postAnswer(answer) {
     return new Promise((resolve, reject) => {
       httpClient
@@ -66,6 +66,30 @@ export default {
               }
             })
             .catch(err => console.log(err));
+        })
+        .catch(reason => reject(reason));
+    });
+  },
+
+  // Update user personal data
+  updateUser(newInfo) {
+    return new Promise((resolve, reject) => {
+      const token = store.getters.token;
+      const user = store.getters.currentUser;
+      if (!token || !user || !user.id) {
+        reject("User not found");
+        return;
+      }
+
+      const userId = user.id;
+
+      httpClient
+        .put(`/users/${userId}`, newInfo, {
+          headers: { Authorization: `Bearer ${token}` }
+        })
+        .then(response => {
+          store.dispatch("updateUser", response.data);
+          resolve(response);
         })
         .catch(reason => reject(reason));
     });

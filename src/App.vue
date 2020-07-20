@@ -50,7 +50,7 @@
       <div v-if="isLoggedIn && currentUser">
         <!-- Logged in -->
         <transition name="fade-in">
-          <span style="cursor: pointer" @click="navigate('/profile/')">
+          <span style="cursor: pointer" @click="navigate('/personal/profile/')">
             <span id="profile" class="mx-4 mt-1"
               >Hello {{ currentUser.fullname }}</span
             >
@@ -119,12 +119,12 @@ export default {
       },
       {
         text: "Cook A Meal",
-        route: "/meal",
+        route: "/personal/meal",
         icon: "mdi-silverware-fork-knife"
       },
       {
         text: "Edit Profile",
-        route: "/profile",
+        route: "/personal/profile",
         icon: "mdi-account-box-outline"
       }
     ]

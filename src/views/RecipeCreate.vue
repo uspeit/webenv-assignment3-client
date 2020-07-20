@@ -12,9 +12,7 @@
           <v-card-text class="card pt-0">
             <v-form
               class="d-flex flex-column"
-              lazy-validation
               ref="recipeForm"
-              v-model="valid"
             >
               <v-row>
                 <v-col cols="6">
@@ -76,7 +74,6 @@
                         color="red darken-3"
                         light
                         style="width: 70%"
-                        required
                         v-model="vegetarian"
                       ></v-checkbox>
 
@@ -88,7 +85,6 @@
                         color="#F5B041"
                         light
                         style="width: 70%"
-                        required
                         v-model="gluten_free"
                       ></v-checkbox>
                     </v-col>
@@ -157,8 +153,7 @@
 
           <v-card-actions class="d-flex flex-column card">
             <v-btn
-              :disabled="!valid"
-              @click="validateInformation"
+              @click="sendForm"
               class="mb-4 align-self-stretch"
               color="success"
               light
@@ -195,7 +190,6 @@ export default {
     imgObj: {},
     loading: false,
     toggle: false,
-    valid: true,
     unit: "",
     amount: null,
     amounts: false,
@@ -203,8 +197,7 @@ export default {
   }),
 
   methods: {
-    validateInformation() {
-      if (!this.$refs.recipeForm.validate()) return;
+    sendForm() {
       let recipeInfo = {
         title: this.title,
         ready_in_minutes: this.ready_in_minutes,
