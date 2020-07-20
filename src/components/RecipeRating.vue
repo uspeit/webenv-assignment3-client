@@ -26,10 +26,10 @@ span,
 }
 
 .rating-item {
-  background-color: #f7cf3f !important;
+  background-color: #f5b041 !important;
   border-style: solid;
   border-width: 1px;
-  border-color: rgba(166, 123, 0, 0.36) !important;
+  border-color: #f5b041 !important;
   border-radius: 16px;
   font-size: 12px;
   padding: 2px 12px;

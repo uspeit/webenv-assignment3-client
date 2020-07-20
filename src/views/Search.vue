@@ -16,6 +16,9 @@
                   hide-details
                   placeholder="Type here to search"
                   light
+                  :append-icon="
+                    query ? 'mdi-square-edit-outline' : 'mdi-border-color'
+                  "
                   v-bind:loading="searching"
                   v-on:keyup.enter="performSearch"
                 ></v-text-field>
@@ -42,6 +45,13 @@
                   persistent-hint
                   light
                   clearable
+                  :append-icon="
+                    filter.name === 'Cuisines'
+                      ? 'mdi-google-maps'
+                      : filter.name === 'Intolerances'
+                      ? 'mdi-view-dashboard-outline'
+                      : 'mdi-arm-flex-outline'
+                  "
                 ></v-select>
               </v-col>
             </v-row>
@@ -58,6 +68,9 @@
                 <v-select
                   v-model="sort"
                   :label="'Sort by'"
+                  :append-icon="
+                    sort ? 'mdi-filter-outline' : 'mdi-filter-menu-outline'
+                  "
                   :items="['none', 'aggregate_likes', 'ready_in_minutes']"
                   :menu-props="{ light: true }"
                   no-data-text="none"

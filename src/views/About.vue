@@ -34,9 +34,24 @@
                 <p class="black--text">
                   We are 3 Software and Information Systems Engineering students
                   in Ben Gurion University this project is a part of Web
-                  Development Fundamentals course guided by Erez Shalem and Shir
+                  Development Fundamentals course guided by Erez Shalom and Shir
                   Frumerman.
                 </p>
+
+                <v-row justify="space-around">
+                  <span class="text-uppercase">Technology stack:</span>
+                  <v-tooltip v-for="i in icons" :key="i.name" top light>
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-icon v-bind="attrs" v-on="on" :color="i.color">
+                        {{ i.name }}</v-icon
+                      >
+                    </template>
+                    <span class="text--hint">
+                      {{ i.hint }}
+                    </span>
+                  </v-tooltip>
+                </v-row>
+                <br />
                 <v-row justify="space-around">
                   <v-tooltip v-for="m in members" :key="m.name" left light>
                     <template v-slot:activator="{ on, attrs }">
@@ -117,6 +132,43 @@ export default {
             "https://res.cloudinary.com/serfati/image/upload/v1595173689/yl_pwv27s.jpg",
           color: "orange",
           url: "https://github.com/YardenLevy"
+        }
+      ],
+      icons: [
+        {
+          hint: "Vue.js",
+          name: "mdi-vuejs",
+          color: "#44B37F"
+        },
+        {
+          hint: "Vuetify",
+          name: "mdi-vuetify",
+          color: "#4393EF"
+        },
+        {
+          hint: "HTML5",
+          name: "mdi-language-html5",
+          color: "#DD4C23"
+        },
+        {
+          hint: "CSS3",
+          name: "mdi-language-css3",
+          color: "#306EB1"
+        },
+        {
+          hint: "JavaScript",
+          name: "mdi-language-javascript",
+          color: "#E19E29"
+        },
+        {
+          hint: "Node.js",
+          name: "mdi-nodejs",
+          color: "#3C823B"
+        },
+        {
+          hint: "Azure",
+          name: "mdi-microsoft-azure",
+          color: "#3B85D0"
         }
       ]
     };

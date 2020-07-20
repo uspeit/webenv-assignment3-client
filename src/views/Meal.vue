@@ -100,7 +100,7 @@
           <div class>
             <br />
             <v-progress-linear
-              style="max-width: 44em; border-style: solid; border-radius: 100vh; border-width: 1px; border-color: teal"
+              style="max-width: 44em; border-style: solid; border-radius: 100vh; border-width: 1px; border-color: lavender"
               class="ml-7 black--text font-weight-bold"
               color="light-green darken-4"
               rounded
