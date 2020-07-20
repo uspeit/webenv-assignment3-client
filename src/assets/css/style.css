@@ -1,7 +1,14 @@
 @import url('https://fonts.googleapis.com/css?family=Montserrat');
+body {
+    background: rgb(66,66,66);
+}
 
-#inspire {
-    background: url('../bg.png') repeat fixed;
+.v-application {
+    background: url('../background.jpg') no-repeat center center fixed !important;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
 }
 
 * {
