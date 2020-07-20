@@ -84,6 +84,7 @@
                     :rules="[v => !!v || 'Please select role']"
                     label="Choose a Role"
                     light
+                    solo
                     outlined
                     dense
                     small-chips
@@ -167,6 +168,15 @@
                 </v-col>
               </v-row>
             </v-form>
+            <v-alert
+              v-if="!valid"
+              class="pa-3"
+              dense
+              light
+              outlined
+              type="error"
+              >Some <strong>fields</strong> are <strong>invalid</strong>.
+            </v-alert>
           </v-card-text>
           <v-card-actions class="d-flex flex-column card">
             <v-btn
@@ -261,7 +271,7 @@ export default {
 
       AuthService.register(userCredentials, userInfo)
         .then(() => this.$router.push("/"))
-        .catch(err => console.log(err));
+        .catch(err => (this.valid = false));
     },
 
     confirmPasswordRule() {

@@ -5,6 +5,7 @@
         <v-card class="elevation-12">
           <v-toolbar color="primary" dark flat>
             <v-toolbar-title class="d-block text-center text-uppercase"
+              ><v-icon size="25" class="mr-2 mb-1">mdi-pencil-remove</v-icon
               >Create a recipe</v-toolbar-title
             >
           </v-toolbar>
@@ -23,6 +24,9 @@
                   <v-row>
                     <v-col class="pt-0">
                       <v-text-field
+                        :append-icon="
+                          title ? 'mdi-comma-circle-outline' : 'mdi-comma'
+                        "
                         label="Title"
                         light
                         required
@@ -30,6 +34,9 @@
                       ></v-text-field>
                       <v-text-field
                         label="Meal Count"
+                        :append-icon="
+                          serving ? 'mdi-glass-mug-variant' : 'mdi-glass-mug'
+                        "
                         light
                         min="1"
                         required
@@ -39,30 +46,48 @@
                       <v-text-field
                         label="Ready In Minutes"
                         light
+                        :append-icon="
+                          ready_in_minutes
+                            ? 'mdi-clock-check-outline'
+                            : 'mdi-clock-alert-outline'
+                        "
                         min="1"
                         required
                         type="number"
                         v-model="ready_in_minutes"
                       ></v-text-field>
                     </v-col>
-                    <v-col class="pt-0">
+                    <v-col class="pt-0 pl-5 ml-5">
                       <v-checkbox
                         label="Vegan?"
+                        :append-icon="vegan ? 'mdi-leaf' : 'mdi-leaf-off'"
+                        color="success"
                         light
+                        style="width: 70%"
                         required
                         v-model="vegan"
                       ></v-checkbox>
 
                       <v-checkbox
                         label="Vegetarian?"
+                        :append-icon="
+                          vegetarian ? 'mdi-food-steak' : 'mdi-food-steak-off'
+                        "
+                        color="red darken-3"
                         light
+                        style="width: 70%"
                         required
                         v-model="vegetarian"
                       ></v-checkbox>
 
                       <v-checkbox
                         label="Gluten Free?"
+                        :append-icon="
+                          gluten_free ? 'mdi-barley' : 'mdi-barley-off'
+                        "
+                        color="#F5B041"
                         light
+                        style="width: 70%"
                         required
                         v-model="gluten_free"
                       ></v-checkbox>
@@ -112,6 +137,11 @@
                       light
                       outlined
                       requireds
+                      :append-icon="
+                        instructions
+                          ? 'mdi-clipboard-list-outline'
+                          : 'mdi-clipboard-outline'
+                      "
                       style="text-align:center"
                       v-model="instructions"
                       value="The Woodman set to work at once, and so sharp"

@@ -2,9 +2,8 @@
   <v-card class="elevation-12 d-flex flex-column">
     <v-toolbar class color="primary" dark flat>
       <v-toolbar-title class="d-block text-center text-uppercase">
-        {{
-        title
-        }}
+        <v-icon size="27" class="mr-1 mb-1">mdi-format-list-bulleted</v-icon>
+        {{ title }}
       </v-toolbar-title>
     </v-toolbar>
     <v-card-text class="d-flex flex-column card px-0">

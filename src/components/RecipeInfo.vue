@@ -110,7 +110,7 @@
           v-for="(value, key) in recipe.additional_data"
           v-bind:key="key"
           class="d-block font-italic"
-          style="font-size: 2vh"
+          style="font-size: 13px"
         >
           <v-icon v-if="key === 'source'" color="deep-purple" small right
             >mdi-chef-hat

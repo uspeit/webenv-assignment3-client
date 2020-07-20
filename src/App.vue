@@ -16,9 +16,8 @@
 
       <MenuLink route="/">Home</MenuLink>
       <MenuLink route="/search">Search</MenuLink>
-      <MenuLink route="/about">About</MenuLink>
 
-      <v-menu bottom eager offset-y>
+      <v-menu bottom eager offset-y light>
         <template v-slot:activator="{ on }">
           <MenuLink
             :activator="on"
@@ -26,11 +25,7 @@
             route="/personal"
             v-show="currentUser"
           >
-            <v-badge
-              color="teal"
-              icon="mdi-vuetify"
-              :content="badge"
-              :value="badge"
+            <v-badge color="teal" icon="mdi-vuetify" :content="badge"
               >Personal
             </v-badge>
           </MenuLink>
@@ -41,11 +36,15 @@
             @click="navigate(item.route)"
             v-for="(item, index) in personalLinks"
           >
-            <v-list-item-title> {{ item.text }}</v-list-item-title>
+            <v-list-item-title>
+              <v-icon class="pr-2" v-text="item.icon"></v-icon>
+              {{ item.text }}</v-list-item-title
+            >
           </v-list-item>
         </v-list>
       </v-menu>
       <MenuLink route="/create" v-show="currentUser">Create</MenuLink>
+      <MenuLink route="/about">About</MenuLink>
       <v-spacer></v-spacer>
 
       <div v-if="isLoggedIn && currentUser">
@@ -104,24 +103,29 @@ export default {
   data: () => ({
     personalLinks: [
       {
-        text: "Favorite Recipes",
-        route: "/personal/favorite"
+        text: "My Recipes",
+        route: "/personal/recipes",
+        icon: "mdi-fingerprint"
       },
       {
-        text: "My Recipes",
-        route: "/personal/recipes"
+        text: "Favorite Recipes",
+        route: "/personal/favorite",
+        icon: "mdi-account-heart"
       },
       {
         text: "Family Recipes",
-        route: "/personal/family"
-      },
-      {
-        text: "Edit Profile",
-        route: "/profile"
+        route: "/personal/family",
+        icon: "mdi-account-group"
       },
       {
         text: "Cook A Meal",
-        route: "/meal"
+        route: "/meal",
+        icon: "mdi-silverware-fork-knife"
+      },
+      {
+        text: "Edit Profile",
+        route: "/profile",
+        icon: "mdi-account-box-outline"
       }
     ]
   }),
@@ -129,9 +133,11 @@ export default {
   mounted() {
     // Loads user data when app starts
     AuthService.fetchUserData().then();
-    RecipeService.getMealRecipes().then(i => {
-      this.$store.dispatch("updateMealCount", i.data.length);
-    });
+    RecipeService.getMealRecipes()
+      .then(i => {
+        this.$store.dispatch("updateMealCount", i.data.length);
+      })
+      .then(j => (this.badge = j));
   },
 
   computed: {

@@ -5,6 +5,7 @@
         <v-card class="elevation-12 d-flex flex-column">
           <v-toolbar class color="primary" dark flat>
             <v-toolbar-title class="d-block text-center text-uppercase"
+              ><v-icon size="27" class="mr-2">mdi-magnify</v-icon
               >Search</v-toolbar-title
             >
           </v-toolbar>
@@ -16,6 +17,9 @@
                   hide-details
                   placeholder="Type here to search"
                   light
+                  :append-icon="
+                    query ? 'mdi-square-edit-outline' : 'mdi-border-color'
+                  "
                   v-bind:loading="searching"
                   v-on:keyup.enter="performSearch"
                 ></v-text-field>
@@ -42,6 +46,13 @@
                   persistent-hint
                   light
                   clearable
+                  :append-icon="
+                    filter.name === 'Cuisines'
+                      ? 'mdi-google-maps'
+                      : filter.name === 'Intolerances'
+                      ? 'mdi-view-dashboard-outline'
+                      : 'mdi-arm-flex-outline'
+                  "
                 ></v-select>
               </v-col>
             </v-row>
@@ -58,6 +69,9 @@
                 <v-select
                   v-model="sort"
                   :label="'Sort by'"
+                  :append-icon="
+                    sort ? 'mdi-filter-outline' : 'mdi-filter-menu-outline'
+                  "
                   :items="['none', 'aggregate_likes', 'ready_in_minutes']"
                   :menu-props="{ light: true }"
                   no-data-text="none"

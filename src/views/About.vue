@@ -6,7 +6,10 @@
           <v-toolbar class color="primary" dark flat>
             <v-toolbar-title
               class="d-block font-weight-bold text-center text-uppercase"
-              >About Us
+              ><v-icon size="27" class="mr-1 mb-2"
+                >mdi-information-variant</v-icon
+              >
+              About
             </v-toolbar-title>
           </v-toolbar>
           <v-card-text class="d-flex flex-column card">
@@ -30,9 +33,53 @@
                   sit back. Foodtrack your life with Soupify. Subscribe or cook
                   for free.<br />
                 </p>
-                <span class="text-uppercase"> Additional Links: </span>
-                <div v-for="l in links" :key="l.title">
-                  <a :href="l.url"> {{ l.title }} </a>
+                <span class="text-uppercase"> About the team: </span>
+                <p class="black--text">
+                  We are 3 Software and Information Systems Engineering students
+                  in Ben Gurion University this project is a part of Web
+                  Development Fundamentals course guided by Erez Shalom and Shir
+                  Frumerman.
+                </p>
+
+                <v-row justify="space-around">
+                  <span class="text-uppercase">Technology stack:</span>
+                  <v-tooltip v-for="i in icons" :key="i.name" top light>
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-icon v-bind="attrs" v-on="on" :color="i.color">
+                        {{ i.name }}</v-icon
+                      >
+                    </template>
+                    <span class="text--hint">
+                      {{ i.hint }}
+                    </span>
+                  </v-tooltip>
+                </v-row>
+                <br />
+                <v-row justify="space-around">
+                  <v-tooltip v-for="m in members" :key="m.name" left light>
+                    <template v-slot:activator="{ on, attrs }">
+                      <a :href="m.url">
+                        <v-avatar
+                          v-bind="attrs"
+                          v-on="on"
+                          v-bind:color="m.color"
+                          size="70"
+                        >
+                          <img :src="m.img" />
+                        </v-avatar>
+                      </a>
+                    </template>
+                    <span class="text--hint">
+                      {{ m.name }}
+                    </span>
+                  </v-tooltip>
+                </v-row>
+
+                <div class="mt-5">
+                  <span class="text-uppercase "> Additional Links: </span>
+                  <div v-for="l in links" :key="l.title">
+                    <a :href="l.url"> {{ l.title }} </a>
+                  </div>
                 </div>
               </v-col>
             </v-row>
@@ -65,10 +112,66 @@ export default {
         {
           title: "Retro PACMAN",
           url: "https://github.com/Serfati/spacman"
+        }
+      ],
+      members: [
+        {
+          name: "Avihai Serfati",
+          img:
+            "https://res.cloudinary.com/serfati/image/upload/v1595173689/as_wudrhc.jpg",
+          color: "deep-purple",
+          url: "https://github.com/Serfati"
         },
         {
-          title: "Personal Website",
-          url: "https://github.com/Serfati/serfati_webpage"
+          name: "Eitan Fedenko",
+          img:
+            "https://res.cloudinary.com/serfati/image/upload/v1595173814/ef_necztn.jpg",
+          color: "teal",
+          url: "https://github.com/uspeit"
+        },
+        {
+          name: "Yarden Levy",
+          img:
+            "https://res.cloudinary.com/serfati/image/upload/v1595173689/yl_pwv27s.jpg",
+          color: "orange",
+          url: "https://github.com/YardenLevy"
+        }
+      ],
+      icons: [
+        {
+          hint: "Vue.js",
+          name: "mdi-vuejs",
+          color: "#44B37F"
+        },
+        {
+          hint: "Vuetify",
+          name: "mdi-vuetify",
+          color: "#4393EF"
+        },
+        {
+          hint: "HTML5",
+          name: "mdi-language-html5",
+          color: "#DD4C23"
+        },
+        {
+          hint: "CSS3",
+          name: "mdi-language-css3",
+          color: "#306EB1"
+        },
+        {
+          hint: "JavaScript",
+          name: "mdi-language-javascript",
+          color: "#E19E29"
+        },
+        {
+          hint: "Node.js",
+          name: "mdi-nodejs",
+          color: "#3C823B"
+        },
+        {
+          hint: "Azure",
+          name: "mdi-microsoft-azure",
+          color: "#3B85D0"
         }
       ]
     };
